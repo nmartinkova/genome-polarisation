@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 7 Principle of conversion to diem format | Genome Polarisation with diemr</title>
+  <meta name="description" content="Chapter 7 Principle of conversion to diem format | Genome Polarisation with diemr" />
+  <meta name="generator" content="bookdown 0.45 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapter 7 Principle of conversion to diem format | Genome Polarisation with diemr" />
+  <meta property="og:type" content="book" />
+  
+  
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 7 Principle of conversion to diem format | Genome Polarisation with diemr" />
+  
+  
+  
+
+<meta name="author" content="Natália Martínková" />
+
+
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="quick-start.html"/>
+<link rel="next" href="understanding-genome-polarisation-output-files.html"/>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<style type="text/css">
+  
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+</style>
+<style type="text/css">
+/* Used with Pandoc 2.11+ new --citeproc when CSL is used */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+  margin-bottom: 0em;
+}
+.hanging div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">Genome Polarisation with diemr</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Introduction</a></li>
+<li class="chapter" data-level="2" data-path="quick.html"><a href="quick.html"><i class="fa fa-check"></i><b>2</b> Quick start</a></li>
+<li class="chapter" data-level="3" data-path="input-data.html"><a href="input-data.html"><i class="fa fa-check"></i><b>3</b> Input data</a></li>
+<li class="chapter" data-level="4" data-path="multiple-compartments-with-different-ploidies.html"><a href="multiple-compartments-with-different-ploidies.html"><i class="fa fa-check"></i><b>4</b> Multiple compartments with different ploidies</a></li>
+<li class="chapter" data-level="5" data-path="frequently-asked-questions.html"><a href="frequently-asked-questions.html"><i class="fa fa-check"></i><b>5</b> Frequently asked questions</a></li>
+<li class="chapter" data-level="6" data-path="quick-start.html"><a href="quick-start.html"><i class="fa fa-check"></i><b>6</b> Quick start</a></li>
+<li class="chapter" data-level="7" data-path="principle-of-conversion-to-diem-format.html"><a href="principle-of-conversion-to-diem-format.html"><i class="fa fa-check"></i><b>7</b> Principle of conversion to diem format</a>
+<ul>
+<li class="chapter" data-level="7.1" data-path="principle-of-conversion-to-diem-format.html"><a href="principle-of-conversion-to-diem-format.html#invariant-sites-and-indels"><i class="fa fa-check"></i><b>7.1</b> Invariant sites and indels</a></li>
+<li class="chapter" data-level="7.2" data-path="principle-of-conversion-to-diem-format.html"><a href="principle-of-conversion-to-diem-format.html#sites-not-informative-for-genome-polarisation"><i class="fa fa-check"></i><b>7.2</b> Sites not informative for genome polarisation</a></li>
+<li class="chapter" data-level="7.3" data-path="principle-of-conversion-to-diem-format.html"><a href="principle-of-conversion-to-diem-format.html#haploid-data"><i class="fa fa-check"></i><b>7.3</b> Haploid data</a></li>
+<li class="chapter" data-level="7.4" data-path="principle-of-conversion-to-diem-format.html"><a href="principle-of-conversion-to-diem-format.html#diploid-data"><i class="fa fa-check"></i><b>7.4</b> Diploid data</a>
+<ul>
+<li class="chapter" data-level="7.4.1" data-path="principle-of-conversion-to-diem-format.html"><a href="principle-of-conversion-to-diem-format.html#heterozygotes-in-dna-sequence-alignments"><i class="fa fa-check"></i><b>7.4.1</b> Heterozygotes in DNA sequence alignments</a></li>
+<li class="chapter" data-level="7.4.2" data-path="principle-of-conversion-to-diem-format.html"><a href="principle-of-conversion-to-diem-format.html#variant-call-format"><i class="fa fa-check"></i><b>7.4.2</b> Variant call format</a></li>
+</ul></li>
+<li class="chapter" data-level="7.5" data-path="principle-of-conversion-to-diem-format.html"><a href="principle-of-conversion-to-diem-format.html#polyploid-data"><i class="fa fa-check"></i><b>7.5</b> Polyploid data</a></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="understanding-genome-polarisation-output-files.html"><a href="understanding-genome-polarisation-output-files.html"><i class="fa fa-check"></i><b>8</b> Understanding genome polarisation output files</a></li>
+<li class="chapter" data-level="9" data-path="defaults.html"><a href="defaults.html"><i class="fa fa-check"></i><b>9</b> Obligatory outputs</a>
+<ul>
+<li class="chapter" data-level="9.1" data-path="defaults.html"><a href="defaults.html#markerDiagnostics"><i class="fa fa-check"></i><b>9.1</b> MarkerDiagnosticsWithOptimalPolarities</a></li>
+<li class="chapter" data-level="9.2" data-path="defaults.html"><a href="defaults.html#HI"><i class="fa fa-check"></i><b>9.2</b> HIwithOptimalPolarities</a></li>
+<li class="chapter" data-level="9.3" data-path="defaults.html"><a href="defaults.html#I4"><i class="fa fa-check"></i><b>9.3</b> I4withOptimalPolarities</a></li>
+</ul></li>
+<li class="chapter" data-level="10" data-path="optional-outputs.html"><a href="optional-outputs.html"><i class="fa fa-check"></i><b>10</b> Optional outputs</a>
+<ul>
+<li class="chapter" data-level="10.0.1" data-path="optional-outputs.html"><a href="optional-outputs.html#the-user-perspective"><i class="fa fa-check"></i><b>10.0.1</b> The user perspective</a></li>
+<li class="chapter" data-level="10.1" data-path="optional-outputs.html"><a href="optional-outputs.html#nullmarkerpolarities"><i class="fa fa-check"></i><b>10.1</b> NullMarkerPolarities</a></li>
+<li class="chapter" data-level="10.2" data-path="optional-outputs.html"><a href="optional-outputs.html#changedPolarities"><i class="fa fa-check"></i><b>10.2</b> MarkersWithChangedPolarities</a>
+<ul>
+<li class="chapter" data-level="10.2.1" data-path="optional-outputs.html"><a href="optional-outputs.html#markerswithchangedpolarities-compartmentnumber"><i class="fa fa-check"></i><b>10.2.1</b> MarkersWithChangedPolarities-(compartmentNumber)</a></li>
+<li class="chapter" data-level="10.2.2" data-path="optional-outputs.html"><a href="optional-outputs.html#markerdiagnosticsiteration-compartmentnumber"><i class="fa fa-check"></i><b>10.2.2</b> MarkerDiagnostics(iteration)-(compartmentNumber)</a></li>
+</ul></li>
+<li class="chapter" data-level="10.3" data-path="optional-outputs.html"><a href="optional-outputs.html#iteration-specific-graphics"><i class="fa fa-check"></i><b>10.3</b> Iteration-specific graphics</a>
+<ul>
+<li class="chapter" data-level="10.3.1" data-path="optional-outputs.html"><a href="optional-outputs.html#warpswitch-files"><i class="fa fa-check"></i><b>10.3.1</b> WarpSwitch files</a></li>
+<li class="chapter" data-level="10.3.2" data-path="optional-outputs.html"><a href="optional-outputs.html#hybrid-index-files"><i class="fa fa-check"></i><b>10.3.2</b> Hybrid index files</a></li>
+</ul></li>
+<li class="chapter" data-level="10.4" data-path="optional-outputs.html"><a href="optional-outputs.html#the-log-file"><i class="fa fa-check"></i><b>10.4</b> The log file</a></li>
+</ul></li>
+<li class="chapter" data-level="11" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i><b>11</b> References</a></li>
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Genome Polarisation with diemr</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="principle-of-conversion-to-diem-format" class="section level1 hasAnchor" number="7">
+<h1><span class="header-section-number">Chapter 7</span> Principle of conversion to diem format<a href="principle-of-conversion-to-diem-format.html#principle-of-conversion-to-diem-format" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<p>The <code>diemr</code> package uses a concise genome representation, differentiating homozygotes for the two most frequent alleles at each site, and their respective heterozygotes (mixed state of the two most common alleles). All other genotypes represent an unknown state. Specifically, the genotypes encoded as <code>0</code> represent homozygotes for one of the two most frequent alleles,
+<code>1</code> are heterozygous (mixed state) genotypes for the two most frequent alleles,
+<code>2</code> are homozygotes for the other allele,
+and <code>U</code> (symbol “_” is also allowed) is an unknown state that can be a missing genotype or a genotype that includes a third (or a fourth) allele.</p>
+<div id="invariant-sites-and-indels" class="section level2 hasAnchor" number="7.1">
+<h2><span class="header-section-number">7.1</span> Invariant sites and indels<a href="principle-of-conversion-to-diem-format.html#invariant-sites-and-indels" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>What logically follows from this description is that genome polarisation is meaningful only for variant sites (markers). Invariant sites will have <strong>low support</strong> and, though they will not change the <code>diem</code> outcome, they will slow down convergence and obscure the nature of change between taxa. During <code>diem</code> iterations their obscuring effect is removed by rescaling the hybrid indices onto <span class="math inline">\([0,1]\)</span></p>
+<p>Including invariant sites in genome polarisation is acceptable, and likely unavoidable. A proportion of truly invariant sites will be mis-diagnosed as variant due to sequencing errors.</p>
+<p>At this time, genome polarisation uses variant markers where alleles differ in nucleotide substitutions. Insertions or deletions (indels) are not allowed to be classified among the most frequent alleles in the <code>vcf2diem</code> function.</p>
+</div>
+<div id="sites-not-informative-for-genome-polarisation" class="section level2 hasAnchor" number="7.2">
+<h2><span class="header-section-number">7.2</span> Sites not informative for genome polarisation<a href="principle-of-conversion-to-diem-format.html#sites-not-informative-for-genome-polarisation" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Along side invariant sites, some variant sites are also uninformative for genome polarisation. Sites that include only missing data and heterozygous genotypes are unpolarisable. In general applications, one might wish to exclude sites that are only included in a <code>vcf</code> due to the presence of a single heterozygous individual.</p>
+<p>Uninformative sites will have support equal to 0, and their polarity will thus be equal to the null polarity. Including uninformative sites has similar consequences to including invariant sites. When a user wishes to retain such sites, we advice to then filter polarised markers with high support (or simply high diagnostic index, which is strongly correlated with support) for subsequent analyses and interpretation.</p>
+</div>
+<div id="haploid-data" class="section level2 hasAnchor" number="7.3">
+<h2><span class="header-section-number">7.3</span> Haploid data<a href="principle-of-conversion-to-diem-format.html#haploid-data" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Haploid data, including markers on sex chromosomes of the heterogametic sex, are usually shown as sequence alignments. To illustrate the principle of genome representation used in <code>diem</code>, let’s have an 8bp-long alignment with five individuals.</p>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="principle-of-conversion-to-diem-format.html#cb15-1" tabindex="-1"></a><span class="dv">5</span> <span class="dv">8</span></span>
+<span id="cb15-2"><a href="principle-of-conversion-to-diem-format.html#cb15-2" tabindex="-1"></a>ind1   AACCTTGG</span>
+<span id="cb15-3"><a href="principle-of-conversion-to-diem-format.html#cb15-3" tabindex="-1"></a>ind2   TACGATGG</span>
+<span id="cb15-4"><a href="principle-of-conversion-to-diem-format.html#cb15-4" tabindex="-1"></a>ind3   TACC<span class="sc">-</span>TGT</span>
+<span id="cb15-5"><a href="principle-of-conversion-to-diem-format.html#cb15-5" tabindex="-1"></a>ind4   CACGTTGG</span>
+<span id="cb15-6"><a href="principle-of-conversion-to-diem-format.html#cb15-6" tabindex="-1"></a>ind5   AACCTTGT</span></code></pre></div>
+<p>We can see that the example alignment contains four variant markers at sites 1, 4, 5, and 8. Marker 5 contains a deletion in ind3, while other markers vary in different nucleotide substitutions. In marker 1, two individuals have an allele A, two individuals have an allele T and one has a C. This marker can be resolved in terms of two most frequent alleles A and T, where the individual ind4 has a third allele and is therefore considered as having an unknown genomic state. To convert the marker into <code>diem</code> format, we must make a decision on which allele will be encoded as 0. The choice is arbitrary. Good practice is to <strong>keep a record of genotype encoding</strong>. Let’s decide that all alleles in ind1 will be encoded as 0. Marker 1 will then be <code>022_0</code>.</p>
+<p>Contrary to DNA sequence alignments, diem format transposes the data. Rows in diem input files are markers and columns represent individual samples. The diem output for the example alignment will thus have four lines representing the four variant markers, and five columns representing the individuals.</p>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="principle-of-conversion-to-diem-format.html#cb16-1" tabindex="-1"></a>Marker1   <span class="dv">022</span>_0</span>
+<span id="cb16-2"><a href="principle-of-conversion-to-diem-format.html#cb16-2" tabindex="-1"></a>Marker4   <span class="dv">02020</span></span>
+<span id="cb16-3"><a href="principle-of-conversion-to-diem-format.html#cb16-3" tabindex="-1"></a>Marker5   <span class="dv">02</span>_00</span>
+<span id="cb16-4"><a href="principle-of-conversion-to-diem-format.html#cb16-4" tabindex="-1"></a>Marker8   <span class="dv">00202</span></span></code></pre></div>
+<p>The diem format does not store information on marker identification or location. This metadata must be saved separately in a ‘bed-like’ file (with at minimum the scaffold and position for each site). <code>diem</code> uses a prefix <code>S</code> at line starts to ensure that all operating systems always read genotypes as strings without attempting to convert them into numbers. Encoding of markers 4 and 8 shown above is at risk of being interpreted as numeric. The final file in <code>diem</code> format will be:</p>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="principle-of-conversion-to-diem-format.html#cb17-1" tabindex="-1"></a>S022_0</span>
+<span id="cb17-2"><a href="principle-of-conversion-to-diem-format.html#cb17-2" tabindex="-1"></a>S02020</span>
+<span id="cb17-3"><a href="principle-of-conversion-to-diem-format.html#cb17-3" tabindex="-1"></a>S02_00</span>
+<span id="cb17-4"><a href="principle-of-conversion-to-diem-format.html#cb17-4" tabindex="-1"></a>S00202</span></code></pre></div>
+</div>
+<div id="diploid-data" class="section level2 hasAnchor" number="7.4">
+<h2><span class="header-section-number">7.4</span> Diploid data<a href="principle-of-conversion-to-diem-format.html#diploid-data" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div id="heterozygotes-in-dna-sequence-alignments" class="section level3 hasAnchor" number="7.4.1">
+<h3><span class="header-section-number">7.4.1</span> Heterozygotes in DNA sequence alignments<a href="principle-of-conversion-to-diem-format.html#heterozygotes-in-dna-sequence-alignments" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Diploid markers in DNA sequence alignment can be resolved in an analogous way to haploid markers. Heterozygotes in alignments can be identified according to their <a href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC2865858/table/T1/">IUPAC DNA ambiguity codes</a>. For example, code W may represent an accepted heterozygote in Marker 1, where the most frequent alleles are A and T.</p>
+</div>
+<div id="variant-call-format" class="section level3 hasAnchor" number="7.4.2">
+<h3><span class="header-section-number">7.4.2</span> Variant call format<a href="principle-of-conversion-to-diem-format.html#variant-call-format" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Variant markers in genomic context will be most often identified using variant callers from sequence reads mapped onto a reference. Such data are stored or can be converted to variant call format (vcf). We implemented conversion of vcf files to diem format for the <a href="https://github.com/samtools/hts-specs/blob/master/VCFv4.2.pdf">vcf version 4.2</a> in function <code>vcf2diem</code>. The function resolves indels and markers with more than two alleles to obtain biallelic genotypes for all markers included in the original vcf file.</p>
+<ol style="list-style-type: decimal">
+<li>Markers with the reference allele (column REF) containing insertions are set as unknown.</li>
+<li>Markers with the alternative allele (column ALT) containing only indels are set as unknown.</li>
+<li>Indels in the alternative alleles are set as unknown.</li>
+<li>Overall allele counts in markers with more than two alleles representing substitutions are calculated and the two most frequent alleles are selected. Ties are (arbitrarily) resolved according to the allele order in the vcf file.</li>
+<li>Third and fourth most frequent substitutions are set as unknown.</li>
+</ol>
+<p>The conversion might result in some markers no longer being polymorphic. We advise checking how frequent invariant markers are after conversion.</p>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="principle-of-conversion-to-diem-format.html#cb18-1" tabindex="-1"></a><span class="co"># Import the first converted file for all individuals </span></span>
+<span id="cb18-2"><a href="principle-of-conversion-to-diem-format.html#cb18-2" tabindex="-1"></a><span class="co"># and without changing marker polarity</span></span>
+<span id="cb18-3"><a href="principle-of-conversion-to-diem-format.html#cb18-3" tabindex="-1"></a>myotis <span class="ot">&lt;-</span> <span class="fu">importPolarized</span>(<span class="st">&quot;myotis-01.txt&quot;</span>, </span>
+<span id="cb18-4"><a href="principle-of-conversion-to-diem-format.html#cb18-4" tabindex="-1"></a>                          <span class="at">changePolarity =</span> <span class="fu">rep</span>(<span class="cn">FALSE</span>, <span class="dv">11</span>), </span>
+<span id="cb18-5"><a href="principle-of-conversion-to-diem-format.html#cb18-5" tabindex="-1"></a>                          <span class="at">ChosenInds =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">14</span>)</span>
+<span id="cb18-6"><a href="principle-of-conversion-to-diem-format.html#cb18-6" tabindex="-1"></a><span class="co"># Check whether a marker includes heterozygotes </span></span>
+<span id="cb18-7"><a href="principle-of-conversion-to-diem-format.html#cb18-7" tabindex="-1"></a><span class="co"># or that there is more than one genotype</span></span>
+<span id="cb18-8"><a href="principle-of-conversion-to-diem-format.html#cb18-8" tabindex="-1"></a><span class="fu">apply</span>(myotis, <span class="at">MARGIN =</span> <span class="dv">2</span>, </span>
+<span id="cb18-9"><a href="principle-of-conversion-to-diem-format.html#cb18-9" tabindex="-1"></a>      <span class="at">FUN =</span> \(x) <span class="fu">any</span>(<span class="fu">grepl</span>(<span class="st">&quot;1&quot;</span>, x)) <span class="sc">|</span> <span class="fu">sum</span>(<span class="fu">levels</span>(<span class="fu">factor</span>(x)) <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">&quot;0&quot;</span>, <span class="st">&quot;1&quot;</span>, <span class="st">&quot;2&quot;</span>)) <span class="sc">&gt;</span> <span class="dv">1</span>) </span>
+<span id="cb18-10"><a href="principle-of-conversion-to-diem-format.html#cb18-10" tabindex="-1"></a><span class="co">#    m1    m2    m3    m4    m5    m6    m7    m8    m9   m10   m11 </span></span>
+<span id="cb18-11"><a href="principle-of-conversion-to-diem-format.html#cb18-11" tabindex="-1"></a><span class="co"># FALSE FALSE FALSE FALSE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE </span></span></code></pre></div>
+<p>Starting from version 1.2.2, <code>vcf2diem</code> removes markers that include</p>
+<ol style="list-style-type: decimal">
+<li>only missing data and heterozygotes,</li>
+<li>missing data, homozygotes for the most frequent allele and one heterozygote,</li>
+<li>missing data, homozygotes for one ALT allele and one heterozygote.</li>
+</ol>
+<p>We include a list of the removed markers in a bed-like file ending with <em>-includedSites.txt</em> in the working directory. The file includes information from columns <code>CHROM</code>, <code>POS</code>, and <code>QUAL</code> for the respective markers, and records the (good practice) <strong>record of genotype encoding</strong>.</p>
+<p>We include a list of the removed markers in a bed-like file ending with <em>-omittedSites.txt</em> in the working directory. The file includes information from columns <code>CHROM</code>, <code>POS</code>, and <code>QUAL</code> for the respective markers, and provides the reason, why the marker was omitted. <strong>The file omittedLoci.txt must be checked when interpreting polarised markers</strong> to ensure correct marker annotation.</p>
+</div>
+</div>
+<div id="polyploid-data" class="section level2 hasAnchor" number="7.5">
+<h2><span class="header-section-number">7.5</span> Polyploid data<a href="principle-of-conversion-to-diem-format.html#polyploid-data" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>The same principles apply to higher ploidy datasets. Preparing data in <code>diem</code> format for genome polarisation includes these steps:</p>
+<ol style="list-style-type: decimal">
+<li>Remove indels.</li>
+<li>Identify two most frequent alleles for each site.</li>
+<li>Encode homozygous and heterozygous (mixed) genotypes that include only the two most frequent alleles.</li>
+</ol>
+<p>Note that <code>vcf2diem</code> only converts diploid datasets at this time, and should not be used to convert polyploid vcf files.</p>
+
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="quick-start.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="understanding-genome-polarisation-output-files.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+  "sharing": null,
+  "fontsettings": {
+    "theme": "white",
+    "family": "sans",
+    "size": 2
+  },
+  "edit": {
+    "link": null,
+    "text": null
+  },
+  "history": {
+    "link": null,
+    "text": null
+  },
+  "view": {
+    "link": null,
+    "text": null
+  },
+  "download": ["genome-polarisation.pdf", "genome-polarisation.epub"],
+  "search": {
+    "engine": "fuse",
+    "options": null
+  },
+  "toc": {
+    "collapse": "subsection"
+  }
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

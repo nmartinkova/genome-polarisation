@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 2 Quick start | Genome Polarisation with diemr</title>
+  <meta name="description" content="Chapter 2 Quick start | Genome Polarisation with diemr" />
+  <meta name="generator" content="bookdown 0.45 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapter 2 Quick start | Genome Polarisation with diemr" />
+  <meta property="og:type" content="book" />
+  
+  
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 2 Quick start | Genome Polarisation with diemr" />
+  
+  
+  
+
+<meta name="author" content="Natália Martínková" />
+
+
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="index.html"/>
+<link rel="next" href="input-data.html"/>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<style type="text/css">
+  
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+</style>
+<style type="text/css">
+/* Used with Pandoc 2.11+ new --citeproc when CSL is used */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+  margin-bottom: 0em;
+}
+.hanging div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">Genome Polarisation with diemr</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Introduction</a></li>
+<li class="chapter" data-level="2" data-path="quick-start.html"><a href="quick-start.html"><i class="fa fa-check"></i><b>2</b> Quick start</a></li>
+<li class="chapter" data-level="3" data-path="input-data.html"><a href="input-data.html"><i class="fa fa-check"></i><b>3</b> Input data</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="input-data.html"><a href="input-data.html#multiple-compartments-with-different-ploidies"><i class="fa fa-check"></i><b>3.1</b> Multiple compartments with different ploidies</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="importing-data-for-genome-polarisation.html"><a href="importing-data-for-genome-polarisation.html"><i class="fa fa-check"></i><b>4</b> Importing data for genome polarisation</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="importing-data-for-genome-polarisation.html"><a href="importing-data-for-genome-polarisation.html#conversion-from-vcf-format"><i class="fa fa-check"></i><b>4.1</b> Conversion from VCF format</a></li>
+<li class="chapter" data-level="4.2" data-path="importing-data-for-genome-polarisation.html"><a href="importing-data-for-genome-polarisation.html#principle-of-conversion-to-diem-format"><i class="fa fa-check"></i><b>4.2</b> Principle of conversion to diem format</a>
+<ul>
+<li class="chapter" data-level="4.2.1" data-path="importing-data-for-genome-polarisation.html"><a href="importing-data-for-genome-polarisation.html#invariant-sites-and-indels"><i class="fa fa-check"></i><b>4.2.1</b> Invariant sites and indels</a></li>
+<li class="chapter" data-level="4.2.2" data-path="importing-data-for-genome-polarisation.html"><a href="importing-data-for-genome-polarisation.html#sites-not-informative-for-genome-polarisation"><i class="fa fa-check"></i><b>4.2.2</b> Sites not informative for genome polarisation</a></li>
+<li class="chapter" data-level="4.2.3" data-path="importing-data-for-genome-polarisation.html"><a href="importing-data-for-genome-polarisation.html#haploid-data"><i class="fa fa-check"></i><b>4.2.3</b> Haploid data</a></li>
+<li class="chapter" data-level="4.2.4" data-path="importing-data-for-genome-polarisation.html"><a href="importing-data-for-genome-polarisation.html#diploid-data"><i class="fa fa-check"></i><b>4.2.4</b> Diploid data</a></li>
+</ul></li>
+<li class="chapter" data-level="4.3" data-path="importing-data-for-genome-polarisation.html"><a href="importing-data-for-genome-polarisation.html#variant-call-format"><i class="fa fa-check"></i><b>4.3</b> Variant call format</a></li>
+<li class="chapter" data-level="4.4" data-path="importing-data-for-genome-polarisation.html"><a href="importing-data-for-genome-polarisation.html#polyploid-data"><i class="fa fa-check"></i><b>4.4</b> Polyploid data</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="understanding-genome-polarisation-output-files.html"><a href="understanding-genome-polarisation-output-files.html"><i class="fa fa-check"></i><b>5</b> Understanding genome polarisation output files</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="understanding-genome-polarisation-output-files.html"><a href="understanding-genome-polarisation-output-files.html#defaults"><i class="fa fa-check"></i><b>5.1</b> Obligatory outputs</a>
+<ul>
+<li class="chapter" data-level="5.1.1" data-path="understanding-genome-polarisation-output-files.html"><a href="understanding-genome-polarisation-output-files.html#markerDiagnostics"><i class="fa fa-check"></i><b>5.1.1</b> MarkerDiagnosticsWithOptimalPolarities</a></li>
+<li class="chapter" data-level="5.1.2" data-path="understanding-genome-polarisation-output-files.html"><a href="understanding-genome-polarisation-output-files.html#HI"><i class="fa fa-check"></i><b>5.1.2</b> HIwithOptimalPolarities</a></li>
+<li class="chapter" data-level="5.1.3" data-path="understanding-genome-polarisation-output-files.html"><a href="understanding-genome-polarisation-output-files.html#I4"><i class="fa fa-check"></i><b>5.1.3</b> I4withOptimalPolarities</a></li>
+</ul></li>
+<li class="chapter" data-level="5.2" data-path="understanding-genome-polarisation-output-files.html"><a href="understanding-genome-polarisation-output-files.html#optional-outputs"><i class="fa fa-check"></i><b>5.2</b> Optional outputs</a>
+<ul>
+<li class="chapter" data-level="5.2.1" data-path="understanding-genome-polarisation-output-files.html"><a href="understanding-genome-polarisation-output-files.html#the-user-perspective"><i class="fa fa-check"></i><b>5.2.1</b> The user perspective</a></li>
+<li class="chapter" data-level="5.2.2" data-path="understanding-genome-polarisation-output-files.html"><a href="understanding-genome-polarisation-output-files.html#nullmarkerpolarities"><i class="fa fa-check"></i><b>5.2.2</b> NullMarkerPolarities</a></li>
+<li class="chapter" data-level="5.2.3" data-path="understanding-genome-polarisation-output-files.html"><a href="understanding-genome-polarisation-output-files.html#changedPolarities"><i class="fa fa-check"></i><b>5.2.3</b> MarkersWithChangedPolarities</a></li>
+<li class="chapter" data-level="5.2.4" data-path="understanding-genome-polarisation-output-files.html"><a href="understanding-genome-polarisation-output-files.html#iteration-specific-graphics"><i class="fa fa-check"></i><b>5.2.4</b> Iteration-specific graphics</a></li>
+<li class="chapter" data-level="5.2.5" data-path="understanding-genome-polarisation-output-files.html"><a href="understanding-genome-polarisation-output-files.html#the-log-file"><i class="fa fa-check"></i><b>5.2.5</b> The log file</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i><b>6</b> References</a></li>
+<li class="chapter" data-level="7" data-path="visualisation-of-polarised-genotypes.html"><a href="visualisation-of-polarised-genotypes.html"><i class="fa fa-check"></i><b>7</b> Visualisation of Polarised Genotypes</a>
+<ul>
+<li class="chapter" data-level="7.1" data-path="visualisation-of-polarised-genotypes.html"><a href="visualisation-of-polarised-genotypes.html#plotting-polarised-genotypes"><i class="fa fa-check"></i><b>7.1</b> Plotting polarised genotypes</a>
+<ul>
+<li class="chapter" data-level="7.1.1" data-path="visualisation-of-polarised-genotypes.html"><a href="visualisation-of-polarised-genotypes.html#rectangular-plot"><i class="fa fa-check"></i><b>7.1.1</b> Rectangular plot</a></li>
+</ul></li>
+</ul></li>
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Genome Polarisation with diemr</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="quick-start" class="section level1 hasAnchor" number="2">
+<h1><span class="header-section-number">Chapter 2</span> Quick start<a href="quick-start.html#quick-start" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<p>The package <code>diemr</code> incorporates the diagnostic index expectation maximisation algorithm used to
+estimate which genomic alleles belong to which side of a barrier to geneflow. To start
+using <code>diemr</code>, load the package or install it from CRAN if it is not yet available:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="quick-start.html#cb1-1" tabindex="-1"></a><span class="co"># Attempt to load a package, if the package was not available, install and load</span></span>
+<span id="cb1-2"><a href="quick-start.html#cb1-2" tabindex="-1"></a><span class="cf">if</span>(<span class="sc">!</span><span class="fu">require</span>(<span class="st">&quot;diemr&quot;</span>, <span class="at">character.only =</span> <span class="cn">TRUE</span>)){</span>
+<span id="cb1-3"><a href="quick-start.html#cb1-3" tabindex="-1"></a>    <span class="fu">install.packages</span>(<span class="st">&quot;diemr&quot;</span>, <span class="at">dependencies =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb1-4"><a href="quick-start.html#cb1-4" tabindex="-1"></a>    <span class="fu">library</span>(<span class="st">&quot;diemr&quot;</span>, <span class="at">character.only =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb1-5"><a href="quick-start.html#cb1-5" tabindex="-1"></a>}</span></code></pre></div>
+<p>Next, assemble paths to all files containing the data to be used by <code>diemr</code>.
+Here, we will use a tiny example dataset that is included in the package for illustrating
+the analysis workflow. A good practice is to check that all files contain data in the
+correct format for all individuals and markers. Additionally, the analysis will need a
+list with <strong>ploidies for all genomic compartments and individuals</strong>, and a vector with
+<strong>indices of samples</strong> that will be included in the analysis.</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="quick-start.html#cb2-1" tabindex="-1"></a>filepaths <span class="ot">&lt;-</span> <span class="fu">system.file</span>(<span class="st">&quot;extdata&quot;</span>, <span class="st">&quot;data7x3.txt&quot;</span>, <span class="at">package =</span> <span class="st">&quot;diemr&quot;</span>)</span>
+<span id="cb2-2"><a href="quick-start.html#cb2-2" tabindex="-1"></a><span class="co"># Analysing six individuals</span></span>
+<span id="cb2-3"><a href="quick-start.html#cb2-3" tabindex="-1"></a>samples <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">6</span></span>
+<span id="cb2-4"><a href="quick-start.html#cb2-4" tabindex="-1"></a><span class="co"># Assuming diploid markers of all individuals</span></span>
+<span id="cb2-5"><a href="quick-start.html#cb2-5" tabindex="-1"></a>ploidies <span class="ot">=</span> <span class="fu">rep</span>(<span class="fu">list</span>(<span class="fu">rep</span>(<span class="dv">2</span>, <span class="fu">nchar</span>(<span class="fu">readLines</span>(filepaths[<span class="dv">1</span>])[<span class="dv">1</span>]) <span class="sc">-</span> <span class="dv">1</span>)), <span class="fu">length</span>(filepaths))</span>
+<span id="cb2-6"><a href="quick-start.html#cb2-6" tabindex="-1"></a><span class="fu">CheckDiemFormat</span>(<span class="at">files =</span> filepaths, </span>
+<span id="cb2-7"><a href="quick-start.html#cb2-7" tabindex="-1"></a>                <span class="at">ChosenInds =</span> samples,</span>
+<span id="cb2-8"><a href="quick-start.html#cb2-8" tabindex="-1"></a>                <span class="at">ploidy =</span> ploidies)</span>
+<span id="cb2-9"><a href="quick-start.html#cb2-9" tabindex="-1"></a><span class="co"># File check passed: TRUE</span></span>
+<span id="cb2-10"><a href="quick-start.html#cb2-10" tabindex="-1"></a><span class="co"># Ploidy check passed: TRUE</span></span></code></pre></div>
+<p>If the <code>CheckDiemFormat()</code> function fails, work through the error messages and fix
+the stored input files accordingly. The algorithm repeatedly accesses data from the
+harddisk, so seeing the passed file and variable check prior to the analysis is critical.</p>
+<p>To estimate the marker polarities, their diagnostic indices and support, run the function
+<code>diem()</code> with default settings. Here, we have only one file with data, so paralelisation
+is unnecessary, and we set <code>nCores = 1</code>. <strong>The Windows operating system only allows for
+nCores = 1</strong>. Other operating systems can process multiple genomic compartments (e.g. 
+chromosomes) in parallel, the analysis of different genomic compartment files running on
+multiple processors.</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="quick-start.html#cb3-1" tabindex="-1"></a>res <span class="ot">&lt;-</span> <span class="fu">diem</span>(<span class="at">files =</span> filepaths, </span>
+<span id="cb3-2"><a href="quick-start.html#cb3-2" tabindex="-1"></a>            <span class="at">ploidy =</span> ploidies, </span>
+<span id="cb3-3"><a href="quick-start.html#cb3-3" tabindex="-1"></a>            <span class="at">markerPolarity =</span> <span class="fu">list</span>(<span class="fu">c</span>(<span class="cn">FALSE</span>, <span class="cn">FALSE</span>, <span class="cn">TRUE</span>)),</span>
+<span id="cb3-4"><a href="quick-start.html#cb3-4" tabindex="-1"></a>            <span class="at">ChosenInds =</span> samples, </span>
+<span id="cb3-5"><a href="quick-start.html#cb3-5" tabindex="-1"></a>            <span class="at">nCores =</span> <span class="dv">1</span>)</span></code></pre></div>
+<p>The result is a list, where the element <code>res$DI</code> contains a table with marker
+polarities, their diagnostic indices and support.</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="quick-start.html#cb4-1" tabindex="-1"></a>res<span class="sc">$</span>DI</span>
+<span id="cb4-2"><a href="quick-start.html#cb4-2" tabindex="-1"></a><span class="co">#   newPolarity         DI   Support Marker</span></span>
+<span id="cb4-3"><a href="quick-start.html#cb4-3" tabindex="-1"></a><span class="co"># 1       FALSE  -4.872256 15.930181      1</span></span>
+<span id="cb4-4"><a href="quick-start.html#cb4-4" tabindex="-1"></a><span class="co"># 2        TRUE  -3.520647 18.633399      2</span></span>
+<span id="cb4-5"><a href="quick-start.html#cb4-5" tabindex="-1"></a><span class="co"># 3        TRUE -13.274822  6.130625      3</span></span></code></pre></div>
+<p>The column <code>newPolarity</code> means that marker 1 should be imported for subsequent
+analyses as is, and markers 2 and 3 should be imported with 0 replaced with 2 and 2
+replaced with 0 (hereafter ‘flipped’ 0↔︎2). The marker 3 has the lowest diagnostic
+index and low support, indicating
+that the genotypes scored at this marker are poorly related to the barrier to geneflow
+arbitrated by the data.</p>
+<p>With the marker polarities optimised to detect a barrier to geneflow, a plot of the
+polarised genome will show how genomic regions cross the barrier. First, the genotypes
+need to be imported with optimal marker polarities. Second, individual hybrid indices
+need to be calculated from the polarised genotypes. And last, the data will be plotted
+as a raster image.</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="quick-start.html#cb5-1" tabindex="-1"></a>genotypes <span class="ot">&lt;-</span> <span class="fu">importPolarized</span>(<span class="at">file =</span> filepaths, </span>
+<span id="cb5-2"><a href="quick-start.html#cb5-2" tabindex="-1"></a>                             <span class="at">changePolarity =</span> res<span class="sc">$</span>markerPolarity, </span>
+<span id="cb5-3"><a href="quick-start.html#cb5-3" tabindex="-1"></a>                             <span class="at">ChosenInds =</span> samples)</span>
+<span id="cb5-4"><a href="quick-start.html#cb5-4" tabindex="-1"></a>                             </span>
+<span id="cb5-5"><a href="quick-start.html#cb5-5" tabindex="-1"></a>h <span class="ot">&lt;-</span> <span class="fu">apply</span>(<span class="at">X =</span> res<span class="sc">$</span>I4, </span>
+<span id="cb5-6"><a href="quick-start.html#cb5-6" tabindex="-1"></a>           <span class="at">MARGIN =</span> <span class="dv">1</span>, </span>
+<span id="cb5-7"><a href="quick-start.html#cb5-7" tabindex="-1"></a>           <span class="at">FUN =</span> pHetErrOnStateCount)[<span class="dv">1</span>, ]</span>
+<span id="cb5-8"><a href="quick-start.html#cb5-8" tabindex="-1"></a>           </span>
+<span id="cb5-9"><a href="quick-start.html#cb5-9" tabindex="-1"></a><span class="fu">plotPolarized</span>(<span class="at">genotypes =</span> genotypes,</span>
+<span id="cb5-10"><a href="quick-start.html#cb5-10" tabindex="-1"></a>              <span class="at">HI =</span> h[samples])</span></code></pre></div>
+<p><img src="01-diemr-diagnostic-index-expecation-maximisation-in-r_files/figure-html/unnamed-chunk-5-1.png" width="576" style="display: block; margin: auto;" /></p>
+<blockquote>
+<p><span style="color:red">CAUTION:</span> This is just a <strong>quick start</strong> to get you started!
+For real datasets you will use the diagnostic index (DI) to filter the full set of sites
+you have analysed with <code>diem</code> in order to plot only those markers relevant to any barrier
+detected in the analysis.</p>
+</blockquote>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="index.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="input-data.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+  "sharing": null,
+  "fontsettings": {
+    "theme": "white",
+    "family": "sans",
+    "size": 2
+  },
+  "edit": {
+    "link": null,
+    "text": null
+  },
+  "history": {
+    "link": null,
+    "text": null
+  },
+  "view": {
+    "link": null,
+    "text": null
+  },
+  "download": ["genome-polarisation.pdf", "genome-polarisation.epub"],
+  "search": {
+    "engine": "fuse",
+    "options": null
+  },
+  "toc": {
+    "collapse": "subsection"
+  }
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

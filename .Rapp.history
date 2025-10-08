@@ -1,0 +1,16 @@
+require(bookdown)
+install.packages("bookdown")
+require(bookdown)
+render_book("index.Rmd", "bookdown::gitbook")
+traceback()
+render_book("index.Rmd", "bookdown::gitbook")
+render_book("index.Rmd", "bookdown::gitbook")
+render_book("index.Rmd", "bookdown::gitbook")
+render_book("index.Rmd", "bookdown::gitbook")
+render_book("index.Rmd", "bookdown::gitbook")
+?plotPolarized
+require(diemr)
+?plotPolarized
+sessionInfo()
+update.packages("diemr")
+q()

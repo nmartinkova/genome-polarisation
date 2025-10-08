@@ -1,0 +1,13 @@
+bookdown::gitbook:
+  css: style.css
+  config:
+    toc:
+      collapse: subsection
+      before: |
+        <li><a href="./">Genome Polarisation with diemr</a></li>
+    sharing: null
+    download: ["pdf", "epub"]
+bookdown::pdf_book:
+  citation_package: natbib
+  keep_tex: true
+bookdown::epub_book: default

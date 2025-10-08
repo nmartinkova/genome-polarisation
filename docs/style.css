@@ -1,0 +1,12 @@
+pre.sourceCode {
+  border-left: 5px solid gray !important;
+}
+.cm {
+  background: #c4ebf4 !important;
+}
+.cw {
+  background: #f1d88d !important;
+}
+code {
+  padding: 0 !important;
+}

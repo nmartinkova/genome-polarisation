@@ -1,0 +1,14 @@
+book_filename: "genome-polarisation"
+delete_merged_file: true
+language:
+  ui:
+    chapter_name: "Chapter "
+rmd_files:
+  - index.Rmd
+  - "01-diemr-diagnostic-index-expecation-maximisation-in-r.Rmd"
+  - "02-Importing-data-for-genome-polarisation.Rmd"
+  - "03-Understanding-genome-polarisation-output-files.Rmd"
+  - "04-Visualisation.Rmd"
+  - "10-koniec.Rmd"
+output_dir: "docs"
+new_session: yes

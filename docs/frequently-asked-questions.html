@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 5 Frequently asked questions | Genome Polarisation with diemr</title>
+  <meta name="description" content="Chapter 5 Frequently asked questions | Genome Polarisation with diemr" />
+  <meta name="generator" content="bookdown 0.45 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapter 5 Frequently asked questions | Genome Polarisation with diemr" />
+  <meta property="og:type" content="book" />
+  
+  
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 5 Frequently asked questions | Genome Polarisation with diemr" />
+  
+  
+  
+
+<meta name="author" content="Natália Martínková" />
+
+
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="multiple-compartments-with-different-ploidies.html"/>
+<link rel="next" href="quick-start.html"/>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<style type="text/css">
+  
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+</style>
+<style type="text/css">
+/* Used with Pandoc 2.11+ new --citeproc when CSL is used */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+  margin-bottom: 0em;
+}
+.hanging div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">Genome Polarisation with diemr</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Introduction</a></li>
+<li class="chapter" data-level="2" data-path="quick.html"><a href="quick.html"><i class="fa fa-check"></i><b>2</b> Quick start</a></li>
+<li class="chapter" data-level="3" data-path="input-data.html"><a href="input-data.html"><i class="fa fa-check"></i><b>3</b> Input data</a></li>
+<li class="chapter" data-level="4" data-path="multiple-compartments-with-different-ploidies.html"><a href="multiple-compartments-with-different-ploidies.html"><i class="fa fa-check"></i><b>4</b> Multiple compartments with different ploidies</a></li>
+<li class="chapter" data-level="5" data-path="frequently-asked-questions.html"><a href="frequently-asked-questions.html"><i class="fa fa-check"></i><b>5</b> Frequently asked questions</a></li>
+<li class="chapter" data-level="6" data-path="quick-start.html"><a href="quick-start.html"><i class="fa fa-check"></i><b>6</b> Quick start</a></li>
+<li class="chapter" data-level="7" data-path="principle-of-conversion-to-diem-format.html"><a href="principle-of-conversion-to-diem-format.html"><i class="fa fa-check"></i><b>7</b> Principle of conversion to diem format</a>
+<ul>
+<li class="chapter" data-level="7.1" data-path="principle-of-conversion-to-diem-format.html"><a href="principle-of-conversion-to-diem-format.html#invariant-sites-and-indels"><i class="fa fa-check"></i><b>7.1</b> Invariant sites and indels</a></li>
+<li class="chapter" data-level="7.2" data-path="principle-of-conversion-to-diem-format.html"><a href="principle-of-conversion-to-diem-format.html#sites-not-informative-for-genome-polarisation"><i class="fa fa-check"></i><b>7.2</b> Sites not informative for genome polarisation</a></li>
+<li class="chapter" data-level="7.3" data-path="principle-of-conversion-to-diem-format.html"><a href="principle-of-conversion-to-diem-format.html#haploid-data"><i class="fa fa-check"></i><b>7.3</b> Haploid data</a></li>
+<li class="chapter" data-level="7.4" data-path="principle-of-conversion-to-diem-format.html"><a href="principle-of-conversion-to-diem-format.html#diploid-data"><i class="fa fa-check"></i><b>7.4</b> Diploid data</a>
+<ul>
+<li class="chapter" data-level="7.4.1" data-path="principle-of-conversion-to-diem-format.html"><a href="principle-of-conversion-to-diem-format.html#heterozygotes-in-dna-sequence-alignments"><i class="fa fa-check"></i><b>7.4.1</b> Heterozygotes in DNA sequence alignments</a></li>
+<li class="chapter" data-level="7.4.2" data-path="principle-of-conversion-to-diem-format.html"><a href="principle-of-conversion-to-diem-format.html#variant-call-format"><i class="fa fa-check"></i><b>7.4.2</b> Variant call format</a></li>
+</ul></li>
+<li class="chapter" data-level="7.5" data-path="principle-of-conversion-to-diem-format.html"><a href="principle-of-conversion-to-diem-format.html#polyploid-data"><i class="fa fa-check"></i><b>7.5</b> Polyploid data</a></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="understanding-genome-polarisation-output-files.html"><a href="understanding-genome-polarisation-output-files.html"><i class="fa fa-check"></i><b>8</b> Understanding genome polarisation output files</a></li>
+<li class="chapter" data-level="9" data-path="defaults.html"><a href="defaults.html"><i class="fa fa-check"></i><b>9</b> Obligatory outputs</a>
+<ul>
+<li class="chapter" data-level="9.1" data-path="defaults.html"><a href="defaults.html#markerDiagnostics"><i class="fa fa-check"></i><b>9.1</b> MarkerDiagnosticsWithOptimalPolarities</a></li>
+<li class="chapter" data-level="9.2" data-path="defaults.html"><a href="defaults.html#HI"><i class="fa fa-check"></i><b>9.2</b> HIwithOptimalPolarities</a></li>
+<li class="chapter" data-level="9.3" data-path="defaults.html"><a href="defaults.html#I4"><i class="fa fa-check"></i><b>9.3</b> I4withOptimalPolarities</a></li>
+</ul></li>
+<li class="chapter" data-level="10" data-path="optional-outputs.html"><a href="optional-outputs.html"><i class="fa fa-check"></i><b>10</b> Optional outputs</a>
+<ul>
+<li class="chapter" data-level="10.0.1" data-path="optional-outputs.html"><a href="optional-outputs.html#the-user-perspective"><i class="fa fa-check"></i><b>10.0.1</b> The user perspective</a></li>
+<li class="chapter" data-level="10.1" data-path="optional-outputs.html"><a href="optional-outputs.html#nullmarkerpolarities"><i class="fa fa-check"></i><b>10.1</b> NullMarkerPolarities</a></li>
+<li class="chapter" data-level="10.2" data-path="optional-outputs.html"><a href="optional-outputs.html#changedPolarities"><i class="fa fa-check"></i><b>10.2</b> MarkersWithChangedPolarities</a>
+<ul>
+<li class="chapter" data-level="10.2.1" data-path="optional-outputs.html"><a href="optional-outputs.html#markerswithchangedpolarities-compartmentnumber"><i class="fa fa-check"></i><b>10.2.1</b> MarkersWithChangedPolarities-(compartmentNumber)</a></li>
+<li class="chapter" data-level="10.2.2" data-path="optional-outputs.html"><a href="optional-outputs.html#markerdiagnosticsiteration-compartmentnumber"><i class="fa fa-check"></i><b>10.2.2</b> MarkerDiagnostics(iteration)-(compartmentNumber)</a></li>
+</ul></li>
+<li class="chapter" data-level="10.3" data-path="optional-outputs.html"><a href="optional-outputs.html#iteration-specific-graphics"><i class="fa fa-check"></i><b>10.3</b> Iteration-specific graphics</a>
+<ul>
+<li class="chapter" data-level="10.3.1" data-path="optional-outputs.html"><a href="optional-outputs.html#warpswitch-files"><i class="fa fa-check"></i><b>10.3.1</b> WarpSwitch files</a></li>
+<li class="chapter" data-level="10.3.2" data-path="optional-outputs.html"><a href="optional-outputs.html#hybrid-index-files"><i class="fa fa-check"></i><b>10.3.2</b> Hybrid index files</a></li>
+</ul></li>
+<li class="chapter" data-level="10.4" data-path="optional-outputs.html"><a href="optional-outputs.html#the-log-file"><i class="fa fa-check"></i><b>10.4</b> The log file</a></li>
+</ul></li>
+<li class="chapter" data-level="11" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i><b>11</b> References</a></li>
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Genome Polarisation with diemr</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="frequently-asked-questions" class="section level1 hasAnchor" number="5">
+<h1><span class="header-section-number">Chapter 5</span> Frequently asked questions<a href="frequently-asked-questions.html#frequently-asked-questions" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<ol style="list-style-type: decimal">
+<li><strong>How can I install <code>diemr</code> from the source?</strong></li>
+</ol>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="frequently-asked-questions.html#cb9-1" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="at">package =</span> <span class="st">&quot;diemr_1.3.tar.gz&quot;</span>,</span>
+<span id="cb9-2"><a href="frequently-asked-questions.html#cb9-2" tabindex="-1"></a>                 <span class="at">repos =</span> <span class="cn">NULL</span>, <span class="at">type =</span> <span class="st">&quot;source&quot;</span>)</span></code></pre></div>
+<p>Make sure to set the <code>R</code> working directory to the folder, where the package tarball is stored,
+or include a full path to the file within the quotes. Update the version number to the specific
+file.</p>
+<ol start="2" style="list-style-type: decimal">
+<li><strong>How can I calculate the hybrid indices from my polarised data?</strong></li>
+</ol>
+<p>There are two options. First, use <code>diem</code> with argument <code>verbose = TRUE</code> and hybrid indices
+will be stored in a text file in the diagnostics folder in the working directory. The stored
+values will <strong>not</strong> be ploidy-aware. Additionally, these hybrid indices are blind to the
+diagnostic index of the markers. Hybrid indices should be calculated only on the most
+diagnostic markers. To calculate the hybrid
+indices without the small data correction use the <code>I4</code> matrix in the <code>diem</code> output (See
+FAQ on Hybrid indices below on how to first filter markers based on their diagnosticity).</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="frequently-asked-questions.html#cb10-1" tabindex="-1"></a><span class="fu">apply</span>(res<span class="sc">$</span>I4, <span class="at">MARGIN =</span> <span class="dv">1</span>, <span class="at">FUN =</span> pHetErrOnStateCount)</span>
+<span id="cb10-2"><a href="frequently-asked-questions.html#cb10-2" tabindex="-1"></a><span class="co">#          [,1] [,2]      [,3]      [,4]      [,5]      [,6]</span></span>
+<span id="cb10-3"><a href="frequently-asked-questions.html#cb10-3" tabindex="-1"></a><span class="co"># p   0.5000000    0 0.3333333 0.5000000 0.8333333 1.0000000</span></span>
+<span id="cb10-4"><a href="frequently-asked-questions.html#cb10-4" tabindex="-1"></a><span class="co"># Het 0.3333333    0 0.6666667 0.3333333 0.3333333 0.0000000</span></span>
+<span id="cb10-5"><a href="frequently-asked-questions.html#cb10-5" tabindex="-1"></a><span class="co"># Err 0.0000000    0 0.0000000 0.0000000 0.0000000 0.3333333</span></span></code></pre></div>
+<p>To calculate the hybrid indices while ignoring uninformative sites (which will force all
+hybrid indices towards 0.5), filter the <code>importPolarised</code> data by the DI of each site.</p>
+<ol start="3" style="list-style-type: decimal">
+<li><strong>I expect more than two groups of samples in my data. Can I use <code>diemr</code>?</strong></li>
+</ol>
+<p>Yes. Multiple barriers to geneflow between multiple groups of samples can be identified iteratively
+with help from the argument <code>ChosenInds</code>. For example, let’s assume that the individual 2 was
+identified as belonging to one side of the barrier and being separated from other by the steepest
+change in the hybrid index. In the next <code>diem</code> run, we exclude the individual 2.</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="frequently-asked-questions.html#cb11-1" tabindex="-1"></a>samples2 <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">3</span><span class="sc">:</span><span class="dv">6</span>)</span>
+<span id="cb11-2"><a href="frequently-asked-questions.html#cb11-2" tabindex="-1"></a><span class="fu">CheckDiemFormat</span>(<span class="at">files =</span> filepaths, </span>
+<span id="cb11-3"><a href="frequently-asked-questions.html#cb11-3" tabindex="-1"></a>                <span class="at">ChosenInds =</span> samples2, </span>
+<span id="cb11-4"><a href="frequently-asked-questions.html#cb11-4" tabindex="-1"></a>                <span class="at">ploidy =</span> ploidies)</span>
+<span id="cb11-5"><a href="frequently-asked-questions.html#cb11-5" tabindex="-1"></a><span class="co"># File check passed: TRUE</span></span>
+<span id="cb11-6"><a href="frequently-asked-questions.html#cb11-6" tabindex="-1"></a><span class="co"># Ploidy check passed: TRUE</span></span>
+<span id="cb11-7"><a href="frequently-asked-questions.html#cb11-7" tabindex="-1"></a></span>
+<span id="cb11-8"><a href="frequently-asked-questions.html#cb11-8" tabindex="-1"></a>res2 <span class="ot">&lt;-</span> <span class="fu">diem</span>(<span class="at">files =</span> filepaths, </span>
+<span id="cb11-9"><a href="frequently-asked-questions.html#cb11-9" tabindex="-1"></a>             <span class="at">ChosenInds =</span> samples2,</span>
+<span id="cb11-10"><a href="frequently-asked-questions.html#cb11-10" tabindex="-1"></a>             <span class="at">ploidy =</span> ploidies,</span>
+<span id="cb11-11"><a href="frequently-asked-questions.html#cb11-11" tabindex="-1"></a>             <span class="at">nCores =</span> <span class="dv">1</span>,</span>
+<span id="cb11-12"><a href="frequently-asked-questions.html#cb11-12" tabindex="-1"></a>             <span class="at">markerPolarity =</span> <span class="fu">list</span>(<span class="fu">c</span>(<span class="cn">FALSE</span>, <span class="cn">FALSE</span>, <span class="cn">TRUE</span>)))</span>
+<span id="cb11-13"><a href="frequently-asked-questions.html#cb11-13" tabindex="-1"></a>             </span>
+<span id="cb11-14"><a href="frequently-asked-questions.html#cb11-14" tabindex="-1"></a><span class="co"># calculate hybrid indices from updated I4</span></span>
+<span id="cb11-15"><a href="frequently-asked-questions.html#cb11-15" tabindex="-1"></a>h.res2 <span class="ot">&lt;-</span> <span class="fu">apply</span>(res2<span class="sc">$</span>I4, </span>
+<span id="cb11-16"><a href="frequently-asked-questions.html#cb11-16" tabindex="-1"></a>                <span class="at">MARGIN =</span> <span class="dv">1</span>, </span>
+<span id="cb11-17"><a href="frequently-asked-questions.html#cb11-17" tabindex="-1"></a>                <span class="at">FUN =</span> pHetErrOnStateCount)[<span class="dv">1</span>, ]</span>
+<span id="cb11-18"><a href="frequently-asked-questions.html#cb11-18" tabindex="-1"></a>                </span>
+<span id="cb11-19"><a href="frequently-asked-questions.html#cb11-19" tabindex="-1"></a><span class="co"># set names for the hybrid index values</span></span>
+<span id="cb11-20"><a href="frequently-asked-questions.html#cb11-20" tabindex="-1"></a>h.res2 <span class="ot">&lt;-</span> <span class="fu">setNames</span>(h.res2, <span class="at">nm =</span> samples2)</span>
+<span id="cb11-21"><a href="frequently-asked-questions.html#cb11-21" tabindex="-1"></a><span class="co">#    1    3    4    5    6 </span></span>
+<span id="cb11-22"><a href="frequently-asked-questions.html#cb11-22" tabindex="-1"></a><span class="co"># 0.50 0.33 0.50 0.83 1.00 </span></span>
+<span id="cb11-23"><a href="frequently-asked-questions.html#cb11-23" tabindex="-1"></a></span>
+<span id="cb11-24"><a href="frequently-asked-questions.html#cb11-24" tabindex="-1"></a><span class="co"># calculate the center of the maximum hybrid index change</span></span>
+<span id="cb11-25"><a href="frequently-asked-questions.html#cb11-25" tabindex="-1"></a>diffs <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">rollmean =</span> zoo<span class="sc">::</span><span class="fu">rollmean</span>(<span class="fu">sort</span>(h.res2), <span class="at">k =</span> <span class="dv">2</span>),</span>
+<span id="cb11-26"><a href="frequently-asked-questions.html#cb11-26" tabindex="-1"></a>                    <span class="at">diff =</span> <span class="fu">diff</span>(<span class="fu">sort</span>(h.res2), <span class="at">lag =</span> <span class="dv">1</span>))</span>
+<span id="cb11-27"><a href="frequently-asked-questions.html#cb11-27" tabindex="-1"></a>h.res2.c <span class="ot">&lt;-</span> diffs<span class="sc">$</span>rollmean[<span class="fu">which.max</span>(diffs<span class="sc">$</span>diff)]</span>
+<span id="cb11-28"><a href="frequently-asked-questions.html#cb11-28" tabindex="-1"></a><span class="co"># [1] 0.6666667</span></span></code></pre></div>
+<p>Since the center of the barrier is at 0.67 now, <code>diem</code> separated individuals 1, 3, and 4
+from a group that includes 5, 6. Combined with the result from the first <code>diem</code> run, we
+have identified three groups in the dataset: (2), (1, 3, 4), and (5, 6).</p>
+<ol start="4" style="list-style-type: decimal">
+<li><strong>The hybrid indices in my dataset are too similar. I expected them to look more like
+the rescaled hybrid indices. What is wrong?</strong></li>
+</ol>
+<p>The input data probably contains invariant sites. These cannot be polarised, and so will
+keep their initial random polarisation, making all hybrid indices tend to 0.5. A filter
+removing all invariant sites before analysis will speed up analysis, but it will not
+eliminate the problem because (1) sequencing errors will make invariant sites appear
+variant, or (2) variant sites can have variation irrelevant to a <code>diem</code> barrier.<br />
+We recommend you filter sites by diagnostic index (DI) after the <code>diem</code> analysis to
+recalculate hybrid indices (and plot genotypes) with only the most diagnostic markers.</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="frequently-asked-questions.html#cb12-1" tabindex="-1"></a><span class="co"># Select 40% of markers with the highest diagnostic index</span></span>
+<span id="cb12-2"><a href="frequently-asked-questions.html#cb12-2" tabindex="-1"></a>threshold <span class="ot">&lt;-</span> <span class="fu">quantile</span>(res2<span class="sc">$</span>DI<span class="sc">$</span>DI, <span class="at">prob =</span> <span class="fl">0.6</span>)</span>
+<span id="cb12-3"><a href="frequently-asked-questions.html#cb12-3" tabindex="-1"></a>genotypes3 <span class="ot">&lt;-</span> genotypes2[, res2<span class="sc">$</span>DI<span class="sc">$</span>DI <span class="sc">&gt;</span> threshold]</span>
+<span id="cb12-4"><a href="frequently-asked-questions.html#cb12-4" tabindex="-1"></a><span class="co"># Recalculate I4 and hybrid indices</span></span>
+<span id="cb12-5"><a href="frequently-asked-questions.html#cb12-5" tabindex="-1"></a>h3 <span class="ot">&lt;-</span> <span class="fu">apply</span>(genotypes3, </span>
+<span id="cb12-6"><a href="frequently-asked-questions.html#cb12-6" tabindex="-1"></a>            <span class="at">MARGIN =</span> <span class="dv">1</span>,</span>
+<span id="cb12-7"><a href="frequently-asked-questions.html#cb12-7" tabindex="-1"></a>            <span class="at">FUN =</span> \(x) <span class="fu">pHetErrOnStateCount</span>(<span class="fu">sStateCount</span>(x)))[<span class="dv">1</span>, ]</span>
+<span id="cb12-8"><a href="frequently-asked-questions.html#cb12-8" tabindex="-1"></a><span class="co"># Plot the polarised markers</span></span>
+<span id="cb12-9"><a href="frequently-asked-questions.html#cb12-9" tabindex="-1"></a><span class="fu">plotPolarized</span>(genotypes3, h3)</span></code></pre></div>
+<p><img src="01-diemr-diagnostic-index-expecation-maximisation-in-r_files/figure-html/unnamed-chunk-14-1.png" width="672" /></p>
+<ol start="5" style="list-style-type: decimal">
+<li><strong>How to cite <code>diemr</code>?</strong></li>
+</ol>
+<p>To use <code>diemr</code> in a publication, please cite <span class="citation">(<a href="#ref-Baird2023">Baird et al. 2023</a>)</span>.</p>
+
+</div>
+<h3> References<a href="references.html#references" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div id="refs" class="references csl-bib-body hanging-indent" entry-spacing="0">
+<div id="ref-Baird2023" class="csl-entry">
+Baird, Stuart J. E., Jan Petružela, Izar Jaroň, Pavel Škrabánek, and Natália Martínková. 2023. <span>“Genome Polarisation for Detecting Barriers to Geneflow.”</span> <em>Methods in Ecology and Evolution</em> 14: 512–28. <a href="https://doi.org/10.1111/2041-210X.14010">https://doi.org/10.1111/2041-210X.14010</a>.
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="multiple-compartments-with-different-ploidies.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="quick-start.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+  "sharing": null,
+  "fontsettings": {
+    "theme": "white",
+    "family": "sans",
+    "size": 2
+  },
+  "edit": {
+    "link": null,
+    "text": null
+  },
+  "history": {
+    "link": null,
+    "text": null
+  },
+  "view": {
+    "link": null,
+    "text": null
+  },
+  "download": ["genome-polarisation.pdf", "genome-polarisation.epub"],
+  "search": {
+    "engine": "fuse",
+    "options": null
+  },
+  "toc": {
+    "collapse": "subsection"
+  }
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>
