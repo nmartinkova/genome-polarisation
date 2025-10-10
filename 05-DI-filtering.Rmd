@@ -1,0 +1,102 @@
+# Filtering sites by diagnostic index
+
+
+
+
+After obtaining polarised genotypes and diagnostic indices from previous steps, the next step is to focus on markers that most clearly distinguish the two sides of the barrier. This chapter demonstrates how to use the diagnostic index (DI) for this purpose. A note in the Chapter \@ref(intro) cautioned against using whole-genome summaries for downstream analyses. This chapter expands the *Quick start* introduction.
+
+During genome polarisation, each site receives a likelihood-based **diagnostic index (DI)** that quantifies its contribution to distinguishing the two sides of the barrier. Sites with low DI are weakly informative and act as noise; they inflate apparent heterogeneity and reduce clarity in hybrid index (HI) plots. Filtering sites by DI provides a way to extract informative genomic markers that:
+
+* reduce noise from standing genetic variation,
+* produce steeper clines in HI profiles,
+* enhance contrast between groups in genotype heatmaps,
+* stabilise window‑based summaries.
+
+However, filtering is a trade‑off. Retaining too few sites can over‑simplify the pattern, while retaining all may hide the structure in noise. An ideal filtering threshold does not exist, as it depends on the genetic variation within the dataset and the divergence encapsulated in the barrier to gene flow. Therefore, inspect the results visually to decide.
+
+
+
+The DI values are exported for all sites, and are either available in the standard output from `diem` in an element `DI` in column `DI` or in the output file *MarkerDiagnosticsWithOptimalPolarities.txt* (Chapter \@ref(markerDiagnostics)). This example will demonstrate DI-filtering from the file.
+
+
+```{r, eval = FALSE}
+# read the marker diagnostics file. read.table is possible, but for large genomic datasets, fread is more efficient
+DI <- data.table::fread("MarkerDiagnosticsWithOptimalPolarities.txt", header = TRUE, data.table = FALSE)
+
+# keep top 30% most diagnostic sites
+threshold <- 0.7
+whichMarkers <- DI$DI >= quantile(DI$DI, probs = threshold)
+
+# import polarised genotypes for the diagnostic markers
+gen <- importPolarized("testdata-001.txt",
+	changePolarity = DI$newPolarity,
+	ChosenSites = "all")
+
+# calculate hybrid indices from the filtered genotypes
+HI <- hybridIndex(gen[, whichMarkers], rescale = TRUE)
+
+# plot HI and DI-filtered genotypes
+layout(matrix(c(1,2,2,2,2), nrow = 1))
+indOrder <- order(HI)
+plot(HI[indOrder], 1:length(HI), xlab = "Hybrid index", ylab = "Individuals")
+plotPolarized(gen, HI = HI, ylab = "")
+```
+
+The function `hybridIndex` estimates the proportion of alleles belonging to one side of the barrier across all polarised sites for each individual, automatically accounting for missing data. The `plotPolarized` function then orders individuals by their HI, so plotting the scatter plot of sorted HI values on the x axis next to a rectangular genomic heatmap offers a visual guide to the quantitative change in genome admixture. 
+
+
+## Selecting the filtering threshold
+
+With the hybrid index being a proportion of alleles belonging to one side of barrier to gene flow, typical outcome of filtering SNVs by DI is a set of informative markers that shows **tighter clustering** of individuals near 0 and 1, and a steeper, interpretable gradient across hybrids. However, emphasizing the genomic differences by selecting markers that approach being homozygous on one side of the barrier can have an undesirable effect of highlighting the influence of outliers. These might be inbred individuals, samples with low sequencing coverage or mapping quality or divergent samples informing of a biologically-relevant mechanism. Such individuals are rarely the target of studies of admixture, but can overinform the *diem* algorithm and constitute the steepest barrier to gene flow in heavily filtered datasets. To avoid this, the user has two options. 
+
+1. To remove the outlier individuals from the analyses using the `ChosenInds` argument.
+2. To find the DI filtering threshold that displays the desired barrier to gene flow before it becomes overloaded with outlier pull.
+
+The first option is the cleanest, but both are not mutually exclusive. Let's use the previous example to explore a range of threshold values and their effect on the barrier to gene flow.
+
+```{r, eval = FALSE, fig.width = 100%}
+thresholds <- c(0.5, 0.7, 0.9, 0.95)
+
+# inspect distribution of DI values
+hist(DI$DI, xlab = "Diagnostic index")
+abline(v = quantile(DI$DI, probs = thresholds), col = "red", lty = 2)
+```
+
+Plotting the DI distribution helps identify whether the dataset has a natural break or continuous spectrum of diagnostic values, guiding selection of a reasonable cutoff. Often in genomic datasets, the distribution of DI values is unimodal. In such cases, the exploration of the influence of DI filtering on HI can be more insightful for selecting a suitable threshold value.
+
+```{r, eval = FALSE}
+genAll <- importPolarized("testdata-001.txt",
+	changePolarity = DI$newPolarity,
+	ChosenSites = "all")
+
+# load HI from the ploidy-aware whole-genome HI in diem output
+HI <- hybridIndex("HIwithOptimalPolarities.txt", rescale = FALSE)
+indOrder <- order(HI)
+
+par(mfrow = c(1, 4))
+
+for (threshold in thresholds){
+  whichMarkers <- DI$DI >= quantile(DI$DI, probs = threshold)
+  HI <- hybridIndex(genAll[, whichMarkers], rescale = FALSE)
+  plot(HI[indOrder], 
+    xlab = "Individuals", ylab = "Hybrid index", main = paste0("Top ", (1 - threshold) * 100, "% of most diagnostic markers")
+  )  
+}
+``` 
+
+Based on these plots, the barrier to gene flow progressively increases. Note that the order of the individuals was set first from the *HIwithOptimalPolarities.txt* file that is output from the `diem` run. These values are based on whole-genome variability taking into account compartment ploidy as it was defined during the analysis. This is the preferred way to explore the influence of alternative threshold values, because the visualisation is also sensitive to how individuals might change positions along the HI slope.
+
+> <span style="color:red">CAUTION:</span> Because DI depends on allele frequency differences, 
+> sample size, and the polarities of all assessed sites, DI values are not directly 
+> comparable across independent runs, species pairs, or datasets. Instead, derive cutoff 
+> thresholds (e.g. top quantiles) within each dataset, and report the number or proportion 
+> of markers retained.
+
+
+## Biological signal insights
+
+Filtering by DI is not mandatory, but it is an efficient way to reveal the core signal of genome polarisation. Patterns that were previously noisy or ambiguous often become clear once low‑information markers are excluded. When reporting results, state your DI quantile cutoff and confirm that qualitative interpretations remain robust across reasonable thresholds.
+
+Diagnostic markers often correspond to genomic regions under strong differentiation or selection maintaining alternative alleles between taxa, whereas low-DI sites are typically neutral or shared polymorphisms. Thus, filtering by DI not only increases contrast but also enriches for genomic regions that maintain species boundaries.
+
+Because markers with high DI are not evenly distributed along chromosomes [@Jagos2025], DI filtering can alter the apparent contribution of different regions to the overall signal. Regions with many fixed differences will remain densely represented, while more homogeneous or highly variable regions may contribute fewer diagnostic markers. When summarising results in windows or genomic compartments, keep this unequal site density in mind. 
