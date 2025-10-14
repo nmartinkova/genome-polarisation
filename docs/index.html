@@ -162,7 +162,10 @@ div.csl-indent {
 <li><a href="./">Genome Polarisation with diemr</a></li>
 
 <li class="divider"></li>
-<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Introduction</a></li>
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Introduction</a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="index.html"><a href="index.html#how-to-cite"><i class="fa fa-check"></i><b>1.1</b> How to cite</a></li>
+</ul></li>
 <li class="chapter" data-level="2" data-path="intro.html"><a href="intro.html"><i class="fa fa-check"></i><b>2</b> Quick start</a></li>
 <li class="chapter" data-level="3" data-path="input-data.html"><a href="input-data.html"><i class="fa fa-check"></i><b>3</b> Input data</a>
 <ul>
@@ -213,9 +216,12 @@ div.csl-indent {
 </ul></li>
 <li class="chapter" data-level="8" data-path="smoothing-polarised-genotypes.html"><a href="smoothing-polarised-genotypes.html"><i class="fa fa-check"></i><b>8</b> Smoothing polarised genotypes</a>
 <ul>
-<li class="chapter" data-level="8.1" data-path="smoothing-polarised-genotypes.html"><a href="smoothing-polarised-genotypes.html#mapping-diagnostic-markers"><i class="fa fa-check"></i><b>8.1</b> Mapping diagnostic markers</a></li>
-<li class="chapter" data-level="8.2" data-path="smoothing-polarised-genotypes.html"><a href="smoothing-polarised-genotypes.html#smoothing-across-mapped-distances"><i class="fa fa-check"></i><b>8.2</b> Smoothing across mapped distances</a></li>
-<li class="chapter" data-level="8.3" data-path="smoothing-polarised-genotypes.html"><a href="smoothing-polarised-genotypes.html#visual-comparison-of-raw-and-smoothed-results"><i class="fa fa-check"></i><b>8.3</b> Visual comparison of raw and smoothed results</a></li>
+<li class="chapter" data-level="8.1" data-path="smoothing-polarised-genotypes.html"><a href="smoothing-polarised-genotypes.html#smoothing-across-mapped-distances"><i class="fa fa-check"></i><b>8.1</b> Smoothing across mapped distances</a>
+<ul>
+<li class="chapter" data-level="8.1.1" data-path="smoothing-polarised-genotypes.html"><a href="smoothing-polarised-genotypes.html#mapping-diagnostic-markers"><i class="fa fa-check"></i><b>8.1.1</b> Mapping diagnostic markers</a></li>
+<li class="chapter" data-level="8.1.2" data-path="smoothing-polarised-genotypes.html"><a href="smoothing-polarised-genotypes.html#visual-comparison-of-raw-and-smoothed-results"><i class="fa fa-check"></i><b>8.1.2</b> Visual comparison of raw and smoothed results</a></li>
+</ul></li>
+<li class="chapter" data-level="8.2" data-path="smoothing-polarised-genotypes.html"><a href="smoothing-polarised-genotypes.html#interpretation-and-downstream-use"><i class="fa fa-check"></i><b>8.2</b> Interpretation and downstream use</a></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
 </ul>
@@ -247,7 +253,15 @@ div.csl-indent {
 <p>The diagnostic index computed by <em>diem</em> <strong>highlights markers that are most informative</strong> for the primary axis of genetic differentiation. These diagnostic loci can then be used to describe patterns of hybridisation, assess barrier strength, or visualise the genomic distribution of ancestry.</p>
 <p>This book provides a step-by-step guide to performing genome polarisation analyses in <code>R</code> using <a href="https://github.com/nmartinkova/diemr">the <code>diemr</code> package</a>, also available from <a href="https://CRAN.R-project.org/package=diemr">CRAN</a>. The package includes functions for input validation, file-format conversion, visualisation, and diagnostic summaries, with examples based on typical genomic datasets such as variant call format (VCF) files and SNP matrices. By the end of the book, users will be able to run the complete analysis workflow, interpret its outputs, and generate graphical representations of genome polarisation.</p>
 <p>The <em>diem</em> algorithm itself is also implemented in <code>Mathematica</code> and <code>Python</code>, available <a href="https://github.com/StuartJEBaird/diem">here</a>, allowing reproducibility and interoperability across analytical environments.</p>
+<div id="how-to-cite" class="section level2 hasAnchor" number="1.1">
+<h2><span class="header-section-number">1.1</span> How to cite<a href="index.html#how-to-cite" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>If you use the <em>diemr</em> package or this documentation in your work, please cite:</p>
+<p>Baird, S. J. E., J. Petružela, I. Jaroň, P. Škrabánek, and N. Martínková. 2023. <em>Genome polarisation for detecting barriers to geneflow.</em> Methods in Ecology and Evolution 14: 512–28. <a href="https://doi.org/10.1111/2041-210X.14010" class="uri">https://doi.org/10.1111/2041-210X.14010</a>.</p>
+<p>and this online documentation for the <code>diemr</code> package:</p>
+<p>Martínková, N. 2025. <em>Genome polarisation with diemr.</em> Bookdown online documentation.<br />
+Available at: <a href="https://nmartinkova.github.io/genome-polarisation/" class="uri">https://nmartinkova.github.io/genome-polarisation/</a>.</p>
 
+</div>
 </div>
 <h3>References<a href="references.html#references" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <div id="refs" class="references csl-bib-body hanging-indent" entry-spacing="0">
@@ -300,6 +314,14 @@ gitbook.start({
   },
   "toc": {
     "collapse": "subsection"
+  },
+  "navbar": {
+    "right": [
+      {
+        "text": "Cite",
+        "href": "#how-to-cite"
+      }
+    ]
   }
 });
 });

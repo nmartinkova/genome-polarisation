@@ -162,7 +162,10 @@ div.csl-indent {
 <li><a href="./">Genome Polarisation with diemr</a></li>
 
 <li class="divider"></li>
-<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Introduction</a></li>
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Introduction</a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="index.html"><a href="index.html#how-to-cite"><i class="fa fa-check"></i><b>1.1</b> How to cite</a></li>
+</ul></li>
 <li class="chapter" data-level="2" data-path="intro.html"><a href="intro.html"><i class="fa fa-check"></i><b>2</b> Quick start</a></li>
 <li class="chapter" data-level="3" data-path="input-data.html"><a href="input-data.html"><i class="fa fa-check"></i><b>3</b> Input data</a>
 <ul>
@@ -213,9 +216,12 @@ div.csl-indent {
 </ul></li>
 <li class="chapter" data-level="8" data-path="smoothing-polarised-genotypes.html"><a href="smoothing-polarised-genotypes.html"><i class="fa fa-check"></i><b>8</b> Smoothing polarised genotypes</a>
 <ul>
-<li class="chapter" data-level="8.1" data-path="smoothing-polarised-genotypes.html"><a href="smoothing-polarised-genotypes.html#mapping-diagnostic-markers"><i class="fa fa-check"></i><b>8.1</b> Mapping diagnostic markers</a></li>
-<li class="chapter" data-level="8.2" data-path="smoothing-polarised-genotypes.html"><a href="smoothing-polarised-genotypes.html#smoothing-across-mapped-distances"><i class="fa fa-check"></i><b>8.2</b> Smoothing across mapped distances</a></li>
-<li class="chapter" data-level="8.3" data-path="smoothing-polarised-genotypes.html"><a href="smoothing-polarised-genotypes.html#visual-comparison-of-raw-and-smoothed-results"><i class="fa fa-check"></i><b>8.3</b> Visual comparison of raw and smoothed results</a></li>
+<li class="chapter" data-level="8.1" data-path="smoothing-polarised-genotypes.html"><a href="smoothing-polarised-genotypes.html#smoothing-across-mapped-distances"><i class="fa fa-check"></i><b>8.1</b> Smoothing across mapped distances</a>
+<ul>
+<li class="chapter" data-level="8.1.1" data-path="smoothing-polarised-genotypes.html"><a href="smoothing-polarised-genotypes.html#mapping-diagnostic-markers"><i class="fa fa-check"></i><b>8.1.1</b> Mapping diagnostic markers</a></li>
+<li class="chapter" data-level="8.1.2" data-path="smoothing-polarised-genotypes.html"><a href="smoothing-polarised-genotypes.html#visual-comparison-of-raw-and-smoothed-results"><i class="fa fa-check"></i><b>8.1.2</b> Visual comparison of raw and smoothed results</a></li>
+</ul></li>
+<li class="chapter" data-level="8.2" data-path="smoothing-polarised-genotypes.html"><a href="smoothing-polarised-genotypes.html#interpretation-and-downstream-use"><i class="fa fa-check"></i><b>8.2</b> Interpretation and downstream use</a></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
 </ul>
@@ -409,6 +415,14 @@ gitbook.start({
   },
   "toc": {
     "collapse": "subsection"
+  },
+  "navbar": {
+    "right": [
+      {
+        "text": "Cite",
+        "href": "#how-to-cite"
+      }
+    ]
   }
 });
 });

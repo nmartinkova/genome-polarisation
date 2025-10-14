@@ -1,5 +1,6 @@
 fig:unnamed-chunk-1
 introduction
+how-to-cite
 intro
 input-data
 multiple-compartments-with-different-ploidies
@@ -37,6 +38,7 @@ DIfiltering
 selecting-the-filtering-threshold
 biological-signal-insights
 smoothing-polarised-genotypes
-mapping-diagnostic-markers
 smoothing-across-mapped-distances
+mapping-diagnostic-markers
 visual-comparison-of-raw-and-smoothed-results
+interpretation-and-downstream-use

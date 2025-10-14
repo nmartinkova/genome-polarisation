@@ -1,0 +1,30 @@
+cff-version: 1.2.0
+title: "Genome polarisation with diemr"
+authors:
+  - family-names: "Martínková"
+    given-names: "Natália"
+year: 2025
+message: "If you use this documentation, please cite it as below."
+type: book
+url: "https://nmartinkova.github.io/genome-polarisation/"
+repository-code: "https://github.com/nmartinkova/genome-polarisation"
+preferred-citation:
+  type: article
+  authors:
+  - family-names: "Baird"
+    given-names: "Stuart J. E."
+  - family-names: "Petružela"
+    given-names: "Jan"
+  - family-names: "Jaroň"
+    given-names: "Izar"
+  - family-names: "Škrabánek"
+    given-names: "Pavel"
+  - family-names: "Martínková"
+    given-names: "Natália"
+  doi: "10.1111/2041-210X.14010"
+  journal: "Methods in Ecology and Evolution"
+  start: 512
+  end: 528
+  title: "Genome polarisation for detecting barriers to geneflow"
+  volume: 14
+  year: 2023

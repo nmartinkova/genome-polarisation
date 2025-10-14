@@ -2,7 +2,7 @@
 
 # Visualisation of polarised genotypes
 
-*Natália Martínková*
+
 
 Visualisation is a key step in interpreting the results of genome polarisation.
 The `diemr` package provides several functions for graphical inspection of polarised genotypes, including `plotPolarized` for genome-wide patterns, `plotMarkerAxis` for adding chromosome information, and `plotDeFinetti` for individual genotype composition summaries.

@@ -25,3 +25,15 @@ The diagnostic index computed by _diem_ **highlights markers that are most infor
 This book provides a step-by-step guide to performing genome polarisation analyses in `R` using [the `diemr` package](https://github.com/nmartinkova/diemr), also available from [CRAN](https://CRAN.R-project.org/package=diemr). The package includes functions for input validation, file-format conversion, visualisation, and diagnostic summaries, with examples based on typical genomic datasets such as variant call format (VCF) files and SNP matrices. By the end of the book, users will be able to run the complete analysis workflow, interpret its outputs, and generate graphical representations of genome polarisation.
 
 The _diem_ algorithm itself is also implemented in `Mathematica` and `Python`, available [here](https://github.com/StuartJEBaird/diem), allowing reproducibility and interoperability across analytical environments.
+
+## How to cite
+
+If you use the *diemr* package or this documentation in your work, please cite:
+
+Baird, S. J. E., J. Petružela, I. Jaroň, P. Škrabánek, and N. Martínková. 2023. *Genome polarisation for detecting barriers to geneflow.* Methods in Ecology and Evolution 14: 512–28. https://doi.org/10.1111/2041-210X.14010.
+
+and this online documentation for the `diemr` package:
+
+Martínková, N. 2025. *Genome polarisation with diemr.* Bookdown online documentation.  
+Available at: <https://nmartinkova.github.io/genome-polarisation/>.
+

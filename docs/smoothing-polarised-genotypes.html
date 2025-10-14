@@ -162,7 +162,10 @@ div.csl-indent {
 <li><a href="./">Genome Polarisation with diemr</a></li>
 
 <li class="divider"></li>
-<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Introduction</a></li>
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Introduction</a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="index.html"><a href="index.html#how-to-cite"><i class="fa fa-check"></i><b>1.1</b> How to cite</a></li>
+</ul></li>
 <li class="chapter" data-level="2" data-path="intro.html"><a href="intro.html"><i class="fa fa-check"></i><b>2</b> Quick start</a></li>
 <li class="chapter" data-level="3" data-path="input-data.html"><a href="input-data.html"><i class="fa fa-check"></i><b>3</b> Input data</a>
 <ul>
@@ -213,9 +216,12 @@ div.csl-indent {
 </ul></li>
 <li class="chapter" data-level="8" data-path="smoothing-polarised-genotypes.html"><a href="smoothing-polarised-genotypes.html"><i class="fa fa-check"></i><b>8</b> Smoothing polarised genotypes</a>
 <ul>
-<li class="chapter" data-level="8.1" data-path="smoothing-polarised-genotypes.html"><a href="smoothing-polarised-genotypes.html#mapping-diagnostic-markers"><i class="fa fa-check"></i><b>8.1</b> Mapping diagnostic markers</a></li>
-<li class="chapter" data-level="8.2" data-path="smoothing-polarised-genotypes.html"><a href="smoothing-polarised-genotypes.html#smoothing-across-mapped-distances"><i class="fa fa-check"></i><b>8.2</b> Smoothing across mapped distances</a></li>
-<li class="chapter" data-level="8.3" data-path="smoothing-polarised-genotypes.html"><a href="smoothing-polarised-genotypes.html#visual-comparison-of-raw-and-smoothed-results"><i class="fa fa-check"></i><b>8.3</b> Visual comparison of raw and smoothed results</a></li>
+<li class="chapter" data-level="8.1" data-path="smoothing-polarised-genotypes.html"><a href="smoothing-polarised-genotypes.html#smoothing-across-mapped-distances"><i class="fa fa-check"></i><b>8.1</b> Smoothing across mapped distances</a>
+<ul>
+<li class="chapter" data-level="8.1.1" data-path="smoothing-polarised-genotypes.html"><a href="smoothing-polarised-genotypes.html#mapping-diagnostic-markers"><i class="fa fa-check"></i><b>8.1.1</b> Mapping diagnostic markers</a></li>
+<li class="chapter" data-level="8.1.2" data-path="smoothing-polarised-genotypes.html"><a href="smoothing-polarised-genotypes.html#visual-comparison-of-raw-and-smoothed-results"><i class="fa fa-check"></i><b>8.1.2</b> Visual comparison of raw and smoothed results</a></li>
+</ul></li>
+<li class="chapter" data-level="8.2" data-path="smoothing-polarised-genotypes.html"><a href="smoothing-polarised-genotypes.html#interpretation-and-downstream-use"><i class="fa fa-check"></i><b>8.2</b> Interpretation and downstream use</a></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
 </ul>
@@ -237,44 +243,92 @@ div.csl-indent {
             <section class="normal" id="section-">
 <div id="smoothing-polarised-genotypes" class="section level1 hasAnchor" number="8">
 <h1><span class="header-section-number">Chapter 8</span> Smoothing polarised genotypes<a href="smoothing-polarised-genotypes.html#smoothing-polarised-genotypes" class="anchor-section" aria-label="Anchor link to header"></a></h1>
-<p>Genome polarisation analyses are typically run on SNVs that are unevenly distributed along chromosomes. When genome coordinates are available, diagnostic markers can be mapped to their chromosomal positions, allowing quantitative analyses along the genome. Mapping also enables smoothing of the polarised signal, reducing the effect of uneven marker density and standing genetic variaton on the visualisation of ancestry tracts and hybrid index variation.</p>
-<div id="mapping-diagnostic-markers" class="section level2 hasAnchor" number="8.1">
-<h2><span class="header-section-number">8.1</span> Mapping diagnostic markers<a href="smoothing-polarised-genotypes.html#mapping-diagnostic-markers" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p>The chromosomal coordinates of diagnostic markers are stored in the output file <em>-includedSites.txt</em>, created during VCF conversion by the function <code>vcf2diem</code>. This file lists all sites retained for polarisation and includes columns CHROM, POS, QUAL from the VCF file and allele0 and allele2 indicating alleles represented by the respective numbers when homozygous.</p>
-<p>The positional information can be extracted directly from this file. The function <code>rank2map</code> links the ranked order of sites in the polarised genotype matrix to their physical coordinates.</p>
-<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb28-1"><a href="smoothing-polarised-genotypes.html#cb28-1" tabindex="-1"></a><span class="co"># read the coordinates of included sites</span></span>
-<span id="cb28-2"><a href="smoothing-polarised-genotypes.html#cb28-2" tabindex="-1"></a>inc <span class="ot">&lt;-</span> <span class="fu">readIncludedSites</span>(<span class="st">&quot;my-sample-includedSites.txt&quot;</span>)</span>
-<span id="cb28-3"><a href="smoothing-polarised-genotypes.html#cb28-3" tabindex="-1"></a></span>
-<span id="cb28-4"><a href="smoothing-polarised-genotypes.html#cb28-4" tabindex="-1"></a><span class="co"># generate mapping of ranks to genome positions</span></span>
-<span id="cb28-5"><a href="smoothing-polarised-genotypes.html#cb28-5" tabindex="-1"></a>map <span class="ot">&lt;-</span> <span class="fu">rank2map</span>(inc<span class="sc">$</span>CHROM, inc<span class="sc">$</span>POS)</span>
-<span id="cb28-6"><a href="smoothing-polarised-genotypes.html#cb28-6" tabindex="-1"></a></span>
-<span id="cb28-7"><a href="smoothing-polarised-genotypes.html#cb28-7" tabindex="-1"></a><span class="fu">head</span>(map)</span></code></pre></div>
-<p>Each entry corresponds to one marker in the polarised genotype matrix. For genomes composed of multiple scaffolds or chromosomes, smoothing should be performed separately for each element, and <code>rank2map</code> ensures that the windows are set up with respect to <code>CHROM</code> values.</p>
-</div>
-<div id="smoothing-across-mapped-distances" class="section level2 hasAnchor" number="8.2">
-<h2><span class="header-section-number">8.2</span> Smoothing across mapped distances<a href="smoothing-polarised-genotypes.html#smoothing-across-mapped-distances" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>After filtering markers by diagnostic index (Chapter <a href="DIfiltering.html#DIfiltering">7</a>), genome polarisation analyses can be mapped to physical coordinates to reveal the genomic landscape of barriers to gene flow. Because SNVs are rarely evenly spaced along chromosomes, the polarised signal can fluctuate sharply between adjacent markers. But these fluctuations might not represent signal change, but confluence with standing genetic variation. While, diagnostic index filtering already removed much of the effect of genetic variation orthogonal to the barrier to gene flow, smoothing along mapped distances helps visualise broad ancestry patterns.</p>
+<div id="smoothing-across-mapped-distances" class="section level2 hasAnchor" number="8.1">
+<h2><span class="header-section-number">8.1</span> Smoothing across mapped distances<a href="smoothing-polarised-genotypes.html#smoothing-across-mapped-distances" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>The <code>smoothPolarizedGenotypes</code> function applies kernel smoothing to the polarised genotype matrix, using physical distances between markers rather than their rank order. This approach preserves the broad genomic signal while suppressing local irregularities caused by uneven SNV spacing.</p>
-<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb29-1"><a href="smoothing-polarised-genotypes.html#cb29-1" tabindex="-1"></a><span class="co"># smooth the polarised genotypes using a 250 kb window</span></span>
-<span id="cb29-2"><a href="smoothing-polarised-genotypes.html#cb29-2" tabindex="-1"></a>genSmooth <span class="ot">&lt;-</span> <span class="fu">smoothPolarizedGenotypes</span>(<span class="st">&quot;testdata-001.txt&quot;</span>,</span>
-<span id="cb29-3"><a href="smoothing-polarised-genotypes.html#cb29-3" tabindex="-1"></a>    <span class="at">includedSites =</span> <span class="st">&quot;my-sample-includedSites.txt&quot;</span>,</span>
-<span id="cb29-4"><a href="smoothing-polarised-genotypes.html#cb29-4" tabindex="-1"></a>    <span class="at">window =</span> <span class="fl">2.5e5</span>)</span></code></pre></div>
-<p>The smoothing window is expressed in base pairs. Larger windows produce a more continuous signal but can merge distinct ancestry blocks, while smaller windows follow local fluctuations more closely. The optimal setting depends on marker density and linkage along the genome.</p>
-<blockquote>
-<p>Smoothing is recommended only for mapped data. Applying it to unordered or scaffold-level data can distort the genomic signal.</p>
-</blockquote>
+<div id="mapping-diagnostic-markers" class="section level3 hasAnchor" number="8.1.1">
+<h3><span class="header-section-number">8.1.1</span> Mapping diagnostic markers<a href="smoothing-polarised-genotypes.html#mapping-diagnostic-markers" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>The chromosomal coordinates of diagnostic markers are stored in the output file <em>-includedSites.txt</em>, created during VCF conversion by the function <code>vcf2diem</code>. This file lists all sites retained for polarisation and includes columns CHROM, POS, QUAL from the VCF file and allele0 and allele2 indicating alleles represented by the respective numbers when homozygous.</p>
+<p>The positional information needed for smoothing can be extracted directly from this file. The function <code>rank2map</code> converts the ranked order of sites in the polarised genotype matrix into their corresponding chromosomal coordinates based on the *-includedSites.txt file. While it is called internally by <code>smoothPolarizedGenotypes</code>, exploring its output helps understand how physical mapping guides the smoothing process.</p>
+<details>
+<summary>
+Full code to prepare data to execute the examples in this chapter
+</summary>
+<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb28-1"><a href="smoothing-polarised-genotypes.html#cb28-1" tabindex="-1"></a><span class="fu">library</span>(diemr)</span>
+<span id="cb28-2"><a href="smoothing-polarised-genotypes.html#cb28-2" tabindex="-1"></a></span>
+<span id="cb28-3"><a href="smoothing-polarised-genotypes.html#cb28-3" tabindex="-1"></a>dat <span class="ot">&lt;-</span> <span class="fu">system.file</span>(<span class="st">&quot;extdata&quot;</span>, <span class="st">&quot;myotis.vcf&quot;</span>, <span class="at">package =</span> <span class="st">&quot;diemr&quot;</span>)</span>
+<span id="cb28-4"><a href="smoothing-polarised-genotypes.html#cb28-4" tabindex="-1"></a></span>
+<span id="cb28-5"><a href="smoothing-polarised-genotypes.html#cb28-5" tabindex="-1"></a><span class="fu">vcf2diem</span>(<span class="at">SNP =</span> dat, <span class="at">filename =</span> <span class="st">&quot;myo&quot;</span>, <span class="at">requireHomozygous =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb28-6"><a href="smoothing-polarised-genotypes.html#cb28-6" tabindex="-1"></a></span>
+<span id="cb28-7"><a href="smoothing-polarised-genotypes.html#cb28-7" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">54869</span>)</span>
+<span id="cb28-8"><a href="smoothing-polarised-genotypes.html#cb28-8" tabindex="-1"></a>res <span class="ot">&lt;-</span> <span class="fu">diem</span>(<span class="st">&quot;myo-001.txt&quot;</span>, <span class="at">ChosenInds =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">14</span>)</span>
+<span id="cb28-9"><a href="smoothing-polarised-genotypes.html#cb28-9" tabindex="-1"></a></span>
+<span id="cb28-10"><a href="smoothing-polarised-genotypes.html#cb28-10" tabindex="-1"></a>gen <span class="ot">&lt;-</span> <span class="fu">importPolarized</span>(<span class="st">&quot;myo-001.txt&quot;</span>, </span>
+<span id="cb28-11"><a href="smoothing-polarised-genotypes.html#cb28-11" tabindex="-1"></a>  <span class="at">changePolarity =</span> res<span class="sc">$</span>markerPolarity, </span>
+<span id="cb28-12"><a href="smoothing-polarised-genotypes.html#cb28-12" tabindex="-1"></a>  <span class="at">ChosenInds =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">14</span>  </span>
+<span id="cb28-13"><a href="smoothing-polarised-genotypes.html#cb28-13" tabindex="-1"></a>)</span>
+<span id="cb28-14"><a href="smoothing-polarised-genotypes.html#cb28-14" tabindex="-1"></a></span>
+<span id="cb28-15"><a href="smoothing-polarised-genotypes.html#cb28-15" tabindex="-1"></a>HI <span class="ot">&lt;-</span> <span class="fu">hybridIndex</span>(gen)</span></code></pre></div>
+</details>
+<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb29-1"><a href="smoothing-polarised-genotypes.html#cb29-1" tabindex="-1"></a><span class="co"># read the includedSites file</span></span>
+<span id="cb29-2"><a href="smoothing-polarised-genotypes.html#cb29-2" tabindex="-1"></a>bed <span class="ot">&lt;-</span> <span class="fu">readIncludedSites</span>(<span class="st">&quot;myo-includedSites.txt&quot;</span>)</span>
+<span id="cb29-3"><a href="smoothing-polarised-genotypes.html#cb29-3" tabindex="-1"></a></span>
+<span id="cb29-4"><a href="smoothing-polarised-genotypes.html#cb29-4" tabindex="-1"></a><span class="co"># generate mapping of ranks to genome positions</span></span>
+<span id="cb29-5"><a href="smoothing-polarised-genotypes.html#cb29-5" tabindex="-1"></a>windows <span class="ot">&lt;-</span> <span class="fu">rank2map</span>(<span class="st">&quot;myo-includedSites.txt&quot;</span>, <span class="at">windowSize =</span> <span class="dv">150</span>)</span>
+<span id="cb29-6"><a href="smoothing-polarised-genotypes.html#cb29-6" tabindex="-1"></a></span>
+<span id="cb29-7"><a href="smoothing-polarised-genotypes.html#cb29-7" tabindex="-1"></a><span class="co"># show how window ranges correspond to sites</span></span>
+<span id="cb29-8"><a href="smoothing-polarised-genotypes.html#cb29-8" tabindex="-1"></a><span class="fu">cbind</span>(windows, bed)</span>
+<span id="cb29-9"><a href="smoothing-polarised-genotypes.html#cb29-9" tabindex="-1"></a><span class="co">#     1  2      CHROM POS QUAL allele0 allele2</span></span>
+<span id="cb29-10"><a href="smoothing-polarised-genotypes.html#cb29-10" tabindex="-1"></a><span class="co"># 1   1  1 KE210828.1  60    .       A       G</span></span>
+<span id="cb29-11"><a href="smoothing-polarised-genotypes.html#cb29-11" tabindex="-1"></a><span class="co"># 2   2  2 KE210828.1 171    .       G       T</span></span>
+<span id="cb29-12"><a href="smoothing-polarised-genotypes.html#cb29-12" tabindex="-1"></a><span class="co"># 3   3  3 KE212673.1  84    .       A       T</span></span>
+<span id="cb29-13"><a href="smoothing-polarised-genotypes.html#cb29-13" tabindex="-1"></a><span class="co"># 4   4  4 KE214857.1  90    .       A       G</span></span>
+<span id="cb29-14"><a href="smoothing-polarised-genotypes.html#cb29-14" tabindex="-1"></a><span class="co"># 5   5  8 KE222443.1 134    .       G       A</span></span>
+<span id="cb29-15"><a href="smoothing-polarised-genotypes.html#cb29-15" tabindex="-1"></a><span class="co"># 6   5  8 KE222443.1 156    .       T       G</span></span>
+<span id="cb29-16"><a href="smoothing-polarised-genotypes.html#cb29-16" tabindex="-1"></a><span class="co"># 7   5  9 KE222443.1 171    .       T       G</span></span>
+<span id="cb29-17"><a href="smoothing-polarised-genotypes.html#cb29-17" tabindex="-1"></a><span class="co"># 8   5  9 KE222443.1 183    .       C       T</span></span>
+<span id="cb29-18"><a href="smoothing-polarised-genotypes.html#cb29-18" tabindex="-1"></a><span class="co"># 9   7  9 KE222443.1 244    .       C       G</span></span>
+<span id="cb29-19"><a href="smoothing-polarised-genotypes.html#cb29-19" tabindex="-1"></a><span class="co"># 10 10 10 KE222801.1 100    .       G       A</span></span>
+<span id="cb29-20"><a href="smoothing-polarised-genotypes.html#cb29-20" tabindex="-1"></a><span class="co"># 11 11 14 KE224361.1 120    .       G       A</span></span>
+<span id="cb29-21"><a href="smoothing-polarised-genotypes.html#cb29-21" tabindex="-1"></a><span class="co"># 12 11 14 KE224361.1 132    .       G       C</span></span>
+<span id="cb29-22"><a href="smoothing-polarised-genotypes.html#cb29-22" tabindex="-1"></a><span class="co"># 13 11 14 KE224361.1 175    .       A       C</span></span>
+<span id="cb29-23"><a href="smoothing-polarised-genotypes.html#cb29-23" tabindex="-1"></a><span class="co"># 14 11 14 KE224361.1 179    .       G       T</span></span>
+<span id="cb29-24"><a href="smoothing-polarised-genotypes.html#cb29-24" tabindex="-1"></a><span class="co"># 15 15 15 KE227386.1 153    .       A       G</span></span></code></pre></div>
+<p>Each entry in <code>windows</code> corresponds to one marker in the <em>myo-includedSites.txt</em> file and shows a range of sites that are within the desired <code>windowSize</code>, where the window is centered at the reference site. In practice, <code>rank2map</code> looks for half the <code>windoSize</code> in either direction from the evaluated site, respecting the afinity to unique <code>CHROM</code> values. For genomes composed of multiple scaffolds or chromosomes, smoothing should be performed separately for each element, and <code>rank2map</code> ensures that the windows are set up with respect to <code>CHROM</code> values.</p>
 </div>
-<div id="visual-comparison-of-raw-and-smoothed-results" class="section level2 hasAnchor" number="8.3">
-<h2><span class="header-section-number">8.3</span> Visual comparison of raw and smoothed results<a href="smoothing-polarised-genotypes.html#visual-comparison-of-raw-and-smoothed-results" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div id="visual-comparison-of-raw-and-smoothed-results" class="section level3 hasAnchor" number="8.1.2">
+<h3><span class="header-section-number">8.1.2</span> Visual comparison of raw and smoothed results<a href="smoothing-polarised-genotypes.html#visual-comparison-of-raw-and-smoothed-results" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>For smoothing to work, the sites in the original vcf file must be sorted.</p>
+<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb30-1"><a href="smoothing-polarised-genotypes.html#cb30-1" tabindex="-1"></a><span class="co"># smooth the polarised genotypes using a 150 bp window</span></span>
+<span id="cb30-2"><a href="smoothing-polarised-genotypes.html#cb30-2" tabindex="-1"></a>genSmooth <span class="ot">&lt;-</span> <span class="fu">smoothPolarizedGenotypes</span>(<span class="at">genotypes =</span> gen,</span>
+<span id="cb30-3"><a href="smoothing-polarised-genotypes.html#cb30-3" tabindex="-1"></a>    <span class="at">includedSites =</span> <span class="st">&quot;myo-includedSites.txt&quot;</span>,</span>
+<span id="cb30-4"><a href="smoothing-polarised-genotypes.html#cb30-4" tabindex="-1"></a>    <span class="at">windowSize =</span> <span class="dv">150</span>)</span></code></pre></div>
+<p>The object returned by <code>smoothPolarizedGenotypes</code> is a genotype matrix with the same dimensions and site order as the input but containing smoothed genomic state values. These can be used interchangeably with raw genotypes in visualisation and hybrid index calculations.</p>
+<p>The smoothing window is expressed in base pairs, should correspond to the expected local scale of linkage. As recombination rates differ among taxa, selecting an appropriate window is best guided by empirical inspection. Compare several values to find the level of smoothing that preserves broad ancestry patterns without obscuring fine-scale transitions.
+Larger windows produce a more continuous signal but can merge distinct ancestry blocks, while smaller windows follow local fluctuations more closely. The optimal setting depends on marker density and linkage along the genome.</p>
+<div class="box caution">
+<p>Smoothing is recommended only for mapped data. Applying it to unordered or scaffold-level data can distort the genomic signal.</p>
+</div>
 <p>Smoothing does not change the overall polarity of sites but modifies their local continuity. The following example compares raw and smoothed genotypes.</p>
-<p>The smoothed profile follows the same overall trajectory as the raw data but removes short-range noise caused by individual markers.
-The resulting curve highlights broad transitions in ancestry and provides a clearer estimate of barrier width along chromosomes.</p>
-<p>Interpretation and downstream use</p>
-<p>Mapping and smoothing improve interpretability of diem output in three ways:</p>
-<p>they stabilise HI profiles by reducing local fluctuations,</p>
-<p>they allow comparison of barrier strength across chromosomes in consistent physical units, and</p>
-<p>they enable integration with other genomic features, such as recombination rate or gene density.</p>
-<p>When reporting smoothed results, specify the window size and clarify whether smoothing was applied per chromosome or across the whole genome.
-Excessive smoothing can obscure narrow introgression tracts, while insufficient smoothing may fail to suppress sequencing artefacts.</p>
+<div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb31-1"><a href="smoothing-polarised-genotypes.html#cb31-1" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>))</span>
+<span id="cb31-2"><a href="smoothing-polarised-genotypes.html#cb31-2" tabindex="-1"></a><span class="fu">plotPolarized</span>(gen, HI)</span>
+<span id="cb31-3"><a href="smoothing-polarised-genotypes.html#cb31-3" tabindex="-1"></a><span class="fu">plotPolarized</span>(genSmooth, HI)</span></code></pre></div>
+<p><img src="figs/smooth.png" width="100%" /></p>
+<p>The smoothed profile follows the same overall trajectory as the raw data but removes short-range noise caused by individual SNVs. The resulting heatmap highlights broad transitions in ancestry and provides a clearer estimate of barrier to gene flow along chromosomes.</p>
+</div>
+</div>
+<div id="interpretation-and-downstream-use" class="section level2 hasAnchor" number="8.2">
+<h2><span class="header-section-number">8.2</span> Interpretation and downstream use<a href="smoothing-polarised-genotypes.html#interpretation-and-downstream-use" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Smoothing algorithm implemented in <code>diemr</code> since version 1.4.2 uses a truncated Laplace kernel to calculate weighted mode genomic state for each smoothed site. The Laplace kernel gives the highest weight to nearby markers while gradually down-weighting distant ones, producing smooth but localised transitions in the polarised signal. The truncation limits the influence of distant loci so that ancestry shifts remain aligned with finite physical genomic distance.</p>
+<p>Mapping and smoothing improve interpretability of <em>diem</em> output in three ways:</p>
+<ol style="list-style-type: decimal">
+<li><p>stabilising local genomic states and reducing noise caused by marker spacing,</p></li>
+<li><p>expressing barrier strength and ancestry transitions in physical coordinates, and</p></li>
+<li><p>facilitating integration with genomic context such as recombination rate, gene density, or structural features.</p></li>
+</ol>
+<p>When reporting smoothed results, always specify the window size and kernel type used.
+Smoothing clarifies broad-scale patterns but should not replace marker-level interpretation.</p>
 
 </div>
 </div>
@@ -323,6 +377,14 @@ gitbook.start({
   },
   "toc": {
     "collapse": "subsection"
+  },
+  "navbar": {
+    "right": [
+      {
+        "text": "Cite",
+        "href": "#how-to-cite"
+      }
+    ]
   }
 });
 });

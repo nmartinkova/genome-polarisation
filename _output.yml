@@ -7,6 +7,10 @@ bookdown::gitbook:
         <li><a href="./">Genome Polarisation with diemr</a></li>
     sharing: null
     download: ["pdf", "epub"]
+    navbar:
+      right:
+        - text: "Cite"
+          href: "#how-to-cite"
 bookdown::pdf_book:
   citation_package: natbib
   keep_tex: true
