@@ -82,7 +82,7 @@ plotPolarized(
 
 
 ```{r, eval = TRUE, echo = FALSE, fig.align = 'center'}
-knitr::include_graphics("myo-rectangle.png")
+knitr::include_graphics("figs/myo-rectangle.png")
 ```
 
 If the default marker axis needs adjustments, such as here, where accession numbers overlap, use `plotMarkerAxis` directly. This returns an `axisInfo` list so you can modify labels before redrawing. `plotMarkerAxis` also accepts additional graphical arguments.
@@ -134,7 +134,7 @@ plotMarkerAxis(axisInfo = axisInfo)
 ```
 
 ```{r, eval = TRUE, echo = FALSE, fig.align = 'center'}
-knitr::include_graphics("myo-rectangle2.png")
+knitr::include_graphics("figs/myo-rectangle2.png")
 ```
 
 

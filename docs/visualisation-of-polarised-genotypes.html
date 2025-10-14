@@ -4,18 +4,18 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>Chapter 6 Visualisation of polarised genotypes | Genome Polarisation with diemr</title>
-  <meta name="description" content="Chapter 6 Visualisation of polarised genotypes | Genome Polarisation with diemr" />
+  <title>Chapter 6 Visualisation of polarised genotypes | Genome polarisation with diemr</title>
+  <meta name="description" content="Chapter 6 Visualisation of polarised genotypes | Genome polarisation with diemr" />
   <meta name="generator" content="bookdown 0.45 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="Chapter 6 Visualisation of polarised genotypes | Genome Polarisation with diemr" />
+  <meta property="og:title" content="Chapter 6 Visualisation of polarised genotypes | Genome polarisation with diemr" />
   <meta property="og:type" content="book" />
   
   
   
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Chapter 6 Visualisation of polarised genotypes | Genome Polarisation with diemr" />
+  <meta name="twitter:title" content="Chapter 6 Visualisation of polarised genotypes | Genome polarisation with diemr" />
   
   
   
@@ -30,7 +30,7 @@
   
   
 <link rel="prev" href="understanding-genome-polarisation-output-files.html"/>
-<link rel="next" href="references.html"/>
+<link rel="next" href="DIfiltering.html"/>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -206,6 +206,17 @@ div.csl-indent {
 </ul></li>
 <li class="chapter" data-level="6.2" data-path="visualisation-of-polarised-genotypes.html"><a href="visualisation-of-polarised-genotypes.html#circular-iris-plot"><i class="fa fa-check"></i><b>6.2</b> Circular (iris) plot</a></li>
 </ul></li>
+<li class="chapter" data-level="7" data-path="DIfiltering.html"><a href="DIfiltering.html"><i class="fa fa-check"></i><b>7</b> Filtering sites by diagnostic index</a>
+<ul>
+<li class="chapter" data-level="7.1" data-path="DIfiltering.html"><a href="DIfiltering.html#selecting-the-filtering-threshold"><i class="fa fa-check"></i><b>7.1</b> Selecting the filtering threshold</a></li>
+<li class="chapter" data-level="7.2" data-path="DIfiltering.html"><a href="DIfiltering.html#biological-signal-insights"><i class="fa fa-check"></i><b>7.2</b> Biological signal insights</a></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="smoothing-polarised-genotypes.html"><a href="smoothing-polarised-genotypes.html"><i class="fa fa-check"></i><b>8</b> Smoothing polarised genotypes</a>
+<ul>
+<li class="chapter" data-level="8.1" data-path="smoothing-polarised-genotypes.html"><a href="smoothing-polarised-genotypes.html#mapping-diagnostic-markers"><i class="fa fa-check"></i><b>8.1</b> Mapping diagnostic markers</a></li>
+<li class="chapter" data-level="8.2" data-path="smoothing-polarised-genotypes.html"><a href="smoothing-polarised-genotypes.html#smoothing-across-mapped-distances"><i class="fa fa-check"></i><b>8.2</b> Smoothing across mapped distances</a></li>
+<li class="chapter" data-level="8.3" data-path="smoothing-polarised-genotypes.html"><a href="smoothing-polarised-genotypes.html#visual-comparison-of-raw-and-smoothed-results"><i class="fa fa-check"></i><b>8.3</b> Visual comparison of raw and smoothed results</a></li>
+</ul></li>
 <li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
 </ul>
 
@@ -216,7 +227,7 @@ div.csl-indent {
       <div class="body-inner">
         <div class="book-header" role="navigation">
           <h1>
-            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Genome Polarisation with diemr</a>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Genome polarisation with diemr</a>
           </h1>
         </div>
 
@@ -281,7 +292,7 @@ The file <code>*-includedSites.txt</code> produced by <code>vcf2diem</code> stor
 <span id="cb19-23"><a href="visualisation-of-polarised-genotypes.html#cb19-23" tabindex="-1"></a>  <span class="at">includedSites =</span> <span class="st">&quot;myo-includedSites.txt&quot;</span>,</span>
 <span id="cb19-24"><a href="visualisation-of-polarised-genotypes.html#cb19-24" tabindex="-1"></a>  <span class="at">tickDist =</span> <span class="dv">100</span></span>
 <span id="cb19-25"><a href="visualisation-of-polarised-genotypes.html#cb19-25" tabindex="-1"></a>)</span></code></pre></div>
-<p><img src="myo-rectangle.png" width="900" style="display: block; margin: auto;" /></p>
+<p><img src="figs/myo-rectangle.png" width="900" style="display: block; margin: auto;" /></p>
 <p>If the default marker axis needs adjustments, such as here, where accession numbers overlap, use <code>plotMarkerAxis</code> directly. This returns an <code>axisInfo</code> list so you can modify labels before redrawing. <code>plotMarkerAxis</code> also accepts additional graphical arguments.</p>
 <div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="visualisation-of-polarised-genotypes.html#cb20-1" tabindex="-1"></a><span class="co"># Draw plot without axis</span></span>
 <span id="cb20-2"><a href="visualisation-of-polarised-genotypes.html#cb20-2" tabindex="-1"></a><span class="fu">plotPolarized</span>(</span>
@@ -322,7 +333,7 @@ The file <code>*-includedSites.txt</code> produced by <code>vcf2diem</code> stor
 <span id="cb21-26"><a href="visualisation-of-polarised-genotypes.html#cb21-26" tabindex="-1"></a>  <span class="at">xlab =</span> <span class="st">&quot;&quot;</span></span>
 <span id="cb21-27"><a href="visualisation-of-polarised-genotypes.html#cb21-27" tabindex="-1"></a>)</span>
 <span id="cb21-28"><a href="visualisation-of-polarised-genotypes.html#cb21-28" tabindex="-1"></a><span class="fu">plotMarkerAxis</span>(<span class="at">axisInfo =</span> axisInfo)</span></code></pre></div>
-<p><img src="myo-rectangle2.png" width="900" style="display: block; margin: auto;" /></p>
+<p><img src="figs/myo-rectangle2.png" width="900" style="display: block; margin: auto;" /></p>
 </div>
 </div>
 </div>
@@ -349,7 +360,7 @@ Harazim, Markéta, Lubomı́r Piálek, Jiri Pikula, Veronika Seidlová, Jan Zuka
         </div>
       </div>
 <a href="understanding-genome-polarisation-output-files.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="references.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="DIfiltering.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>

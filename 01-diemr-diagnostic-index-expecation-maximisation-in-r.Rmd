@@ -100,14 +100,14 @@ diemr::plotPolarized(genotypes = genotypes,
               HI = h)
 ```
 
-> <span style="color:red">CAUTION:</span> This is just a **quick start** to get you started! 
-> For real datasets you will use the diagnostic index (DI) to filter the full set of sites 
-> you have analysed with `diem` in order to plot only those markers relevant to any barrier 
-> detected in the analysis.
-
+::: {.box .caution}
+**CAUTION:** This is just a *quick start* to get you started! For real datasets you will use the diagnostic index (DI) to filter the full set of sites you have analysed with `diem` in order to plot only those markers relevant to any barrier detected in the analysis. See **Chapter \@ref(DIfiltering)** for guidelines.
+:::
 
 
 # Input data
+
+*Natália Martínková and Stuart J. E. Baird*
 
 The `diemr` package uses a consise genome representation. Let's have a small dataset 
 of three markers genotyped for seven individuals.

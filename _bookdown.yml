@@ -9,6 +9,11 @@ rmd_files:
   - "02-Importing-data-for-genome-polarisation.Rmd"
   - "03-Understanding-genome-polarisation-output-files.Rmd"
   - "04-Visualisation.Rmd"
+  - "05-DI-filtering.Rmd"
+  - "06-smoothing.Rmd"
   - "10-koniec.Rmd"
 output_dir: "docs"
+clean: true
+resource_files:
+  - figs/**
 new_session: yes

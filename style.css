@@ -10,3 +10,13 @@ pre.sourceCode {
 code {
   padding: 0 !important;
 }
+.box.caution {
+  border-left: 4px solid #c00;
+  background-color: #fff5f5;
+  padding: 0.8em 1em;
+  margin: 1em 0;
+  color: #333;
+}
+.box.caution strong {
+  color: #c00;
+}

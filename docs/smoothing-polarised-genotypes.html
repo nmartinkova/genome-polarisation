@@ -4,18 +4,18 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>References | Genome polarisation with diemr</title>
-  <meta name="description" content="References | Genome polarisation with diemr" />
+  <title>Chapter 8 Smoothing polarised genotypes | Genome polarisation with diemr</title>
+  <meta name="description" content="Chapter 8 Smoothing polarised genotypes | Genome polarisation with diemr" />
   <meta name="generator" content="bookdown 0.45 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="References | Genome polarisation with diemr" />
+  <meta property="og:title" content="Chapter 8 Smoothing polarised genotypes | Genome polarisation with diemr" />
   <meta property="og:type" content="book" />
   
   
   
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="References | Genome polarisation with diemr" />
+  <meta name="twitter:title" content="Chapter 8 Smoothing polarised genotypes | Genome polarisation with diemr" />
   
   
   
@@ -29,8 +29,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-<link rel="prev" href="smoothing-polarised-genotypes.html"/>
-
+<link rel="prev" href="DIfiltering.html"/>
+<link rel="next" href="references.html"/>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -235,19 +235,47 @@ div.csl-indent {
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="references" class="section level1 unnumbered hasAnchor">
-<h1>References<a href="references.html#references" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<div id="smoothing-polarised-genotypes" class="section level1 hasAnchor" number="8">
+<h1><span class="header-section-number">Chapter 8</span> Smoothing polarised genotypes<a href="smoothing-polarised-genotypes.html#smoothing-polarised-genotypes" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<p>Genome polarisation analyses are typically run on SNVs that are unevenly distributed along chromosomes. When genome coordinates are available, diagnostic markers can be mapped to their chromosomal positions, allowing quantitative analyses along the genome. Mapping also enables smoothing of the polarised signal, reducing the effect of uneven marker density and standing genetic variaton on the visualisation of ancestry tracts and hybrid index variation.</p>
+<div id="mapping-diagnostic-markers" class="section level2 hasAnchor" number="8.1">
+<h2><span class="header-section-number">8.1</span> Mapping diagnostic markers<a href="smoothing-polarised-genotypes.html#mapping-diagnostic-markers" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>The chromosomal coordinates of diagnostic markers are stored in the output file <em>-includedSites.txt</em>, created during VCF conversion by the function <code>vcf2diem</code>. This file lists all sites retained for polarisation and includes columns CHROM, POS, QUAL from the VCF file and allele0 and allele2 indicating alleles represented by the respective numbers when homozygous.</p>
+<p>The positional information can be extracted directly from this file. The function <code>rank2map</code> links the ranked order of sites in the polarised genotype matrix to their physical coordinates.</p>
+<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb28-1"><a href="smoothing-polarised-genotypes.html#cb28-1" tabindex="-1"></a><span class="co"># read the coordinates of included sites</span></span>
+<span id="cb28-2"><a href="smoothing-polarised-genotypes.html#cb28-2" tabindex="-1"></a>inc <span class="ot">&lt;-</span> <span class="fu">readIncludedSites</span>(<span class="st">&quot;my-sample-includedSites.txt&quot;</span>)</span>
+<span id="cb28-3"><a href="smoothing-polarised-genotypes.html#cb28-3" tabindex="-1"></a></span>
+<span id="cb28-4"><a href="smoothing-polarised-genotypes.html#cb28-4" tabindex="-1"></a><span class="co"># generate mapping of ranks to genome positions</span></span>
+<span id="cb28-5"><a href="smoothing-polarised-genotypes.html#cb28-5" tabindex="-1"></a>map <span class="ot">&lt;-</span> <span class="fu">rank2map</span>(inc<span class="sc">$</span>CHROM, inc<span class="sc">$</span>POS)</span>
+<span id="cb28-6"><a href="smoothing-polarised-genotypes.html#cb28-6" tabindex="-1"></a></span>
+<span id="cb28-7"><a href="smoothing-polarised-genotypes.html#cb28-7" tabindex="-1"></a><span class="fu">head</span>(map)</span></code></pre></div>
+<p>Each entry corresponds to one marker in the polarised genotype matrix. For genomes composed of multiple scaffolds or chromosomes, smoothing should be performed separately for each element, and <code>rank2map</code> ensures that the windows are set up with respect to <code>CHROM</code> values.</p>
+</div>
+<div id="smoothing-across-mapped-distances" class="section level2 hasAnchor" number="8.2">
+<h2><span class="header-section-number">8.2</span> Smoothing across mapped distances<a href="smoothing-polarised-genotypes.html#smoothing-across-mapped-distances" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>The <code>smoothPolarizedGenotypes</code> function applies kernel smoothing to the polarised genotype matrix, using physical distances between markers rather than their rank order. This approach preserves the broad genomic signal while suppressing local irregularities caused by uneven SNV spacing.</p>
+<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb29-1"><a href="smoothing-polarised-genotypes.html#cb29-1" tabindex="-1"></a><span class="co"># smooth the polarised genotypes using a 250 kb window</span></span>
+<span id="cb29-2"><a href="smoothing-polarised-genotypes.html#cb29-2" tabindex="-1"></a>genSmooth <span class="ot">&lt;-</span> <span class="fu">smoothPolarizedGenotypes</span>(<span class="st">&quot;testdata-001.txt&quot;</span>,</span>
+<span id="cb29-3"><a href="smoothing-polarised-genotypes.html#cb29-3" tabindex="-1"></a>    <span class="at">includedSites =</span> <span class="st">&quot;my-sample-includedSites.txt&quot;</span>,</span>
+<span id="cb29-4"><a href="smoothing-polarised-genotypes.html#cb29-4" tabindex="-1"></a>    <span class="at">window =</span> <span class="fl">2.5e5</span>)</span></code></pre></div>
+<p>The smoothing window is expressed in base pairs. Larger windows produce a more continuous signal but can merge distinct ancestry blocks, while smaller windows follow local fluctuations more closely. The optimal setting depends on marker density and linkage along the genome.</p>
+<blockquote>
+<p>Smoothing is recommended only for mapped data. Applying it to unordered or scaffold-level data can distort the genomic signal.</p>
+</blockquote>
+</div>
+<div id="visual-comparison-of-raw-and-smoothed-results" class="section level2 hasAnchor" number="8.3">
+<h2><span class="header-section-number">8.3</span> Visual comparison of raw and smoothed results<a href="smoothing-polarised-genotypes.html#visual-comparison-of-raw-and-smoothed-results" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Smoothing does not change the overall polarity of sites but modifies their local continuity. The following example compares raw and smoothed genotypes.</p>
+<p>The smoothed profile follows the same overall trajectory as the raw data but removes short-range noise caused by individual markers.
+The resulting curve highlights broad transitions in ancestry and provides a clearer estimate of barrier width along chromosomes.</p>
+<p>Interpretation and downstream use</p>
+<p>Mapping and smoothing improve interpretability of diem output in three ways:</p>
+<p>they stabilise HI profiles by reducing local fluctuations,</p>
+<p>they allow comparison of barrier strength across chromosomes in consistent physical units, and</p>
+<p>they enable integration with other genomic features, such as recombination rate or gene density.</p>
+<p>When reporting smoothed results, specify the window size and clarify whether smoothing was applied per chromosome or across the whole genome.
+Excessive smoothing can obscure narrow introgression tracts, while insufficient smoothing may fail to suppress sequencing artefacts.</p>
 
-<div id="refs" class="references csl-bib-body hanging-indent" entry-spacing="0">
-<div class="csl-entry">
-Baird, Stuart J. E., Jan Petružela, Izar Jaroň, Pavel Škrabánek, and Natália Martínková. 2023. <span>“Genome Polarisation for Detecting Barriers to Geneflow.”</span> <em>Methods in Ecology and Evolution</em> 14: 512–28. <a href="https://doi.org/10.1111/2041-210X.14010">https://doi.org/10.1111/2041-210X.14010</a>.
-</div>
-<div class="csl-entry">
-Harazim, Markéta, Lubomı́r Piálek, Jiri Pikula, Veronika Seidlová, Jan Zukal, Erik Bachorec, Tomáš Bartonička, Tomasz Kokurewicz, and Natália Martı́nková. 2021. <span>“Associating Physiological Functions with Genomic Variability in Hibernating Bats.”</span> <em>Evolutionary Ecology</em> 35: 291–308. <a href="https://doi.org/10.1007/s10682-020-10096-4">https://doi.org/10.1007/s10682-020-10096-4</a>.
-</div>
-<div class="csl-entry">
-Jagoš, Filip, Stuart J. E. Baird, Markéta Harazim, and Natália Martı́nková. 2025. <span>“Eroding Species Barriers: Hybridising Canids Remain Distinct Around Centromeres.”</span> <em>bioRxiv</em>, 2025.03.26.645431. <a href="https://doi.org/10.1101/2025.03.26.645431">https://doi.org/10.1101/2025.03.26.645431</a>.
-</div>
 </div>
 </div>
             </section>
@@ -255,8 +283,8 @@ Jagoš, Filip, Stuart J. E. Baird, Markéta Harazim, and Natália Martı́nková
           </div>
         </div>
       </div>
-<a href="smoothing-polarised-genotypes.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-
+<a href="DIfiltering.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="references.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>

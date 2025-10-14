@@ -84,7 +84,7 @@ plotPolarized(
 ```
 
 
-<img src="myo-rectangle.png" width="900" style="display: block; margin: auto;" />
+<img src="figs/myo-rectangle.png" width="900" style="display: block; margin: auto;" />
 
 If the default marker axis needs adjustments, such as here, where accession numbers overlap, use `plotMarkerAxis` directly. This returns an `axisInfo` list so you can modify labels before redrawing. `plotMarkerAxis` also accepts additional graphical arguments.
 
@@ -136,7 +136,7 @@ plotPolarized(
 plotMarkerAxis(axisInfo = axisInfo)
 ```
 
-<img src="myo-rectangle2.png" width="900" style="display: block; margin: auto;" />
+<img src="figs/myo-rectangle2.png" width="900" style="display: block; margin: auto;" />
 
 
 

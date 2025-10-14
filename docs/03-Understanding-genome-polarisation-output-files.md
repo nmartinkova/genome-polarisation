@@ -39,7 +39,9 @@ The fourth column **Marker** is an index of the marker that is successive in the
 
 The *HIwithOptimalPolarities.txt* is a tab-delimited one-column matrix of individual hybrid indices with row names corresponding to the individual indices. Note that the hybrid indices are calculated from the polarised genotypes for all individuals found in the input files, not only those specified in the `ChosenInds` argument of the `diem` function. The hybrid indices are calculated as genome admixture from summaries of polarised genotypes as in Eq. 7 [@Baird2023]. 
 
-> <span style="color:red">CAUTION:</span>These hybrid indices are calculated *without taking into account the diagnosticity of markers*! As such they may not show barrier signal well at all. Hybrid indices and genome polarisation diagrams should be calculated and plotted after the user decides on a diagnostic index threshold. The ideal threshold will be specific to your dataset. Check `vignette("diemr-diagnostic-index-expecation-maximisation-in-r")` for guidelines how to calculate it.
+::: {.box .caution}
+**CAUTION:** These hybrid indices are calculated *without taking into account the diagnosticity of markers*! As such they may not show barrier signal well at all. Hybrid indices and genome polarisation diagrams should be calculated and plotted after the user decides on a diagnostic index threshold. The ideal threshold will be specific to your dataset. Check **Chapter \@ref(DIfiltering)** for guidelines how to calculate it.
+:::
  
 If you choose to ignore this warning and include all markers when calculating hybrid indices you will find the range of hybrid indices is small, and centred on 0.5. This is because most genome sites are close to invariant, and so `diem` will flip homozygous state labels 0&harr;2 at random. A purely random answer will give hybrid index equal to 0.5. You can rescale hybrid indices with a large random influence using Eq. 11 [@Baird2023], so they lie on the interval $[0,1]$.
 
@@ -62,7 +64,7 @@ The `diem` function can output additional files useful for tracking algorithm co
 
 <div id = "fig1">
 <div class="figure" style="text-align: center">
-<img src="diemOutput.png" alt="**Figure 1**. Flowchart of how to control output files and their location in `diem`. Green -- functions generating or using the files. Except `diem` all functions are internal. Beige, grey -- variable values set by the user (grey) or by internal processes (beige). Orange -- stored output files. Yellow rectangles -- main processes generating files." width="100%" />
+<img src="figs/diemOutput.png" alt="**Figure 1**. Flowchart of how to control output files and their location in `diem`. Green -- functions generating or using the files. Except `diem` all functions are internal. Beige, grey -- variable values set by the user (grey) or by internal processes (beige). Orange -- stored output files. Yellow rectangles -- main processes generating files." width="100%" />
 <p class="caption">(\#fig:unnamed-chunk-1)**Figure 1**. Flowchart of how to control output files and their location in `diem`. Green -- functions generating or using the files. Except `diem` all functions are internal. Beige, grey -- variable values set by the user (grey) or by internal processes (beige). Orange -- stored output files. Yellow rectangles -- main processes generating files.</p>
 </div>
 </div>

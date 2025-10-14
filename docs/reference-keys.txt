@@ -33,3 +33,10 @@ plotting-polarised-genotypes
 rectangular-plot
 plotMarkerAxis
 circular-iris-plot
+DIfiltering
+selecting-the-filtering-threshold
+biological-signal-insights
+smoothing-polarised-genotypes
+mapping-diagnostic-markers
+smoothing-across-mapped-distances
+visual-comparison-of-raw-and-smoothed-results

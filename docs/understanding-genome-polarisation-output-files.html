@@ -4,18 +4,18 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>Chapter 5 Understanding genome polarisation output files | Genome Polarisation with diemr</title>
-  <meta name="description" content="Chapter 5 Understanding genome polarisation output files | Genome Polarisation with diemr" />
+  <title>Chapter 5 Understanding genome polarisation output files | Genome polarisation with diemr</title>
+  <meta name="description" content="Chapter 5 Understanding genome polarisation output files | Genome polarisation with diemr" />
   <meta name="generator" content="bookdown 0.45 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="Chapter 5 Understanding genome polarisation output files | Genome Polarisation with diemr" />
+  <meta property="og:title" content="Chapter 5 Understanding genome polarisation output files | Genome polarisation with diemr" />
   <meta property="og:type" content="book" />
   
   
   
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Chapter 5 Understanding genome polarisation output files | Genome Polarisation with diemr" />
+  <meta name="twitter:title" content="Chapter 5 Understanding genome polarisation output files | Genome polarisation with diemr" />
   
   
   
@@ -206,6 +206,17 @@ div.csl-indent {
 </ul></li>
 <li class="chapter" data-level="6.2" data-path="visualisation-of-polarised-genotypes.html"><a href="visualisation-of-polarised-genotypes.html#circular-iris-plot"><i class="fa fa-check"></i><b>6.2</b> Circular (iris) plot</a></li>
 </ul></li>
+<li class="chapter" data-level="7" data-path="DIfiltering.html"><a href="DIfiltering.html"><i class="fa fa-check"></i><b>7</b> Filtering sites by diagnostic index</a>
+<ul>
+<li class="chapter" data-level="7.1" data-path="DIfiltering.html"><a href="DIfiltering.html#selecting-the-filtering-threshold"><i class="fa fa-check"></i><b>7.1</b> Selecting the filtering threshold</a></li>
+<li class="chapter" data-level="7.2" data-path="DIfiltering.html"><a href="DIfiltering.html#biological-signal-insights"><i class="fa fa-check"></i><b>7.2</b> Biological signal insights</a></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="smoothing-polarised-genotypes.html"><a href="smoothing-polarised-genotypes.html"><i class="fa fa-check"></i><b>8</b> Smoothing polarised genotypes</a>
+<ul>
+<li class="chapter" data-level="8.1" data-path="smoothing-polarised-genotypes.html"><a href="smoothing-polarised-genotypes.html#mapping-diagnostic-markers"><i class="fa fa-check"></i><b>8.1</b> Mapping diagnostic markers</a></li>
+<li class="chapter" data-level="8.2" data-path="smoothing-polarised-genotypes.html"><a href="smoothing-polarised-genotypes.html#smoothing-across-mapped-distances"><i class="fa fa-check"></i><b>8.2</b> Smoothing across mapped distances</a></li>
+<li class="chapter" data-level="8.3" data-path="smoothing-polarised-genotypes.html"><a href="smoothing-polarised-genotypes.html#visual-comparison-of-raw-and-smoothed-results"><i class="fa fa-check"></i><b>8.3</b> Visual comparison of raw and smoothed results</a></li>
+</ul></li>
 <li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
 </ul>
 
@@ -216,7 +227,7 @@ div.csl-indent {
       <div class="body-inner">
         <div class="book-header" role="navigation">
           <h1>
-            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Genome Polarisation with diemr</a>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Genome polarisation with diemr</a>
           </h1>
         </div>
 
@@ -248,9 +259,9 @@ div.csl-indent {
 <div id="HI" class="section level3 hasAnchor" number="5.1.2">
 <h3><span class="header-section-number">5.1.2</span> HIwithOptimalPolarities<a href="understanding-genome-polarisation-output-files.html#HI" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>The <em>HIwithOptimalPolarities.txt</em> is a tab-delimited one-column matrix of individual hybrid indices with row names corresponding to the individual indices. Note that the hybrid indices are calculated from the polarised genotypes for all individuals found in the input files, not only those specified in the <code>ChosenInds</code> argument of the <code>diem</code> function. The hybrid indices are calculated as genome admixture from summaries of polarised genotypes as in Eq. 7 <span class="citation">(<a href="#ref-Baird2023">Baird et al. 2023</a>)</span>.</p>
-<blockquote>
-<p><span style="color:red">CAUTION:</span>These hybrid indices are calculated <em>without taking into account the diagnosticity of markers</em>! As such they may not show barrier signal well at all. Hybrid indices and genome polarisation diagrams should be calculated and plotted after the user decides on a diagnostic index threshold. The ideal threshold will be specific to your dataset. Check <code>vignette("diemr-diagnostic-index-expecation-maximisation-in-r")</code> for guidelines how to calculate it.</p>
-</blockquote>
+<div class="box caution">
+<p><strong>CAUTION:</strong> These hybrid indices are calculated <em>without taking into account the diagnosticity of markers</em>! As such they may not show barrier signal well at all. Hybrid indices and genome polarisation diagrams should be calculated and plotted after the user decides on a diagnostic index threshold. The ideal threshold will be specific to your dataset. Check <strong>Chapter <a href="DIfiltering.html#DIfiltering">7</a></strong> for guidelines how to calculate it.</p>
+</div>
 <p>If you choose to ignore this warning and include all markers when calculating hybrid indices you will find the range of hybrid indices is small, and centred on 0.5. This is because most genome sites are close to invariant, and so <code>diem</code> will flip homozygous state labels 0↔︎2 at random. A purely random answer will give hybrid index equal to 0.5. You can rescale hybrid indices with a large random influence using Eq. 11 <span class="citation">(<a href="#ref-Baird2023">Baird et al. 2023</a>)</span>, so they lie on the interval <span class="math inline">\([0,1]\)</span>.</p>
 </div>
 <div id="I4" class="section level3 hasAnchor" number="5.1.3">
@@ -265,7 +276,7 @@ div.csl-indent {
 <p>The <code>diem</code> function can output additional files useful for tracking algorithm convergence during iterations and ensuring repeatable initialisation of genome polarisation. The flowchart in <a href="understanding-genome-polarisation-output-files.html#fig1">Figure 1</a> specifies what processes generate the files and how the user controls what files will be stored and where.</p>
 <div id="fig1">
 <div class="figure" style="text-align: center"><span style="display:block;" id="fig:unnamed-chunk-1"></span>
-<img src="diemOutput.png" alt="**Figure 1**. Flowchart of how to control output files and their location in `diem`. Green -- functions generating or using the files. Except `diem` all functions are internal. Beige, grey -- variable values set by the user (grey) or by internal processes (beige). Orange -- stored output files. Yellow rectangles -- main processes generating files." width="100%" />
+<img src="figs/diemOutput.png" alt="**Figure 1**. Flowchart of how to control output files and their location in `diem`. Green -- functions generating or using the files. Except `diem` all functions are internal. Beige, grey -- variable values set by the user (grey) or by internal processes (beige). Orange -- stored output files. Yellow rectangles -- main processes generating files." width="100%" />
 <p class="caption">
 Figure 5.1: <strong>Figure 1</strong>. Flowchart of how to control output files and their location in <code>diem</code>. Green – functions generating or using the files. Except <code>diem</code> all functions are internal. Beige, grey – variable values set by the user (grey) or by internal processes (beige). Orange – stored output files. Yellow rectangles – main processes generating files.
 </p>
