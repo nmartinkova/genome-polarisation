@@ -9,7 +9,8 @@ The package `diemr` provides a function `vcf2diem`, which converts diploid genot
 
 
 ``` r
-# Attempt to load a package, if the package was not available, install and load
+# Attempt to load a package, if the package was not 
+# available, install and load
 if(!require("diemr", character.only = TRUE)){
     install.packages("diemr", dependencies = TRUE)
     library("diemr", character.only = TRUE)
@@ -23,7 +24,8 @@ Next, decide whether all markers in the vcf file should be polarised from one fi
 # Path to the vcf file
 inputfile <- system.file("extdata", "myotis.vcf", package = "diemr")
 # File name for the output
-# If working directory does not have writing privileges, the filename must include a path to a suitable folder
+# If working directory does not have writing privileges, 
+# the filename must include a path to a suitable folder
 outputfile <- "myotis"
 # Convert the vcf file to two diem files
 vcf2diem(SNP = inputfile, filename = outputfile, chunk = 2)

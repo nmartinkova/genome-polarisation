@@ -68,7 +68,7 @@ cbind(windows, bed)
 # 15 15 15 KE227386.1 153    .       A       G
 ```
 
-Each entry in `windows` corresponds to one marker in the *myo-includedSites.txt* file and shows a range of sites that are within the desired `windowSize`, where the window is centered at the reference site. In practice, `rank2map` looks for half the `windoSize` in either direction from the evaluated site, respecting the afinity to unique `CHROM` values. For genomes composed of multiple scaffolds or chromosomes, smoothing should be performed separately for each element, and `rank2map` ensures that the windows are set up with respect to `CHROM` values.
+Each entry in `windows` corresponds to one marker in the *myo-includedSites.txt* file and shows a range of sites that are within the desired `windowSize`, where the window is centered at the reference site. In practice, `rank2map` looks for half the `windowSize` in either direction from the evaluated site, respecting the afinity to unique `CHROM` values. For genomes composed of multiple scaffolds or chromosomes, smoothing should be performed separately for each element, and `rank2map` ensures that the windows are set up with respect to `CHROM` values.
 
 ### Visual comparison of raw and smoothed results
 
@@ -120,3 +120,83 @@ Mapping and smoothing improve interpretability of *diem* output in three ways:
 
 When reporting smoothed results, always specify the window size and kernel type used.
 Smoothing clarifies broad-scale patterns but should not replace marker-level interpretation.
+
+
+<details><summary>**Methodological explanation of the Laplace kernel smoothing**</summary>
+### Methodological explanation of the Laplace kernel smoothing
+
+The smoothing algorithm applies a truncated Laplace kernel over physical distance and assigns each site the weighted modal genomic state within the window. This can be described as **Laplace-kernel weighted mode smoothing**.
+
+Smoothing is applied **per chromosome**. For each individual \(i\) and focal site \(j\) at position \(x_j\), we consider all neighbouring sites within a symmetric window of half-width \(\text{windowSize}/2\) base pairs. Rather than averaging genotype values, the algorithm computes a **kernel-weighted vote** over discrete genomic states \(s \in {0,1,2}\) (homozygous genotypes of two most frequent alleles denoted as `0` and `2`, and heterozygots as `1`, chapter \@ref(diemFormat)) and assigns the **state with the highest weighted support** to the focal site.
+
+The goal is to reduce short-range noise caused by uneven marker spacing and stochastic variation, while preserving discrete genomic states that reflect linkage blocks and recombination.
+
+The smoothing method considers a **centred physical window** of width `windowSize` (bp), i.e. positions \(x\) with
+\[
+x \in \left[x_j - \frac{\text{windowSize}}{2}, x_j + \frac{\text{windowSize}}{2}\right].
+\]
+Within that window, neighbouring markers "vote" for their discrete genomic states \(s\in{0,1,2}\) with **Laplace weights** that decay with distance from the focal site. The smoothed value at \(j\) is the **weighted mode** (state with the largest total weight).
+
+
+It is important that the smoothing is applied to physical distances between SNVs, so the `rank2map` internally computes the **start and end site indices** whose positions fall inside the centred interval for site \(j\).
+
+#### Implemented kernel, truncation and scaling
+
+Let \(d = x - x_j\) be the **centred physical distance** (bp) from the focal site. The kernel is only ever evaluated inside the centred window; weights for positions outside are never computed or used.
+
+Define the **Laplace scale** \(b\) as a function of `windowSize`:
+\[
+b = \frac{\text{windowSize}}{2 \ln 20}.
+\]
+
+This choice guarantees that a two-sided Laplace distribution truncated at \(\pm b\ln 20\) retains 95% of its mass (because \(\Pr(|X|>a)=e^{-a/b}\), so with \(a=b\ln 20\), the tail is \(1/20=0.05)\).
+
+The code evaluates integer-spaced centred offsets
+\[
+x \in {-\lfloor \tfrac{\text{windowSize}}{2}\rfloor,\ldots, -1,0,1,\ldots,\lfloor \tfrac{\text{windowSize}}{2}\rfloor}
+\]
+and assigns **truncated Laplace weights**:
+\[
+w_x = \frac{10}{19} \exp\left(-\frac{|x|}{b}\right),\quad \text{for } |x| \le \frac{\text{windowSize}}{2}.
+\]
+
+
+
+> **Notes on scaling and normalisation:**
+> 
+>* The constant \(10/19\) is an explicit global scaling applied to all in-window weights (see `truncatedLaplace`); it is not a per-site normalisation.
+>* Because the algorithm selects a **weighted mode**, only relative weights matter; any common multiplicative constant cancels.
+>* There is no per-window re-normalisation; the code compares **sums of weights** across states directly.
+
+
+#### Weighted-mode smoothing
+
+For each focal site \(j\) and individual \(i\), we compute **state-specific support** by summing weights over all neighbours within the centred window whose genotype equals that state:
+\[
+S_s(i,j) = \sum_{k \in \text{window}(j)}
+  \begin{cases}
+    w_{(x_k - x_j)}, & \text{if } g_{i,k} = s, \\
+    0, & \text{otherwise.}
+  \end{cases}
+\]
+
+The **smoothed state** is the argmax:
+\[
+\tilde g_{i,j} = \arg\max_{s\in{0,1,2}} S_s(i,j),
+\]
+ignoring `NA` genotypes in the sums.
+
+
+#### Tie-breaking (exact order used)
+
+If two or more states tie, internal function `unbiasedWeightedStateChoice` breaks ties in this strict sequence:
+
+1. **Higher total weight** \(S_s(i,j)\) (the primary criterion).
+2. **Higher single-occurrence weight** for the state (i.e. the largest \(w\) among markers supporting that state).
+3. **Lexicographic order** of the state label (with numeric states treated as character, effectively `"0" < "1" < "2"`).
+
+This is the complete list; there is **no** preference for the focal site's own genotype unless it wins under the rules above.
+
+</details>
+
+

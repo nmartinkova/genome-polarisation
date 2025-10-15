@@ -29,7 +29,7 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-<link rel="prev" href="input-data.html"/>
+<link rel="prev" href="diemFormat.html"/>
 <link rel="next" href="understanding-genome-polarisation-output-files.html"/>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
@@ -167,9 +167,9 @@ div.csl-indent {
 <li class="chapter" data-level="1.1" data-path="index.html"><a href="index.html#how-to-cite"><i class="fa fa-check"></i><b>1.1</b> How to cite</a></li>
 </ul></li>
 <li class="chapter" data-level="2" data-path="intro.html"><a href="intro.html"><i class="fa fa-check"></i><b>2</b> Quick start</a></li>
-<li class="chapter" data-level="3" data-path="input-data.html"><a href="input-data.html"><i class="fa fa-check"></i><b>3</b> Input data</a>
+<li class="chapter" data-level="3" data-path="diemFormat.html"><a href="diemFormat.html"><i class="fa fa-check"></i><b>3</b> Input data</a>
 <ul>
-<li class="chapter" data-level="3.1" data-path="input-data.html"><a href="input-data.html#multiple-compartments-with-different-ploidies"><i class="fa fa-check"></i><b>3.1</b> Multiple compartments with different ploidies</a></li>
+<li class="chapter" data-level="3.1" data-path="diemFormat.html"><a href="diemFormat.html#multiple-compartments-with-different-ploidies"><i class="fa fa-check"></i><b>3.1</b> Multiple compartments with different ploidies</a></li>
 </ul></li>
 <li class="chapter" data-level="4" data-path="importing-data-for-genome-polarisation.html"><a href="importing-data-for-genome-polarisation.html"><i class="fa fa-check"></i><b>4</b> Importing data for genome polarisation</a>
 <ul>
@@ -221,7 +221,10 @@ div.csl-indent {
 <li class="chapter" data-level="8.1.1" data-path="smoothing-polarised-genotypes.html"><a href="smoothing-polarised-genotypes.html#mapping-diagnostic-markers"><i class="fa fa-check"></i><b>8.1.1</b> Mapping diagnostic markers</a></li>
 <li class="chapter" data-level="8.1.2" data-path="smoothing-polarised-genotypes.html"><a href="smoothing-polarised-genotypes.html#visual-comparison-of-raw-and-smoothed-results"><i class="fa fa-check"></i><b>8.1.2</b> Visual comparison of raw and smoothed results</a></li>
 </ul></li>
-<li class="chapter" data-level="8.2" data-path="smoothing-polarised-genotypes.html"><a href="smoothing-polarised-genotypes.html#interpretation-and-downstream-use"><i class="fa fa-check"></i><b>8.2</b> Interpretation and downstream use</a></li>
+<li class="chapter" data-level="8.2" data-path="smoothing-polarised-genotypes.html"><a href="smoothing-polarised-genotypes.html#interpretation-and-downstream-use"><i class="fa fa-check"></i><b>8.2</b> Interpretation and downstream use</a>
+<ul>
+<li class="chapter" data-level="8.2.1" data-path="smoothing-polarised-genotypes.html"><a href="smoothing-polarised-genotypes.html#methodological-explanation-of-the-laplace-kernel-smoothing"><i class="fa fa-check"></i><b>8.2.1</b> Methodological explanation of the Laplace kernel smoothing</a></li>
+</ul></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
 </ul>
@@ -247,22 +250,24 @@ div.csl-indent {
 <div id="conversion-from-vcf-format" class="section level2 hasAnchor" number="4.1">
 <h2><span class="header-section-number">4.1</span> Conversion from VCF format<a href="importing-data-for-genome-polarisation.html#conversion-from-vcf-format" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>The package <code>diemr</code> provides a function <code>vcf2diem</code>, which converts diploid genotypes in a vcf file (optionally, the vcf file can be gzipped) or an <code>vcfR</code> object loaded into <code>R</code> to a file with format required by <code>diem</code>. To start, load the <code>diemr</code> package or install it from CRAN if it is not yet available:</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="importing-data-for-genome-polarisation.html#cb9-1" tabindex="-1"></a><span class="co"># Attempt to load a package, if the package was not available, install and load</span></span>
-<span id="cb9-2"><a href="importing-data-for-genome-polarisation.html#cb9-2" tabindex="-1"></a><span class="cf">if</span>(<span class="sc">!</span><span class="fu">require</span>(<span class="st">&quot;diemr&quot;</span>, <span class="at">character.only =</span> <span class="cn">TRUE</span>)){</span>
-<span id="cb9-3"><a href="importing-data-for-genome-polarisation.html#cb9-3" tabindex="-1"></a>    <span class="fu">install.packages</span>(<span class="st">&quot;diemr&quot;</span>, <span class="at">dependencies =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb9-4"><a href="importing-data-for-genome-polarisation.html#cb9-4" tabindex="-1"></a>    <span class="fu">library</span>(<span class="st">&quot;diemr&quot;</span>, <span class="at">character.only =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb9-5"><a href="importing-data-for-genome-polarisation.html#cb9-5" tabindex="-1"></a>}</span></code></pre></div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="importing-data-for-genome-polarisation.html#cb9-1" tabindex="-1"></a><span class="co"># Attempt to load a package, if the package was not </span></span>
+<span id="cb9-2"><a href="importing-data-for-genome-polarisation.html#cb9-2" tabindex="-1"></a><span class="co"># available, install and load</span></span>
+<span id="cb9-3"><a href="importing-data-for-genome-polarisation.html#cb9-3" tabindex="-1"></a><span class="cf">if</span>(<span class="sc">!</span><span class="fu">require</span>(<span class="st">&quot;diemr&quot;</span>, <span class="at">character.only =</span> <span class="cn">TRUE</span>)){</span>
+<span id="cb9-4"><a href="importing-data-for-genome-polarisation.html#cb9-4" tabindex="-1"></a>    <span class="fu">install.packages</span>(<span class="st">&quot;diemr&quot;</span>, <span class="at">dependencies =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb9-5"><a href="importing-data-for-genome-polarisation.html#cb9-5" tabindex="-1"></a>    <span class="fu">library</span>(<span class="st">&quot;diemr&quot;</span>, <span class="at">character.only =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb9-6"><a href="importing-data-for-genome-polarisation.html#cb9-6" tabindex="-1"></a>}</span></code></pre></div>
 <p>Next, decide whether all markers in the vcf file should be polarised from one file, or whether the analysis will benefit from parallelisation. Parallelisation is available on UNIX-based platforms, and we advise to use it for large datasets. <code>diem</code> itself can also work in parallel on multiple data <em>compartments</em>. vcf files and <em>compartments</em> can correspond to the same thing OR you can concatenate/split vcf2diem outputs to produce <code>diem</code> input <em>compartments</em>.</p>
 <div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="importing-data-for-genome-polarisation.html#cb10-1" tabindex="-1"></a><span class="co"># Path to the vcf file</span></span>
 <span id="cb10-2"><a href="importing-data-for-genome-polarisation.html#cb10-2" tabindex="-1"></a>inputfile <span class="ot">&lt;-</span> <span class="fu">system.file</span>(<span class="st">&quot;extdata&quot;</span>, <span class="st">&quot;myotis.vcf&quot;</span>, <span class="at">package =</span> <span class="st">&quot;diemr&quot;</span>)</span>
 <span id="cb10-3"><a href="importing-data-for-genome-polarisation.html#cb10-3" tabindex="-1"></a><span class="co"># File name for the output</span></span>
-<span id="cb10-4"><a href="importing-data-for-genome-polarisation.html#cb10-4" tabindex="-1"></a><span class="co"># If working directory does not have writing privileges, the filename must include a path to a suitable folder</span></span>
-<span id="cb10-5"><a href="importing-data-for-genome-polarisation.html#cb10-5" tabindex="-1"></a>outputfile <span class="ot">&lt;-</span> <span class="st">&quot;myotis&quot;</span></span>
-<span id="cb10-6"><a href="importing-data-for-genome-polarisation.html#cb10-6" tabindex="-1"></a><span class="co"># Convert the vcf file to two diem files</span></span>
-<span id="cb10-7"><a href="importing-data-for-genome-polarisation.html#cb10-7" tabindex="-1"></a><span class="fu">vcf2diem</span>(<span class="at">SNP =</span> inputfile, <span class="at">filename =</span> outputfile, <span class="at">chunk =</span> <span class="dv">2</span>)</span>
-<span id="cb10-8"><a href="importing-data-for-genome-polarisation.html#cb10-8" tabindex="-1"></a><span class="co"># Expecting to include 11 markers per diem file.</span></span>
-<span id="cb10-9"><a href="importing-data-for-genome-polarisation.html#cb10-9" tabindex="-1"></a><span class="co"># If you expect more markers in the file, provide suitable chunk size.</span></span>
-<span id="cb10-10"><a href="importing-data-for-genome-polarisation.html#cb10-10" tabindex="-1"></a><span class="co"># Done with chunk 1</span></span></code></pre></div>
+<span id="cb10-4"><a href="importing-data-for-genome-polarisation.html#cb10-4" tabindex="-1"></a><span class="co"># If working directory does not have writing privileges, </span></span>
+<span id="cb10-5"><a href="importing-data-for-genome-polarisation.html#cb10-5" tabindex="-1"></a><span class="co"># the filename must include a path to a suitable folder</span></span>
+<span id="cb10-6"><a href="importing-data-for-genome-polarisation.html#cb10-6" tabindex="-1"></a>outputfile <span class="ot">&lt;-</span> <span class="st">&quot;myotis&quot;</span></span>
+<span id="cb10-7"><a href="importing-data-for-genome-polarisation.html#cb10-7" tabindex="-1"></a><span class="co"># Convert the vcf file to two diem files</span></span>
+<span id="cb10-8"><a href="importing-data-for-genome-polarisation.html#cb10-8" tabindex="-1"></a><span class="fu">vcf2diem</span>(<span class="at">SNP =</span> inputfile, <span class="at">filename =</span> outputfile, <span class="at">chunk =</span> <span class="dv">2</span>)</span>
+<span id="cb10-9"><a href="importing-data-for-genome-polarisation.html#cb10-9" tabindex="-1"></a><span class="co"># Expecting to include 11 markers per diem file.</span></span>
+<span id="cb10-10"><a href="importing-data-for-genome-polarisation.html#cb10-10" tabindex="-1"></a><span class="co"># If you expect more markers in the file, provide suitable chunk size.</span></span>
+<span id="cb10-11"><a href="importing-data-for-genome-polarisation.html#cb10-11" tabindex="-1"></a><span class="co"># Done with chunk 1</span></span></code></pre></div>
 <p>The <code>vcf2diem</code> function processes calls for sites into the <code>diem</code> encoding for sites. The site order will be identical to that in the original vcf file (but see chapter <a href="importing-data-for-genome-polarisation.html#sites-not-informative-for-genome-polarisation">Sites not informative for genome polarisation</a>).</p>
 </div>
 <div id="principle-of-conversion-to-diem-format" class="section level2 hasAnchor" number="4.2">
@@ -359,7 +364,7 @@ and <code>U</code> (symbol “_” is also allowed) is an unknown state that can
           </div>
         </div>
       </div>
-<a href="input-data.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="diemFormat.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
 <a href="understanding-genome-polarisation-output-files.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
@@ -398,7 +403,7 @@ gitbook.start({
     "options": null
   },
   "toc": {
-    "collapse": "subsection"
+    "collapse": "section"
   },
   "navbar": {
     "right": [

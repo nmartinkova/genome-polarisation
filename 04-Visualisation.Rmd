@@ -28,7 +28,7 @@ gen <- importPolarized(
 )
 
 # Calculate individual hybrid indices from the imported genotypes 
-HI <- apply(gen, 1, function(x) pHetErrOnStateCount(sStateCount(x)))[1, ]
+HI <- hybridIndex(gen)
 ```
 
 
@@ -38,7 +38,7 @@ The rectangular layout is useful for viewing the order of markers along the geno
 
 
 ```{r, eval = TRUE, fig.align = 'center'}
-plotPolarized(genotypes = gen, HI = HI)
+plotPolarized(genotypes = gen, HI = HI, useRaster = FALSE)
 ```
 
 Each individual is plotted in order of increasing hybrid index, from bottom to top.
@@ -68,7 +68,7 @@ gen <- importPolarized("myo-001.txt",
 	ChosenInds = inds)
 	
 # Calculate hybrid indices	
-HI <- apply(gen, 1, function(x) pHetErrOnStateCount(sStateCount(x)))[1, ]
+HI <- hybridIndex(gen)
 
 # Plot polarised genotypes with the marker axis 
 plotPolarized(
@@ -81,7 +81,7 @@ plotPolarized(
 ```
 
 
-```{r, eval = TRUE, echo = FALSE, fig.align = 'center'}
+```{r, eval = TRUE, echo = FALSE, fig.align = 'center', out.width = '100%'}
 knitr::include_graphics("figs/myo-rectangle.png")
 ```
 
@@ -133,7 +133,7 @@ plotPolarized(
 plotMarkerAxis(axisInfo = axisInfo)
 ```
 
-```{r, eval = TRUE, echo = FALSE, fig.align = 'center'}
+```{r, eval = TRUE, echo = FALSE, fig.align = 'center', out.width = '100%'}
 knitr::include_graphics("figs/myo-rectangle2.png")
 ```
 
@@ -169,7 +169,10 @@ axisInfo <- list(CHROMbreaks = c(0.5, 1.5, 5.5, 6.5, 7.5, 8.5), CHROMnamesPos = 
 
 ```{r, eval = TRUE}
 plotPolarized(genotypes = gen, HI = HI, type = "circular")
-plotMarkerAxis(axisInfo = axisInfo, labels.facing = "in", major.tick.length = 1)
+plotMarkerAxis(axisInfo = axisInfo, 
+  labels.facing = "in", 
+  major.tick.length = 1
+)
 ```
 
 The marker axis in circular plots is drawn analogically to rectangular plots (Chapter \@ref(plotMarkerAxis)), but chromosome names and tick marks are shown as separate elements. Chromosome names appear in an inner track with alternating white and grey shading, while tick marks showing distances along each chromosome are plotted on the outer rim of the genotype rings.

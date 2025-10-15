@@ -43,6 +43,5 @@ Baird, S. J. E., J. Petružela, I. Jaroň, P. Škrabánek, and N. Martínková. 
 
 and this online documentation for the `diemr` package:
 
-Martínková, N. 2025. *Genome polarisation with diemr.* Bookdown online documentation.  
-Available at: <https://nmartinkova.github.io/genome-polarisation/>.
+Martínková, N. 2025. *Genome polarisation with diemr.* Bookdown online documentation. Available at: <https://nmartinkova.github.io/genome-polarisation/>.
 

@@ -1,7 +1,7 @@
 ---
 title: "Genome polarisation with diemr"
 author: "Natália Martínková"
-date: "Last updated: 2025-10-14"
+date: "Last updated: 2025-10-15"
 site: bookdown::bookdown_site
 documentclass: book
 bibliography: [refs.bib]
@@ -34,6 +34,5 @@ Baird, S. J. E., J. Petružela, I. Jaroň, P. Škrabánek, and N. Martínková. 
 
 and this online documentation for the `diemr` package:
 
-Martínková, N. 2025. *Genome polarisation with diemr.* Bookdown online documentation.  
-Available at: <https://nmartinkova.github.io/genome-polarisation/>.
+Martínková, N. 2025. *Genome polarisation with diemr.* Bookdown online documentation. Available at: <https://nmartinkova.github.io/genome-polarisation/>.
 

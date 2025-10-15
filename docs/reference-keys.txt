@@ -2,7 +2,7 @@ fig:unnamed-chunk-1
 introduction
 how-to-cite
 intro
-input-data
+diemFormat
 multiple-compartments-with-different-ploidies
 importing-data-for-genome-polarisation
 conversion-from-vcf-format
@@ -42,3 +42,7 @@ smoothing-across-mapped-distances
 mapping-diagnostic-markers
 visual-comparison-of-raw-and-smoothed-results
 interpretation-and-downstream-use
+methodological-explanation-of-the-laplace-kernel-smoothing
+implemented-kernel-truncation-and-scaling
+weighted-mode-smoothing
+tie-breaking-exact-order-used

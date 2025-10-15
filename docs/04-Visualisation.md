@@ -2,7 +2,7 @@
 
 # Visualisation of polarised genotypes
 
-*Natália Martínková*
+
 
 Visualisation is a key step in interpreting the results of genome polarisation.
 The `diemr` package provides several functions for graphical inspection of polarised genotypes, including `plotPolarized` for genome-wide patterns, `plotMarkerAxis` for adding chromosome information, and `plotDeFinetti` for individual genotype composition summaries.
@@ -27,7 +27,7 @@ gen <- importPolarized(
 )
 
 # Calculate individual hybrid indices from the imported genotypes 
-HI <- apply(gen, 1, function(x) pHetErrOnStateCount(sStateCount(x)))[1, ]
+HI <- hybridIndex(gen)
 ```
 
 
@@ -38,10 +38,10 @@ The rectangular layout is useful for viewing the order of markers along the geno
 
 
 ``` r
-plotPolarized(genotypes = gen, HI = HI)
+plotPolarized(genotypes = gen, HI = HI, useRaster = FALSE)
 ```
 
-<img src="04-Visualisation_files/figure-html/unnamed-chunk-3-1.png" width="672" style="display: block; margin: auto;" />
+<img src="04-Visualisation_files/figure-epub3/unnamed-chunk-3-1.png" style="display: block; margin: auto;" />
 
 Each individual is plotted in order of increasing hybrid index, from bottom to top.
 A colour transition across the plot reveals the genomic gradient between parental sides.
@@ -71,7 +71,7 @@ gen <- importPolarized("myo-001.txt",
 	ChosenInds = inds)
 	
 # Calculate hybrid indices	
-HI <- apply(gen, 1, function(x) pHetErrOnStateCount(sStateCount(x)))[1, ]
+HI <- hybridIndex(gen)
 
 # Plot polarised genotypes with the marker axis 
 plotPolarized(
@@ -84,7 +84,7 @@ plotPolarized(
 ```
 
 
-<img src="figs/myo-rectangle.png" width="900" style="display: block; margin: auto;" />
+<img src="figs/myo-rectangle.png" width="100%" style="display: block; margin: auto;" />
 
 If the default marker axis needs adjustments, such as here, where accession numbers overlap, use `plotMarkerAxis` directly. This returns an `axisInfo` list so you can modify labels before redrawing. `plotMarkerAxis` also accepts additional graphical arguments.
 
@@ -136,7 +136,7 @@ plotPolarized(
 plotMarkerAxis(axisInfo = axisInfo)
 ```
 
-<img src="figs/myo-rectangle2.png" width="900" style="display: block; margin: auto;" />
+<img src="figs/myo-rectangle2.png" width="100%" style="display: block; margin: auto;" />
 
 
 
@@ -150,10 +150,13 @@ The circular layout displays the same information radially, emphasising the cont
 
 ``` r
 plotPolarized(genotypes = gen, HI = HI, type = "circular")
-plotMarkerAxis(axisInfo = axisInfo, labels.facing = "in", major.tick.length = 1)
+plotMarkerAxis(axisInfo = axisInfo, 
+  labels.facing = "in", 
+  major.tick.length = 1
+)
 ```
 
-<img src="04-Visualisation_files/figure-html/unnamed-chunk-10-1.png" width="672" />
+![](04-Visualisation_files/figure-epub3/unnamed-chunk-10-1.png)<!-- -->
 
 The marker axis in circular plots is drawn analogically to rectangular plots (Chapter \@ref(plotMarkerAxis)), but chromosome names and tick marks are shown as separate elements. Chromosome names appear in an inner track with alternating white and grey shading, while tick marks showing distances along each chromosome are plotted on the outer rim of the genotype rings.
 

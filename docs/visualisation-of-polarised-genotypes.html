@@ -167,9 +167,9 @@ div.csl-indent {
 <li class="chapter" data-level="1.1" data-path="index.html"><a href="index.html#how-to-cite"><i class="fa fa-check"></i><b>1.1</b> How to cite</a></li>
 </ul></li>
 <li class="chapter" data-level="2" data-path="intro.html"><a href="intro.html"><i class="fa fa-check"></i><b>2</b> Quick start</a></li>
-<li class="chapter" data-level="3" data-path="input-data.html"><a href="input-data.html"><i class="fa fa-check"></i><b>3</b> Input data</a>
+<li class="chapter" data-level="3" data-path="diemFormat.html"><a href="diemFormat.html"><i class="fa fa-check"></i><b>3</b> Input data</a>
 <ul>
-<li class="chapter" data-level="3.1" data-path="input-data.html"><a href="input-data.html#multiple-compartments-with-different-ploidies"><i class="fa fa-check"></i><b>3.1</b> Multiple compartments with different ploidies</a></li>
+<li class="chapter" data-level="3.1" data-path="diemFormat.html"><a href="diemFormat.html#multiple-compartments-with-different-ploidies"><i class="fa fa-check"></i><b>3.1</b> Multiple compartments with different ploidies</a></li>
 </ul></li>
 <li class="chapter" data-level="4" data-path="importing-data-for-genome-polarisation.html"><a href="importing-data-for-genome-polarisation.html"><i class="fa fa-check"></i><b>4</b> Importing data for genome polarisation</a>
 <ul>
@@ -221,7 +221,10 @@ div.csl-indent {
 <li class="chapter" data-level="8.1.1" data-path="smoothing-polarised-genotypes.html"><a href="smoothing-polarised-genotypes.html#mapping-diagnostic-markers"><i class="fa fa-check"></i><b>8.1.1</b> Mapping diagnostic markers</a></li>
 <li class="chapter" data-level="8.1.2" data-path="smoothing-polarised-genotypes.html"><a href="smoothing-polarised-genotypes.html#visual-comparison-of-raw-and-smoothed-results"><i class="fa fa-check"></i><b>8.1.2</b> Visual comparison of raw and smoothed results</a></li>
 </ul></li>
-<li class="chapter" data-level="8.2" data-path="smoothing-polarised-genotypes.html"><a href="smoothing-polarised-genotypes.html#interpretation-and-downstream-use"><i class="fa fa-check"></i><b>8.2</b> Interpretation and downstream use</a></li>
+<li class="chapter" data-level="8.2" data-path="smoothing-polarised-genotypes.html"><a href="smoothing-polarised-genotypes.html#interpretation-and-downstream-use"><i class="fa fa-check"></i><b>8.2</b> Interpretation and downstream use</a>
+<ul>
+<li class="chapter" data-level="8.2.1" data-path="smoothing-polarised-genotypes.html"><a href="smoothing-polarised-genotypes.html#methodological-explanation-of-the-laplace-kernel-smoothing"><i class="fa fa-check"></i><b>8.2.1</b> Methodological explanation of the Laplace kernel smoothing</a></li>
+</ul></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
 </ul>
@@ -243,7 +246,6 @@ div.csl-indent {
             <section class="normal" id="section-">
 <div id="visualisation-of-polarised-genotypes" class="section level1 hasAnchor" number="6">
 <h1><span class="header-section-number">Chapter 6</span> Visualisation of polarised genotypes<a href="visualisation-of-polarised-genotypes.html#visualisation-of-polarised-genotypes" class="anchor-section" aria-label="Anchor link to header"></a></h1>
-<p><em>Natália Martínková</em></p>
 <p>Visualisation is a key step in interpreting the results of genome polarisation.
 The <code>diemr</code> package provides several functions for graphical inspection of polarised genotypes, including <code>plotPolarized</code> for genome-wide patterns, <code>plotMarkerAxis</code> for adding chromosome information, and <code>plotDeFinetti</code> for individual genotype composition summaries.</p>
 <div id="plotting-polarised-genotypes" class="section level2 hasAnchor" number="6.1">
@@ -260,11 +262,11 @@ Colours correspond to genotype states: by default, purple and green mark the two
 <span id="cb17-6"><a href="visualisation-of-polarised-genotypes.html#cb17-6" tabindex="-1"></a>)</span>
 <span id="cb17-7"><a href="visualisation-of-polarised-genotypes.html#cb17-7" tabindex="-1"></a></span>
 <span id="cb17-8"><a href="visualisation-of-polarised-genotypes.html#cb17-8" tabindex="-1"></a><span class="co"># Calculate individual hybrid indices from the imported genotypes </span></span>
-<span id="cb17-9"><a href="visualisation-of-polarised-genotypes.html#cb17-9" tabindex="-1"></a>HI <span class="ot">&lt;-</span> <span class="fu">apply</span>(gen, <span class="dv">1</span>, <span class="cf">function</span>(x) <span class="fu">pHetErrOnStateCount</span>(<span class="fu">sStateCount</span>(x)))[<span class="dv">1</span>, ]</span></code></pre></div>
+<span id="cb17-9"><a href="visualisation-of-polarised-genotypes.html#cb17-9" tabindex="-1"></a>HI <span class="ot">&lt;-</span> <span class="fu">hybridIndex</span>(gen)</span></code></pre></div>
 <div id="rectangular-plot" class="section level3 hasAnchor" number="6.1.1">
 <h3><span class="header-section-number">6.1.1</span> Rectangular plot<a href="visualisation-of-polarised-genotypes.html#rectangular-plot" class="anchor-section" aria-label="Anchor link to header"></a></h3>
 <p>The rectangular layout is useful for viewing the order of markers along the genome and for comparing individual hybrid indices along the vertical axis. This is the default plot, and uses the matrix of polarised genotypes and the numeric vector of individual hybrid indices.</p>
-<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="visualisation-of-polarised-genotypes.html#cb18-1" tabindex="-1"></a><span class="fu">plotPolarized</span>(<span class="at">genotypes =</span> gen, <span class="at">HI =</span> HI)</span></code></pre></div>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="visualisation-of-polarised-genotypes.html#cb18-1" tabindex="-1"></a><span class="fu">plotPolarized</span>(<span class="at">genotypes =</span> gen, <span class="at">HI =</span> HI, <span class="at">useRaster =</span> <span class="cn">FALSE</span>)</span></code></pre></div>
 <p><img src="04-Visualisation_files/figure-html/unnamed-chunk-3-1.png" width="672" style="display: block; margin: auto;" /></p>
 <p>Each individual is plotted in order of increasing hybrid index, from bottom to top.
 A colour transition across the plot reveals the genomic gradient between parental sides.</p>
@@ -288,7 +290,7 @@ The file <code>*-includedSites.txt</code> produced by <code>vcf2diem</code> stor
 <span id="cb19-13"><a href="visualisation-of-polarised-genotypes.html#cb19-13" tabindex="-1"></a>    <span class="at">ChosenInds =</span> inds)</span>
 <span id="cb19-14"><a href="visualisation-of-polarised-genotypes.html#cb19-14" tabindex="-1"></a>    </span>
 <span id="cb19-15"><a href="visualisation-of-polarised-genotypes.html#cb19-15" tabindex="-1"></a><span class="co"># Calculate hybrid indices  </span></span>
-<span id="cb19-16"><a href="visualisation-of-polarised-genotypes.html#cb19-16" tabindex="-1"></a>HI <span class="ot">&lt;-</span> <span class="fu">apply</span>(gen, <span class="dv">1</span>, <span class="cf">function</span>(x) <span class="fu">pHetErrOnStateCount</span>(<span class="fu">sStateCount</span>(x)))[<span class="dv">1</span>, ]</span>
+<span id="cb19-16"><a href="visualisation-of-polarised-genotypes.html#cb19-16" tabindex="-1"></a>HI <span class="ot">&lt;-</span> <span class="fu">hybridIndex</span>(gen)</span>
 <span id="cb19-17"><a href="visualisation-of-polarised-genotypes.html#cb19-17" tabindex="-1"></a></span>
 <span id="cb19-18"><a href="visualisation-of-polarised-genotypes.html#cb19-18" tabindex="-1"></a><span class="co"># Plot polarised genotypes with the marker axis </span></span>
 <span id="cb19-19"><a href="visualisation-of-polarised-genotypes.html#cb19-19" tabindex="-1"></a><span class="fu">plotPolarized</span>(</span>
@@ -298,7 +300,7 @@ The file <code>*-includedSites.txt</code> produced by <code>vcf2diem</code> stor
 <span id="cb19-23"><a href="visualisation-of-polarised-genotypes.html#cb19-23" tabindex="-1"></a>  <span class="at">includedSites =</span> <span class="st">&quot;myo-includedSites.txt&quot;</span>,</span>
 <span id="cb19-24"><a href="visualisation-of-polarised-genotypes.html#cb19-24" tabindex="-1"></a>  <span class="at">tickDist =</span> <span class="dv">100</span></span>
 <span id="cb19-25"><a href="visualisation-of-polarised-genotypes.html#cb19-25" tabindex="-1"></a>)</span></code></pre></div>
-<p><img src="figs/myo-rectangle.png" width="900" style="display: block; margin: auto;" /></p>
+<p><img src="figs/myo-rectangle.png" width="100%" style="display: block; margin: auto;" /></p>
 <p>If the default marker axis needs adjustments, such as here, where accession numbers overlap, use <code>plotMarkerAxis</code> directly. This returns an <code>axisInfo</code> list so you can modify labels before redrawing. <code>plotMarkerAxis</code> also accepts additional graphical arguments.</p>
 <div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="visualisation-of-polarised-genotypes.html#cb20-1" tabindex="-1"></a><span class="co"># Draw plot without axis</span></span>
 <span id="cb20-2"><a href="visualisation-of-polarised-genotypes.html#cb20-2" tabindex="-1"></a><span class="fu">plotPolarized</span>(</span>
@@ -339,7 +341,7 @@ The file <code>*-includedSites.txt</code> produced by <code>vcf2diem</code> stor
 <span id="cb21-26"><a href="visualisation-of-polarised-genotypes.html#cb21-26" tabindex="-1"></a>  <span class="at">xlab =</span> <span class="st">&quot;&quot;</span></span>
 <span id="cb21-27"><a href="visualisation-of-polarised-genotypes.html#cb21-27" tabindex="-1"></a>)</span>
 <span id="cb21-28"><a href="visualisation-of-polarised-genotypes.html#cb21-28" tabindex="-1"></a><span class="fu">plotMarkerAxis</span>(<span class="at">axisInfo =</span> axisInfo)</span></code></pre></div>
-<p><img src="figs/myo-rectangle2.png" width="900" style="display: block; margin: auto;" /></p>
+<p><img src="figs/myo-rectangle2.png" width="100%" style="display: block; margin: auto;" /></p>
 </div>
 </div>
 </div>
@@ -347,7 +349,10 @@ The file <code>*-includedSites.txt</code> produced by <code>vcf2diem</code> stor
 <h2><span class="header-section-number">6.2</span> Circular (iris) plot<a href="visualisation-of-polarised-genotypes.html#circular-iris-plot" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>The circular layout displays the same information radially, emphasising the continuity of ancestry along chromosomes. Individuals are ordered from the centre (lowest hybrid index) to the periphery (highest).</p>
 <div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="visualisation-of-polarised-genotypes.html#cb22-1" tabindex="-1"></a><span class="fu">plotPolarized</span>(<span class="at">genotypes =</span> gen, <span class="at">HI =</span> HI, <span class="at">type =</span> <span class="st">&quot;circular&quot;</span>)</span>
-<span id="cb22-2"><a href="visualisation-of-polarised-genotypes.html#cb22-2" tabindex="-1"></a><span class="fu">plotMarkerAxis</span>(<span class="at">axisInfo =</span> axisInfo, <span class="at">labels.facing =</span> <span class="st">&quot;in&quot;</span>, <span class="at">major.tick.length =</span> <span class="dv">1</span>)</span></code></pre></div>
+<span id="cb22-2"><a href="visualisation-of-polarised-genotypes.html#cb22-2" tabindex="-1"></a><span class="fu">plotMarkerAxis</span>(<span class="at">axisInfo =</span> axisInfo, </span>
+<span id="cb22-3"><a href="visualisation-of-polarised-genotypes.html#cb22-3" tabindex="-1"></a>  <span class="at">labels.facing =</span> <span class="st">&quot;in&quot;</span>, </span>
+<span id="cb22-4"><a href="visualisation-of-polarised-genotypes.html#cb22-4" tabindex="-1"></a>  <span class="at">major.tick.length =</span> <span class="dv">1</span></span>
+<span id="cb22-5"><a href="visualisation-of-polarised-genotypes.html#cb22-5" tabindex="-1"></a>)</span></code></pre></div>
 <p><img src="04-Visualisation_files/figure-html/unnamed-chunk-10-1.png" width="672" /></p>
 <p>The marker axis in circular plots is drawn analogically to rectangular plots (Chapter <a href="visualisation-of-polarised-genotypes.html#plotMarkerAxis">6.1.1.1</a>), but chromosome names and tick marks are shown as separate elements. Chromosome names appear in an inner track with alternating white and grey shading, while tick marks showing distances along each chromosome are plotted on the outer rim of the genotype rings.</p>
 <p>This layout is compact for displaying genomes of many individuals and highlights symmetry or asymmetry between parental contributions. However, circular plotting of large datasets (more than <span class="math inline">\(10^5\)</span> markers) can be slow. To monitor progress, set <code>showProgress = TRUE</code> in <code>plotPolarized</code>. This prints the percentage of plotted individuals to the standard output during rendering.</p>
@@ -404,7 +409,7 @@ gitbook.start({
     "options": null
   },
   "toc": {
-    "collapse": "subsection"
+    "collapse": "section"
   },
   "navbar": {
     "right": [

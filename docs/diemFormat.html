@@ -167,9 +167,9 @@ div.csl-indent {
 <li class="chapter" data-level="1.1" data-path="index.html"><a href="index.html#how-to-cite"><i class="fa fa-check"></i><b>1.1</b> How to cite</a></li>
 </ul></li>
 <li class="chapter" data-level="2" data-path="intro.html"><a href="intro.html"><i class="fa fa-check"></i><b>2</b> Quick start</a></li>
-<li class="chapter" data-level="3" data-path="input-data.html"><a href="input-data.html"><i class="fa fa-check"></i><b>3</b> Input data</a>
+<li class="chapter" data-level="3" data-path="diemFormat.html"><a href="diemFormat.html"><i class="fa fa-check"></i><b>3</b> Input data</a>
 <ul>
-<li class="chapter" data-level="3.1" data-path="input-data.html"><a href="input-data.html#multiple-compartments-with-different-ploidies"><i class="fa fa-check"></i><b>3.1</b> Multiple compartments with different ploidies</a></li>
+<li class="chapter" data-level="3.1" data-path="diemFormat.html"><a href="diemFormat.html#multiple-compartments-with-different-ploidies"><i class="fa fa-check"></i><b>3.1</b> Multiple compartments with different ploidies</a></li>
 </ul></li>
 <li class="chapter" data-level="4" data-path="importing-data-for-genome-polarisation.html"><a href="importing-data-for-genome-polarisation.html"><i class="fa fa-check"></i><b>4</b> Importing data for genome polarisation</a>
 <ul>
@@ -244,14 +244,14 @@ div.csl-indent {
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="input-data" class="section level1 hasAnchor" number="3">
-<h1><span class="header-section-number">Chapter 3</span> Input data<a href="input-data.html#input-data" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<div id="diemFormat" class="section level1 hasAnchor" number="3">
+<h1><span class="header-section-number">Chapter 3</span> Input data<a href="diemFormat.html#diemFormat" class="anchor-section" aria-label="Anchor link to header"></a></h1>
 <p><em>Natália Martínková and Stuart J. E. Baird</em></p>
 <p>The <code>diemr</code> package uses a consise genome representation. Let’s have a small dataset
 of three markers genotyped for seven individuals.</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="input-data.html#cb6-1" tabindex="-1"></a>S0011222</span>
-<span id="cb6-2"><a href="input-data.html#cb6-2" tabindex="-1"></a>S1210001</span>
-<span id="cb6-3"><a href="input-data.html#cb6-3" tabindex="-1"></a>S02221U0</span></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="diemFormat.html#cb6-1" tabindex="-1"></a>S0011222</span>
+<span id="cb6-2"><a href="diemFormat.html#cb6-2" tabindex="-1"></a>S1210001</span>
+<span id="cb6-3"><a href="diemFormat.html#cb6-3" tabindex="-1"></a>S02221U0</span></code></pre></div>
 <p>The genotypes encoded as <code>0</code> represent homozygotes for an allele attributed to barrier side A, <code>1</code> are
 heterozygous genotypes, <code>2</code> are homozygotes for another allele, attributed to barrier side B, and <code>U</code>
 (symbol “_” is also allowed) represents an unknown state or a third (fourth) allele. The power of
@@ -261,7 +261,7 @@ can be arbitrary.</p>
 read in as a string on all operating systems. The <code>S</code> is dropped during import of the genotypes, and
 the dataset is imported as a character matrix of all sites.</p>
 <div id="multiple-compartments-with-different-ploidies" class="section level2 hasAnchor" number="3.1">
-<h2><span class="header-section-number">3.1</span> Multiple compartments with different ploidies<a href="input-data.html#multiple-compartments-with-different-ploidies" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<h2><span class="header-section-number">3.1</span> Multiple compartments with different ploidies<a href="diemFormat.html#multiple-compartments-with-different-ploidies" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>Some genomic compartments differ between individuals in their ploidy. For example, markers located on
 chromosome X in mammals will be diploid in females, but haploid in males. Ploidy differences between
 individuals influence calculation of the hybrid index, which in turn has an effect on the <em>diem</em> analysis.</p>
@@ -275,49 +275,42 @@ will be <code>c(2, 1, 2, 2, 2, 1, 2)</code>.</p>
 corresponds to the order of elements in the list of ploidies. <code>diem</code> cannot check that the order of the
 elements
 is correct, only that the information is in the correct format.</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="input-data.html#cb7-1" tabindex="-1"></a>filepaths2 <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fu">system.file</span>(<span class="st">&quot;extdata&quot;</span>, <span class="st">&quot;data7x3.txt&quot;</span>, <span class="at">package =</span> <span class="st">&quot;diemr&quot;</span>),</span>
-<span id="cb7-2"><a href="input-data.html#cb7-2" tabindex="-1"></a>                <span class="fu">system.file</span>(<span class="st">&quot;extdata&quot;</span>, <span class="st">&quot;data7x10.txt&quot;</span>, <span class="at">package =</span> <span class="st">&quot;diemr&quot;</span>))</span>
-<span id="cb7-3"><a href="input-data.html#cb7-3" tabindex="-1"></a>               </span>
-<span id="cb7-4"><a href="input-data.html#cb7-4" tabindex="-1"></a>ploidies2 <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="fu">rep</span>(<span class="dv">2</span>, <span class="dv">7</span>),</span>
-<span id="cb7-5"><a href="input-data.html#cb7-5" tabindex="-1"></a>                  <span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">2</span>, <span class="dv">2</span>, <span class="dv">1</span>, <span class="dv">2</span>))</span>
-<span id="cb7-6"><a href="input-data.html#cb7-6" tabindex="-1"></a></span>
-<span id="cb7-7"><a href="input-data.html#cb7-7" tabindex="-1"></a><span class="fu">CheckDiemFormat</span>(<span class="at">files =</span> filepaths2, </span>
-<span id="cb7-8"><a href="input-data.html#cb7-8" tabindex="-1"></a>                <span class="at">ChosenInds =</span> samples,</span>
-<span id="cb7-9"><a href="input-data.html#cb7-9" tabindex="-1"></a>                <span class="at">ploidy =</span> ploidies2)</span>
-<span id="cb7-10"><a href="input-data.html#cb7-10" tabindex="-1"></a><span class="co"># File check passed: TRUE</span></span>
-<span id="cb7-11"><a href="input-data.html#cb7-11" tabindex="-1"></a><span class="co"># Ploidy check passed: TRUE</span></span>
-<span id="cb7-12"><a href="input-data.html#cb7-12" tabindex="-1"></a></span>
-<span id="cb7-13"><a href="input-data.html#cb7-13" tabindex="-1"></a><span class="co"># Set random seed for repeatibility of null polarities (optional)</span></span>
-<span id="cb7-14"><a href="input-data.html#cb7-14" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">39583782</span>)</span>
-<span id="cb7-15"><a href="input-data.html#cb7-15" tabindex="-1"></a></span>
-<span id="cb7-16"><a href="input-data.html#cb7-16" tabindex="-1"></a><span class="co"># Run diem with verbose = TRUE to store hybrid indices with ploidy-aware allele counts</span></span>
-<span id="cb7-17"><a href="input-data.html#cb7-17" tabindex="-1"></a>res2 <span class="ot">&lt;-</span> <span class="fu">diem</span>(<span class="at">files =</span> filepaths2, </span>
-<span id="cb7-18"><a href="input-data.html#cb7-18" tabindex="-1"></a>             <span class="at">ploidy =</span> ploidies2, </span>
-<span id="cb7-19"><a href="input-data.html#cb7-19" tabindex="-1"></a>             <span class="at">markerPolarity =</span> <span class="cn">FALSE</span>,</span>
-<span id="cb7-20"><a href="input-data.html#cb7-20" tabindex="-1"></a>             <span class="at">ChosenInds =</span> samples, </span>
-<span id="cb7-21"><a href="input-data.html#cb7-21" tabindex="-1"></a>             <span class="at">nCores =</span> <span class="dv">1</span>,</span>
-<span id="cb7-22"><a href="input-data.html#cb7-22" tabindex="-1"></a>             <span class="at">verbose =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="diemFormat.html#cb7-1" tabindex="-1"></a>filepaths2 <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fu">system.file</span>(<span class="st">&quot;extdata&quot;</span>, <span class="st">&quot;data7x3.txt&quot;</span>, <span class="at">package =</span> <span class="st">&quot;diemr&quot;</span>),</span>
+<span id="cb7-2"><a href="diemFormat.html#cb7-2" tabindex="-1"></a>                <span class="fu">system.file</span>(<span class="st">&quot;extdata&quot;</span>, <span class="st">&quot;data7x10.txt&quot;</span>, <span class="at">package =</span> <span class="st">&quot;diemr&quot;</span>))</span>
+<span id="cb7-3"><a href="diemFormat.html#cb7-3" tabindex="-1"></a>               </span>
+<span id="cb7-4"><a href="diemFormat.html#cb7-4" tabindex="-1"></a>ploidies2 <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="fu">rep</span>(<span class="dv">2</span>, <span class="dv">7</span>),</span>
+<span id="cb7-5"><a href="diemFormat.html#cb7-5" tabindex="-1"></a>                  <span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">2</span>, <span class="dv">2</span>, <span class="dv">1</span>, <span class="dv">2</span>))</span>
+<span id="cb7-6"><a href="diemFormat.html#cb7-6" tabindex="-1"></a></span>
+<span id="cb7-7"><a href="diemFormat.html#cb7-7" tabindex="-1"></a><span class="fu">CheckDiemFormat</span>(<span class="at">files =</span> filepaths2, </span>
+<span id="cb7-8"><a href="diemFormat.html#cb7-8" tabindex="-1"></a>                <span class="at">ChosenInds =</span> samples,</span>
+<span id="cb7-9"><a href="diemFormat.html#cb7-9" tabindex="-1"></a>                <span class="at">ploidy =</span> ploidies2)</span>
+<span id="cb7-10"><a href="diemFormat.html#cb7-10" tabindex="-1"></a><span class="co"># File check passed: TRUE</span></span>
+<span id="cb7-11"><a href="diemFormat.html#cb7-11" tabindex="-1"></a><span class="co"># Ploidy check passed: TRUE</span></span>
+<span id="cb7-12"><a href="diemFormat.html#cb7-12" tabindex="-1"></a></span>
+<span id="cb7-13"><a href="diemFormat.html#cb7-13" tabindex="-1"></a><span class="co"># Set random seed for repeatibility of null polarities (optional)</span></span>
+<span id="cb7-14"><a href="diemFormat.html#cb7-14" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">39583782</span>)</span>
+<span id="cb7-15"><a href="diemFormat.html#cb7-15" tabindex="-1"></a></span>
+<span id="cb7-16"><a href="diemFormat.html#cb7-16" tabindex="-1"></a><span class="co"># Run diem </span></span>
+<span id="cb7-17"><a href="diemFormat.html#cb7-17" tabindex="-1"></a>res2 <span class="ot">&lt;-</span> <span class="fu">diem</span>(<span class="at">files =</span> filepaths2, </span>
+<span id="cb7-18"><a href="diemFormat.html#cb7-18" tabindex="-1"></a>             <span class="at">ploidy =</span> ploidies2, </span>
+<span id="cb7-19"><a href="diemFormat.html#cb7-19" tabindex="-1"></a>             <span class="at">markerPolarity =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb7-20"><a href="diemFormat.html#cb7-20" tabindex="-1"></a>             <span class="at">ChosenInds =</span> samples, </span>
+<span id="cb7-21"><a href="diemFormat.html#cb7-21" tabindex="-1"></a>             <span class="at">nCores =</span> <span class="dv">1</span>)</span></code></pre></div>
 <p>Plotting polarised genomes from multiple compartments requires separate import of the compartment data.
 The polarities in the <code>res2$markerPolarity</code> element are combined across all compartments, and extracting
 them requires knowledge of the number of markers in each compartment. Alternatively, the marker polarities
 from each compartment can be extracted from the list in the <code>res2$PolarityChanges</code> element.</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="input-data.html#cb8-1" tabindex="-1"></a><span class="co"># Import each compartment into a list</span></span>
-<span id="cb8-2"><a href="input-data.html#cb8-2" tabindex="-1"></a>genotypes2 <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="fu">importPolarized</span>(<span class="at">file =</span> filepaths2[<span class="dv">1</span>], </span>
-<span id="cb8-3"><a href="input-data.html#cb8-3" tabindex="-1"></a>                       <span class="at">changePolarity =</span> res2<span class="sc">$</span>markerPolarity[<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>], </span>
-<span id="cb8-4"><a href="input-data.html#cb8-4" tabindex="-1"></a>                       <span class="at">ChosenInds =</span> samples),</span>
-<span id="cb8-5"><a href="input-data.html#cb8-5" tabindex="-1"></a>                  <span class="fu">importPolarized</span>(<span class="at">file =</span> filepaths2[<span class="dv">2</span>], </span>
-<span id="cb8-6"><a href="input-data.html#cb8-6" tabindex="-1"></a>                       <span class="at">changePolarity =</span> res2<span class="sc">$</span>markerPolarity[<span class="dv">4</span><span class="sc">:</span><span class="dv">13</span>], </span>
-<span id="cb8-7"><a href="input-data.html#cb8-7" tabindex="-1"></a>                       <span class="at">ChosenInds =</span> samples)) </span>
-<span id="cb8-8"><a href="input-data.html#cb8-8" tabindex="-1"></a>                       </span>
-<span id="cb8-9"><a href="input-data.html#cb8-9" tabindex="-1"></a><span class="co"># Bind compartment genotypes into one matrix</span></span>
-<span id="cb8-10"><a href="input-data.html#cb8-10" tabindex="-1"></a>genotypes2 <span class="ot">&lt;-</span> <span class="fu">Reduce</span>(cbind, genotypes2)</span>
-<span id="cb8-11"><a href="input-data.html#cb8-11" tabindex="-1"></a></span>
-<span id="cb8-12"><a href="input-data.html#cb8-12" tabindex="-1"></a><span class="co"># Load individual hybrid indices from a stored file</span></span>
-<span id="cb8-13"><a href="input-data.html#cb8-13" tabindex="-1"></a>h2 <span class="ot">&lt;-</span> <span class="fu">unlist</span>(<span class="fu">read.table</span>(<span class="st">&quot;diagnostics/HIwithOptimalPolarities.txt&quot;</span>))</span>
-<span id="cb8-14"><a href="input-data.html#cb8-14" tabindex="-1"></a></span>
-<span id="cb8-15"><a href="input-data.html#cb8-15" tabindex="-1"></a><span class="co"># Plot the polarised genotypes</span></span>
-<span id="cb8-16"><a href="input-data.html#cb8-16" tabindex="-1"></a><span class="fu">plotPolarized</span>(<span class="at">genotypes =</span> genotypes2,</span>
-<span id="cb8-17"><a href="input-data.html#cb8-17" tabindex="-1"></a>              <span class="at">HI =</span> h2[samples])</span></code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="diemFormat.html#cb8-1" tabindex="-1"></a><span class="co"># Import each compartment into a list</span></span>
+<span id="cb8-2"><a href="diemFormat.html#cb8-2" tabindex="-1"></a>genotypes2 <span class="ot">&lt;-</span> <span class="fu">importPolarized</span>(<span class="at">file =</span> filepaths2, </span>
+<span id="cb8-3"><a href="diemFormat.html#cb8-3" tabindex="-1"></a>                       <span class="at">changePolarity =</span> res2<span class="sc">$</span>markerPolarity, </span>
+<span id="cb8-4"><a href="diemFormat.html#cb8-4" tabindex="-1"></a>                       <span class="at">ChosenInds =</span> samples)<span class="er">)</span> </span>
+<span id="cb8-5"><a href="diemFormat.html#cb8-5" tabindex="-1"></a>                       </span>
+<span id="cb8-6"><a href="diemFormat.html#cb8-6" tabindex="-1"></a><span class="co"># Load individual hybrid indices from a stored file</span></span>
+<span id="cb8-7"><a href="diemFormat.html#cb8-7" tabindex="-1"></a>h2 <span class="ot">&lt;-</span> <span class="fu">hybridIndex</span>(<span class="st">&quot;HIwithOptimalPolarities.txt&quot;</span>)</span>
+<span id="cb8-8"><a href="diemFormat.html#cb8-8" tabindex="-1"></a></span>
+<span id="cb8-9"><a href="diemFormat.html#cb8-9" tabindex="-1"></a><span class="co"># Plot the polarised genotypes</span></span>
+<span id="cb8-10"><a href="diemFormat.html#cb8-10" tabindex="-1"></a><span class="fu">plotPolarized</span>(<span class="at">genotypes =</span> genotypes2,</span>
+<span id="cb8-11"><a href="diemFormat.html#cb8-11" tabindex="-1"></a>              <span class="at">HI =</span> h2[samples])</span></code></pre></div>
 <p><img src="01-diemr-diagnostic-index-expecation-maximisation-in-r_files/figure-html/unnamed-chunk-9-1.png" width="576" style="display: block; margin: auto;" /></p>
 
 </div>
@@ -366,7 +359,7 @@ gitbook.start({
     "options": null
   },
   "toc": {
-    "collapse": "subsection"
+    "collapse": "section"
   },
   "navbar": {
     "right": [

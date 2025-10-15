@@ -167,9 +167,9 @@ div.csl-indent {
 <li class="chapter" data-level="1.1" data-path="index.html"><a href="index.html#how-to-cite"><i class="fa fa-check"></i><b>1.1</b> How to cite</a></li>
 </ul></li>
 <li class="chapter" data-level="2" data-path="intro.html"><a href="intro.html"><i class="fa fa-check"></i><b>2</b> Quick start</a></li>
-<li class="chapter" data-level="3" data-path="input-data.html"><a href="input-data.html"><i class="fa fa-check"></i><b>3</b> Input data</a>
+<li class="chapter" data-level="3" data-path="diemFormat.html"><a href="diemFormat.html"><i class="fa fa-check"></i><b>3</b> Input data</a>
 <ul>
-<li class="chapter" data-level="3.1" data-path="input-data.html"><a href="input-data.html#multiple-compartments-with-different-ploidies"><i class="fa fa-check"></i><b>3.1</b> Multiple compartments with different ploidies</a></li>
+<li class="chapter" data-level="3.1" data-path="diemFormat.html"><a href="diemFormat.html#multiple-compartments-with-different-ploidies"><i class="fa fa-check"></i><b>3.1</b> Multiple compartments with different ploidies</a></li>
 </ul></li>
 <li class="chapter" data-level="4" data-path="importing-data-for-genome-polarisation.html"><a href="importing-data-for-genome-polarisation.html"><i class="fa fa-check"></i><b>4</b> Importing data for genome polarisation</a>
 <ul>
@@ -221,7 +221,10 @@ div.csl-indent {
 <li class="chapter" data-level="8.1.1" data-path="smoothing-polarised-genotypes.html"><a href="smoothing-polarised-genotypes.html#mapping-diagnostic-markers"><i class="fa fa-check"></i><b>8.1.1</b> Mapping diagnostic markers</a></li>
 <li class="chapter" data-level="8.1.2" data-path="smoothing-polarised-genotypes.html"><a href="smoothing-polarised-genotypes.html#visual-comparison-of-raw-and-smoothed-results"><i class="fa fa-check"></i><b>8.1.2</b> Visual comparison of raw and smoothed results</a></li>
 </ul></li>
-<li class="chapter" data-level="8.2" data-path="smoothing-polarised-genotypes.html"><a href="smoothing-polarised-genotypes.html#interpretation-and-downstream-use"><i class="fa fa-check"></i><b>8.2</b> Interpretation and downstream use</a></li>
+<li class="chapter" data-level="8.2" data-path="smoothing-polarised-genotypes.html"><a href="smoothing-polarised-genotypes.html#interpretation-and-downstream-use"><i class="fa fa-check"></i><b>8.2</b> Interpretation and downstream use</a>
+<ul>
+<li class="chapter" data-level="8.2.1" data-path="smoothing-polarised-genotypes.html"><a href="smoothing-polarised-genotypes.html#methodological-explanation-of-the-laplace-kernel-smoothing"><i class="fa fa-check"></i><b>8.2.1</b> Methodological explanation of the Laplace kernel smoothing</a></li>
+</ul></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
 </ul>
@@ -295,7 +298,7 @@ Full code to prepare data to execute the examples in this chapter
 <span id="cb29-22"><a href="smoothing-polarised-genotypes.html#cb29-22" tabindex="-1"></a><span class="co"># 13 11 14 KE224361.1 175    .       A       C</span></span>
 <span id="cb29-23"><a href="smoothing-polarised-genotypes.html#cb29-23" tabindex="-1"></a><span class="co"># 14 11 14 KE224361.1 179    .       G       T</span></span>
 <span id="cb29-24"><a href="smoothing-polarised-genotypes.html#cb29-24" tabindex="-1"></a><span class="co"># 15 15 15 KE227386.1 153    .       A       G</span></span></code></pre></div>
-<p>Each entry in <code>windows</code> corresponds to one marker in the <em>myo-includedSites.txt</em> file and shows a range of sites that are within the desired <code>windowSize</code>, where the window is centered at the reference site. In practice, <code>rank2map</code> looks for half the <code>windoSize</code> in either direction from the evaluated site, respecting the afinity to unique <code>CHROM</code> values. For genomes composed of multiple scaffolds or chromosomes, smoothing should be performed separately for each element, and <code>rank2map</code> ensures that the windows are set up with respect to <code>CHROM</code> values.</p>
+<p>Each entry in <code>windows</code> corresponds to one marker in the <em>myo-includedSites.txt</em> file and shows a range of sites that are within the desired <code>windowSize</code>, where the window is centered at the reference site. In practice, <code>rank2map</code> looks for half the <code>windowSize</code> in either direction from the evaluated site, respecting the afinity to unique <code>CHROM</code> values. For genomes composed of multiple scaffolds or chromosomes, smoothing should be performed separately for each element, and <code>rank2map</code> ensures that the windows are set up with respect to <code>CHROM</code> values.</p>
 </div>
 <div id="visual-comparison-of-raw-and-smoothed-results" class="section level3 hasAnchor" number="8.1.2">
 <h3><span class="header-section-number">8.1.2</span> Visual comparison of raw and smoothed results<a href="smoothing-polarised-genotypes.html#visual-comparison-of-raw-and-smoothed-results" class="anchor-section" aria-label="Anchor link to header"></a></h3>
@@ -329,7 +332,75 @@ Larger windows produce a more continuous signal but can merge distinct ancestry 
 </ol>
 <p>When reporting smoothed results, always specify the window size and kernel type used.
 Smoothing clarifies broad-scale patterns but should not replace marker-level interpretation.</p>
+<details>
+<summary>
+<strong>Methodological explanation of the Laplace kernel smoothing</strong>
+</summary>
+<div id="methodological-explanation-of-the-laplace-kernel-smoothing" class="section level3 hasAnchor" number="8.2.1">
+<h3><span class="header-section-number">8.2.1</span> Methodological explanation of the Laplace kernel smoothing<a href="smoothing-polarised-genotypes.html#methodological-explanation-of-the-laplace-kernel-smoothing" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>The smoothing algorithm applies a truncated Laplace kernel over physical distance and assigns each site the weighted modal genomic state within the window. This can be described as <strong>Laplace-kernel weighted mode smoothing</strong>.</p>
+<p>Smoothing is applied <strong>per chromosome</strong>. For each individual <span class="math inline">\(i\)</span> and focal site <span class="math inline">\(j\)</span> at position <span class="math inline">\(x_j\)</span>, we consider all neighbouring sites within a symmetric window of half-width <span class="math inline">\(\text{windowSize}/2\)</span> base pairs. Rather than averaging genotype values, the algorithm computes a <strong>kernel-weighted vote</strong> over discrete genomic states <span class="math inline">\(s \in {0,1,2}\)</span> (homozygous genotypes of two most frequent alleles denoted as <code>0</code> and <code>2</code>, and heterozygots as <code>1</code>, chapter <a href="diemFormat.html#diemFormat">3</a>) and assigns the <strong>state with the highest weighted support</strong> to the focal site.</p>
+<p>The goal is to reduce short-range noise caused by uneven marker spacing and stochastic variation, while preserving discrete genomic states that reflect linkage blocks and recombination.</p>
+<p>The smoothing method considers a <strong>centred physical window</strong> of width <code>windowSize</code> (bp), i.e. positions <span class="math inline">\(x\)</span> with
+<span class="math display">\[
+x \in \left[x_j - \frac{\text{windowSize}}{2}, x_j + \frac{\text{windowSize}}{2}\right].
+\]</span>
+Within that window, neighbouring markers “vote” for their discrete genomic states <span class="math inline">\(s\in{0,1,2}\)</span> with <strong>Laplace weights</strong> that decay with distance from the focal site. The smoothed value at <span class="math inline">\(j\)</span> is the <strong>weighted mode</strong> (state with the largest total weight).</p>
+<p>It is important that the smoothing is applied to physical distances between SNVs, so the <code>rank2map</code> internally computes the <strong>start and end site indices</strong> whose positions fall inside the centred interval for site <span class="math inline">\(j\)</span>.</p>
+<div id="implemented-kernel-truncation-and-scaling" class="section level4 hasAnchor" number="8.2.1.1">
+<h4><span class="header-section-number">8.2.1.1</span> Implemented kernel, truncation and scaling<a href="smoothing-polarised-genotypes.html#implemented-kernel-truncation-and-scaling" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<p>Let <span class="math inline">\(d = x - x_j\)</span> be the <strong>centred physical distance</strong> (bp) from the focal site. The kernel is only ever evaluated inside the centred window; weights for positions outside are never computed or used.</p>
+<p>Define the <strong>Laplace scale</strong> <span class="math inline">\(b\)</span> as a function of <code>windowSize</code>:
+<span class="math display">\[
+b = \frac{\text{windowSize}}{2 \ln 20}.
+\]</span></p>
+<p>This choice guarantees that a two-sided Laplace distribution truncated at <span class="math inline">\(\pm b\ln 20\)</span> retains 95% of its mass (because <span class="math inline">\(\Pr(|X|&gt;a)=e^{-a/b}\)</span>, so with <span class="math inline">\(a=b\ln 20\)</span>, the tail is <span class="math inline">\(1/20=0.05)\)</span>.</p>
+<p>The code evaluates integer-spaced centred offsets
+<span class="math display">\[
+x \in {-\lfloor \tfrac{\text{windowSize}}{2}\rfloor,\ldots, -1,0,1,\ldots,\lfloor \tfrac{\text{windowSize}}{2}\rfloor}
+\]</span>
+and assigns <strong>truncated Laplace weights</strong>:
+<span class="math display">\[
+w_x = \frac{10}{19} \exp\left(-\frac{|x|}{b}\right),\quad \text{for } |x| \le \frac{\text{windowSize}}{2}.
+\]</span></p>
+<blockquote>
+<p><strong>Notes on scaling and normalisation:</strong></p>
+<ul>
+<li>The constant <span class="math inline">\(10/19\)</span> is an explicit global scaling applied to all in-window weights (see <code>truncatedLaplace</code>); it is not a per-site normalisation.</li>
+<li>Because the algorithm selects a <strong>weighted mode</strong>, only relative weights matter; any common multiplicative constant cancels.</li>
+<li>There is no per-window re-normalisation; the code compares <strong>sums of weights</strong> across states directly.</li>
+</ul>
+</blockquote>
+</div>
+<div id="weighted-mode-smoothing" class="section level4 hasAnchor" number="8.2.1.2">
+<h4><span class="header-section-number">8.2.1.2</span> Weighted-mode smoothing<a href="smoothing-polarised-genotypes.html#weighted-mode-smoothing" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<p>For each focal site <span class="math inline">\(j\)</span> and individual <span class="math inline">\(i\)</span>, we compute <strong>state-specific support</strong> by summing weights over all neighbours within the centred window whose genotype equals that state:
+<span class="math display">\[
+S_s(i,j) = \sum_{k \in \text{window}(j)}
+  \begin{cases}
+    w_{(x_k - x_j)}, &amp; \text{if } g_{i,k} = s, \\
+    0, &amp; \text{otherwise.}
+  \end{cases}
+\]</span></p>
+<p>The <strong>smoothed state</strong> is the argmax:
+<span class="math display">\[
+\tilde g_{i,j} = \arg\max_{s\in{0,1,2}} S_s(i,j),
+\]</span>
+ignoring <code>NA</code> genotypes in the sums.</p>
+</div>
+<div id="tie-breaking-exact-order-used" class="section level4 hasAnchor" number="8.2.1.3">
+<h4><span class="header-section-number">8.2.1.3</span> Tie-breaking (exact order used)<a href="smoothing-polarised-genotypes.html#tie-breaking-exact-order-used" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<p>If two or more states tie, internal function <code>unbiasedWeightedStateChoice</code> breaks ties in this strict sequence:</p>
+<ol style="list-style-type: decimal">
+<li><strong>Higher total weight</strong> <span class="math inline">\(S_s(i,j)\)</span> (the primary criterion).</li>
+<li><strong>Higher single-occurrence weight</strong> for the state (i.e. the largest <span class="math inline">\(w\)</span> among markers supporting that state).</li>
+<li><strong>Lexicographic order</strong> of the state label (with numeric states treated as character, effectively <code>"0" &lt; "1" &lt; "2"</code>).</li>
+</ol>
+<p>This is the complete list; there is <strong>no</strong> preference for the focal site’s own genotype unless it wins under the rules above.</p>
+</details>
 
+</div>
+</div>
 </div>
 </div>
             </section>
@@ -376,7 +447,7 @@ gitbook.start({
     "options": null
   },
   "toc": {
-    "collapse": "subsection"
+    "collapse": "section"
   },
   "navbar": {
     "right": [

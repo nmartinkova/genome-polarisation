@@ -71,7 +71,7 @@ res$DI
 
 The column `newPolarity` means that marker 1 should be imported for subsequent 
 analyses as is, and markers 2 and 3 should be imported with 0 replaced with 2 and 2 
-replaced with 0 (hereafter 'flipped' 0&harr;2). The marker 3 has the lowest diagnostic 
+replaced with 0 (hereafter 'flipped' \(0 \leftrightarrow 2\)). The marker 3 has the lowest diagnostic 
 index and low support, indicating 
 that the genotypes scored at this marker are poorly related to the barrier to geneflow 
 arbitrated by the data.
@@ -88,21 +88,19 @@ genotypes <- importPolarized(file = filepaths,
                              changePolarity = res$markerPolarity, 
                              ChosenInds = samples)
                              
-h <- apply(X = res$I4, 
-           MARGIN = 1, 
-           FUN = pHetErrOnStateCount)[1, ]
+HI <- hybridIndex(res$I4)
            
 plotPolarized(genotypes = genotypes,
-              HI = h[samples])
+              HI = HI[samples])
 ```
-<img src="01-diemr-diagnostic-index-expecation-maximisation-in-r_files/figure-html/unnamed-chunk-5-1.png" width="576" style="display: block; margin: auto;" />
+<img src="01-diemr-diagnostic-index-expecation-maximisation-in-r_files/figure-epub3/unnamed-chunk-5-1.png" style="display: block; margin: auto;" />
 
 ::: {.box .caution}
 **CAUTION:** This is just a *quick start* to get you started! For real datasets you will use the diagnostic index (DI) to filter the full set of sites you have analysed with `diem` in order to plot only those markers relevant to any barrier detected in the analysis. See **Chapter \@ref(DIfiltering)** for guidelines.
 :::
 
 
-# Input data
+# Input data {#diemFormat}
 
 *Natália Martínková and Stuart J. E. Baird*
 
@@ -163,13 +161,12 @@ CheckDiemFormat(files = filepaths2,
 # Set random seed for repeatibility of null polarities (optional)
 set.seed(39583782)
 
-# Run diem with verbose = TRUE to store hybrid indices with ploidy-aware allele counts
+# Run diem 
 res2 <- diem(files = filepaths2, 
              ploidy = ploidies2, 
              markerPolarity = FALSE,
              ChosenInds = samples, 
-             nCores = 1,
-             verbose = TRUE)
+             nCores = 1)
 ```
 
 Plotting polarised genomes from multiple compartments requires separate import of the compartment data.
@@ -180,18 +177,12 @@ from each compartment can be extracted from the list in the `res2$PolarityChange
 
 ``` r
 # Import each compartment into a list
-genotypes2 <- list(importPolarized(file = filepaths2[1], 
-                       changePolarity = res2$markerPolarity[1:3], 
-                       ChosenInds = samples),
-                  importPolarized(file = filepaths2[2], 
-                       changePolarity = res2$markerPolarity[4:13], 
+genotypes2 <- importPolarized(file = filepaths2, 
+                       changePolarity = res2$markerPolarity, 
                        ChosenInds = samples)) 
                        
-# Bind compartment genotypes into one matrix
-genotypes2 <- Reduce(cbind, genotypes2)
-
 # Load individual hybrid indices from a stored file
-h2 <- unlist(read.table("diagnostics/HIwithOptimalPolarities.txt"))
+h2 <- hybridIndex("HIwithOptimalPolarities.txt")
 
 # Plot the polarised genotypes
 plotPolarized(genotypes = genotypes2,
@@ -199,7 +190,7 @@ plotPolarized(genotypes = genotypes2,
 ```
 
 
-<img src="01-diemr-diagnostic-index-expecation-maximisation-in-r_files/figure-html/unnamed-chunk-9-1.png" width="576" style="display: block; margin: auto;" />
+<img src="01-diemr-diagnostic-index-expecation-maximisation-in-r_files/figure-epub3/unnamed-chunk-9-1.png" style="display: block; margin: auto;" />
 
 
 
