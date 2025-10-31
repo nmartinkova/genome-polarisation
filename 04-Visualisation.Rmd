@@ -100,7 +100,7 @@ plotPolarized(
 axisInfo <- plotMarkerAxis(includedSites = "myo-includedSites.txt", tickDist = 100)
 ```
 
-The `axisInfo` list will now contain five elements with plotting data. Let's shorten the contig names and convert the tick labels to base pairs (default is to display milions of base pairs). This list can then be used for plotting directly, without the need to recalculate the position of the axis elements from the `*-includedSites.txt` file.
+The `axisInfo` list will now contain five elements with plotting data. Let's shorten the contig names and convert the tick labels to base pairs (default is to display millions of base pairs). This list can then be used for plotting directly, without the need to recalculate the position of the axis elements from the `*-includedSites.txt` file.
 
 ```{r, eval = FALSE}
 print(axisInfo)
