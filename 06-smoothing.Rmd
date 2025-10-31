@@ -16,7 +16,7 @@ The `smoothPolarizedGenotypes` function applies kernel smoothing to the polarise
 
 The chromosomal coordinates of diagnostic markers are stored in the output file *-includedSites.txt*, created during VCF conversion by the function `vcf2diem`. This file lists all sites retained for polarisation and includes columns CHROM, POS, QUAL from the VCF file and allele0 and allele2 indicating alleles represented by the respective numbers when homozygous.
 
-The positional information needed for smoothing can be extracted directly from this file. The function `rank2map` converts the ranked order of sites in the polarised genotype matrix into their corresponding chromosomal coordinates based on the *-includedSites.txt file. While it is called internally by `smoothPolarizedGenotypes`, exploring its output helps understand how physical mapping guides the smoothing process.
+The positional information needed for smoothing can be extracted directly from this file. The function `rank2map` converts the ranked order of sites in the polarised genotype matrix into their corresponding chromosomal coordinates based on the *-includedSites.txt* file. While it is called internally by `smoothPolarizedGenotypes`, exploring its output helps understand how physical mapping guides the smoothing process.
 
 
 <details><summary>Full code to prepare data to execute the examples in this chapter</summary>
@@ -81,7 +81,7 @@ genSmooth <- smoothPolarizedGenotypes(genotypes = gen,
 
 The object returned by `smoothPolarizedGenotypes` is a genotype matrix with the same dimensions and site order as the input but containing smoothed genomic state values. These can be used interchangeably with raw genotypes in visualisation and hybrid index calculations.
 
-The smoothing window is expressed in base pairs, should correspond to the expected local scale of linkage. As recombination rates differ among taxa, selecting an appropriate window is best guided by empirical inspection. Compare several values to find the level of smoothing that preserves broad ancestry patterns without obscuring fine-scale transitions.
+The smoothing window is expressed in base pairs, and should correspond to the expected local scale of linkage. As recombination rates differ among taxa, selecting an appropriate window is best guided by empirical inspection. Compare several values to find the level of smoothing that preserves broad ancestry patterns without obscuring fine-scale transitions.
 Larger windows produce a more continuous signal but can merge distinct ancestry blocks, while smaller windows follow local fluctuations more closely. The optimal setting depends on marker density and linkage along the genome.
 
 ::: {.box .caution}
@@ -125,7 +125,7 @@ Smoothing clarifies broad-scale patterns but should not replace marker-level int
 
 The smoothing algorithm applies a truncated Laplace kernel over physical distance and assigns each site the weighted modal genomic state within the window. This can be described as **Laplace-kernel weighted mode smoothing**.
 
-Smoothing is applied **per chromosome**. For each individual \(i\) and focal site \(j\) at position \(x_j\), we consider all neighbouring sites within a symmetric window of half-width \(\text{windowSize}/2\) base pairs. Rather than averaging genotype values, the algorithm computes a **kernel-weighted vote** over discrete genomic states \(s \in {0,1,2}\) (homozygous genotypes of two most frequent alleles denoted as `0` and `2`, and heterozygots as `1`, chapter \@ref(diemFormat)) and assigns the **state with the highest weighted support** to the focal site.
+Smoothing is applied **per chromosome**. For each individual \(i\) and focal site \(j\) at position \(x_j\), we consider all neighbouring sites within a symmetric window of half-width \(\text{windowSize}/2\) base pairs. Rather than averaging genotype values, the algorithm computes a **kernel-weighted vote** over discrete genomic states \(s \in \{_,0,1,2\}\) (unknown genomic state `_`, homozygous genotypes of two most frequent alleles denoted as `0` and `2`, and heterozygots as `1`, chapter \@ref(diemFormat)) and assigns the **state with the highest weighted support** to the focal site.
 
 The goal is to reduce short-range noise caused by uneven marker spacing and stochastic variation, while preserving discrete genomic states that reflect linkage blocks and recombination.
 
@@ -133,7 +133,7 @@ The smoothing method considers a **centred physical window** of width `windowSiz
 \[
 x \in \left[x_j - \frac{\text{windowSize}}{2}, x_j + \frac{\text{windowSize}}{2}\right].
 \]
-Within that window, neighbouring markers "vote" for their discrete genomic states \(s\in{0,1,2}\) with **Laplace weights** that decay with distance from the focal site. The smoothed value at \(j\) is the **weighted mode** (state with the largest total weight).
+Within that window, neighbouring markers "vote" for their discrete genomic states \(s\in \{_,0,1,2\}\) with **Laplace weights** that decay with distance from the focal site. The smoothed value at \(j\) is the **weighted mode** (state with the largest total weight).
 
 
 It is important that the smoothing is applied to physical distances between SNVs, so the `rank2map` internally computes the **start and end site indices** whose positions fall inside the centred interval for site \(j\).
@@ -180,9 +180,9 @@ S_s(i,j) = \sum_{k \in \text{window}(j)}
 
 The **smoothed state** is the argmax:
 \[
-\tilde g_{i,j} = \arg\max_{s\in{0,1,2}} S_s(i,j),
+\tilde g_{i,j} = \arg\max_{s\in \{_,0,1,2\}} S_s(i,j).
 \]
-ignoring `NA` genotypes in the sums.
+
 
 
 #### Tie-breaking (exact order used)
@@ -196,5 +196,6 @@ If two or more states tie, internal function `unbiasedWeightedStateChoice` break
 This is the complete list; there is **no** preference for the focal site's own genotype unless it wins under the rules above.
 
 </details>
+
 
 
