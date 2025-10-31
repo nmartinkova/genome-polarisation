@@ -14,7 +14,7 @@ This information is stored in a file *MarkerDiagnosticsWithOptimalPolarities.txt
 
 Three output files will be saved to the working directory or to the path specified in the `verbose` argument. Those are:
 
-* MarkerDiagnosticsWitOptimalPolarities.txt,
+* MarkerDiagnosticsWithOptimalPolarities.txt,
 * HIwithOptimalPolarities.txt, and
 * I4withOptimalPolarities.txt.
 
