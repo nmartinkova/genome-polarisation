@@ -179,7 +179,7 @@ from each compartment can be extracted from the list in the `res2$PolarityChange
 # Import each compartment into a list
 genotypes2 <- importPolarized(file = filepaths2, 
                        changePolarity = res2$markerPolarity, 
-                       ChosenInds = samples)) 
+                       ChosenInds = samples) 
                        
 # Load individual hybrid indices from a stored file
 h2 <- hybridIndex("HIwithOptimalPolarities.txt")
