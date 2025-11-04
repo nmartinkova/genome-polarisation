@@ -159,7 +159,7 @@ div.csl-indent {
       <nav role="navigation">
 
 <ul class="summary">
-<li><a href="./">Genome Polarisation with diemr</a></li>
+<li><a href="./">Genome polarisation with diemr</a></li>
 
 <li class="divider"></li>
 <li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Introduction</a>
@@ -227,6 +227,11 @@ div.csl-indent {
 </ul></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
+<li class="divider"></li>
+<li><a href="https://github.com/nmartinkova/genome-polarisation" target="_blank">
+  Contribute on GitHub
+</a></li>
+
 </ul>
 
       </nav>
@@ -312,7 +317,7 @@ The file <code>*-includedSites.txt</code> produced by <code>vcf2diem</code> stor
 <span id="cb20-8"><a href="visualisation-of-polarised-genotypes.html#cb20-8" tabindex="-1"></a></span>
 <span id="cb20-9"><a href="visualisation-of-polarised-genotypes.html#cb20-9" tabindex="-1"></a><span class="co"># Draw marker axis, and capture axis information</span></span>
 <span id="cb20-10"><a href="visualisation-of-polarised-genotypes.html#cb20-10" tabindex="-1"></a>axisInfo <span class="ot">&lt;-</span> <span class="fu">plotMarkerAxis</span>(<span class="at">includedSites =</span> <span class="st">&quot;myo-includedSites.txt&quot;</span>, <span class="at">tickDist =</span> <span class="dv">100</span>)</span></code></pre></div>
-<p>The <code>axisInfo</code> list will now contain five elements with plotting data. Let’s shorten the contig names and convert the tick labels to base pairs (default is to display milions of base pairs). This list can then be used for plotting directly, without the need to recalculate the position of the axis elements from the <code>*-includedSites.txt</code> file.</p>
+<p>The <code>axisInfo</code> list will now contain five elements with plotting data. Let’s shorten the contig names and convert the tick labels to base pairs (default is to display millions of base pairs). This list can then be used for plotting directly, without the need to recalculate the position of the axis elements from the <code>*-includedSites.txt</code> file.</p>
 <div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="visualisation-of-polarised-genotypes.html#cb21-1" tabindex="-1"></a><span class="fu">print</span>(axisInfo)</span>
 <span id="cb21-2"><a href="visualisation-of-polarised-genotypes.html#cb21-2" tabindex="-1"></a><span class="co"># $CHROMbreaks</span></span>
 <span id="cb21-3"><a href="visualisation-of-polarised-genotypes.html#cb21-3" tabindex="-1"></a><span class="co"># [1] 0.5 1.5 5.5 6.5 7.5 8.5</span></span>

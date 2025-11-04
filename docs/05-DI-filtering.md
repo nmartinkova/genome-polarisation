@@ -66,13 +66,14 @@ plotPolarized(gen, HI = HI, ylab = "")
 
 The function `hybridIndex` estimates the proportion of alleles belonging to one side of the barrier across all polarised sites for each individual, automatically accounting for missing data. `plotPolarized` orders individuals by their hybrid index. Displaying the hybrid indices alongside a heatmap of polarised genotypes provides a visual guide to the quantitative change in genome admixture. 
 
-The figure shows high genetic variability across the data. Next, let's plot only 30% of markers with the highest diagnostic index. 
+The figure shows high genetic variability across the data. Next, let's plot only 40% of markers with the highest diagnostic index. 
 
 
 
 ``` r
 # read the marker diagnostics file. read.table is possible, 
-# but for large genomic datasets, fread is more efficient
+# but for large genomic datasets, fread from the pacckage
+# data.table is more efficient
 DI <- data.table::fread("MarkerDiagnosticsWithOptimalPolarities.txt", 
   header = TRUE, data.table = FALSE
 )
@@ -126,7 +127,7 @@ abline(v = quantile(DI$DI, probs = thresholds), col = "red", lty = 2)
 
 
 
-Plotting the DI distribution helps identify whether the dataset has a natural break or continuous spectrum of diagnostic values, guiding selection of a reasonable cutoff. Often in genomic datasets, the distribution of DI values is unimodal. In such cases, exploring how DI filtering affects hybrid index profiles is often a more informative way to select an appropriate threshold.
+Plotting the DI distribution helps identify whether the dataset has a natural break or continuous spectrum of diagnostic values, guiding selection of a reasonable cutoff. Often in genomic datasets, the distribution of DI values is unimodal. In such cases, exploring how DI filtering affects hybrid index profiles is a more informative way to select an appropriate threshold.
 
 
 ``` r
@@ -135,9 +136,12 @@ HI <- hybridIndex("HIwithOptimalPolarities.txt", rescale = FALSE)
 indOrder <- order(HI)
 
 layout(matrix(c(1,1,1,2), nrow = 1))
-plot(HI[indOrder], pch = 19, ylim = c(0, 1),
+plot(HI[indOrder], pch = 19, ylim = c(0, 1), axes = FALSE,
     xlab = "Individuals", ylab = "Hybrid index"
 )
+axis(2, las = 1)
+axis(1, at = 1:length(HI), labels = indOrder)
+box()
 
 for (threshold in thresholds){
   whichMarkers <- DI$DI >= quantile(DI$DI, probs = threshold)
@@ -168,3 +172,4 @@ Filtering by DI is not mandatory, but it is an efficient way to reveal the core 
 Diagnostic markers often occur in genomic regions under strong differentiation or selection that maintain alternative alleles between taxa, whereas sites with low diagnostic index are typically typically reflect shared or neutral polymorphisms. Thus, filtering sites by diagnostic index not only increases contrast but also enriches for genomic regions that maintain species boundaries.
 
 Because markers with high DI are not evenly distributed along chromosomes [@Jagos2025], DI filtering can shift the apparent contribution of different genomic regions to the overall signal. Regions with many fixed differences will remain densely represented, while more homogeneous or highly variable regions may contribute fewer diagnostic markers. When summarising results in windows or genomic compartments, keep this unequal site density in mind. 
+

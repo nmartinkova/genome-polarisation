@@ -159,7 +159,7 @@ div.csl-indent {
       <nav role="navigation">
 
 <ul class="summary">
-<li><a href="./">Genome Polarisation with diemr</a></li>
+<li><a href="./">Genome polarisation with diemr</a></li>
 
 <li class="divider"></li>
 <li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Introduction</a>
@@ -227,6 +227,11 @@ div.csl-indent {
 </ul></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
+<li class="divider"></li>
+<li><a href="https://github.com/nmartinkova/genome-polarisation" target="_blank">
+  Contribute on GitHub
+</a></li>
+
 </ul>
 
       </nav>
@@ -303,7 +308,7 @@ from each compartment can be extracted from the list in the <code>res2$PolarityC
 <div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="diemFormat.html#cb8-1" tabindex="-1"></a><span class="co"># Import each compartment into a list</span></span>
 <span id="cb8-2"><a href="diemFormat.html#cb8-2" tabindex="-1"></a>genotypes2 <span class="ot">&lt;-</span> <span class="fu">importPolarized</span>(<span class="at">file =</span> filepaths2, </span>
 <span id="cb8-3"><a href="diemFormat.html#cb8-3" tabindex="-1"></a>                       <span class="at">changePolarity =</span> res2<span class="sc">$</span>markerPolarity, </span>
-<span id="cb8-4"><a href="diemFormat.html#cb8-4" tabindex="-1"></a>                       <span class="at">ChosenInds =</span> samples)<span class="er">)</span> </span>
+<span id="cb8-4"><a href="diemFormat.html#cb8-4" tabindex="-1"></a>                       <span class="at">ChosenInds =</span> samples) </span>
 <span id="cb8-5"><a href="diemFormat.html#cb8-5" tabindex="-1"></a>                       </span>
 <span id="cb8-6"><a href="diemFormat.html#cb8-6" tabindex="-1"></a><span class="co"># Load individual hybrid indices from a stored file</span></span>
 <span id="cb8-7"><a href="diemFormat.html#cb8-7" tabindex="-1"></a>h2 <span class="ot">&lt;-</span> <span class="fu">hybridIndex</span>(<span class="st">&quot;HIwithOptimalPolarities.txt&quot;</span>)</span>

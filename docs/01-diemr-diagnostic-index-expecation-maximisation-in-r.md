@@ -93,7 +93,7 @@ HI <- hybridIndex(res$I4)
 plotPolarized(genotypes = genotypes,
               HI = HI[samples])
 ```
-<img src="01-diemr-diagnostic-index-expecation-maximisation-in-r_files/figure-epub3/unnamed-chunk-5-1.png" style="display: block; margin: auto;" />
+<img src="01-diemr-diagnostic-index-expecation-maximisation-in-r_files/figure-html/unnamed-chunk-5-1.png" width="576" style="display: block; margin: auto;" />
 
 ::: {.box .caution}
 **CAUTION:** This is just a *quick start* to get you started! For real datasets you will use the diagnostic index (DI) to filter the full set of sites you have analysed with `diem` in order to plot only those markers relevant to any barrier detected in the analysis. See **Chapter \@ref(DIfiltering)** for guidelines.
@@ -179,7 +179,7 @@ from each compartment can be extracted from the list in the `res2$PolarityChange
 # Import each compartment into a list
 genotypes2 <- importPolarized(file = filepaths2, 
                        changePolarity = res2$markerPolarity, 
-                       ChosenInds = samples)) 
+                       ChosenInds = samples) 
                        
 # Load individual hybrid indices from a stored file
 h2 <- hybridIndex("HIwithOptimalPolarities.txt")
@@ -190,7 +190,7 @@ plotPolarized(genotypes = genotypes2,
 ```
 
 
-<img src="01-diemr-diagnostic-index-expecation-maximisation-in-r_files/figure-epub3/unnamed-chunk-9-1.png" style="display: block; margin: auto;" />
+<img src="01-diemr-diagnostic-index-expecation-maximisation-in-r_files/figure-html/unnamed-chunk-9-1.png" width="576" style="display: block; margin: auto;" />
 
 
 

@@ -159,7 +159,7 @@ div.csl-indent {
       <nav role="navigation">
 
 <ul class="summary">
-<li><a href="./">Genome Polarisation with diemr</a></li>
+<li><a href="./">Genome polarisation with diemr</a></li>
 
 <li class="divider"></li>
 <li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Introduction</a>
@@ -227,6 +227,11 @@ div.csl-indent {
 </ul></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
+<li class="divider"></li>
+<li><a href="https://github.com/nmartinkova/genome-polarisation" target="_blank">
+  Contribute on GitHub
+</a></li>
+
 </ul>
 
       </nav>
@@ -294,34 +299,35 @@ Full code to prepare data to execute the examples in this chapter
 <span id="cb24-25"><a href="DIfiltering.html#cb24-25" tabindex="-1"></a><span class="fu">plotPolarized</span>(gen, <span class="at">HI =</span> HI, <span class="at">ylab =</span> <span class="st">&quot;&quot;</span>)</span></code></pre></div>
 <p><img src="figs/testdata-all.png" width="100%" /></p>
 <p>The function <code>hybridIndex</code> estimates the proportion of alleles belonging to one side of the barrier across all polarised sites for each individual, automatically accounting for missing data. <code>plotPolarized</code> orders individuals by their hybrid index. Displaying the hybrid indices alongside a heatmap of polarised genotypes provides a visual guide to the quantitative change in genome admixture.</p>
-<p>The figure shows high genetic variability across the data. Next, let’s plot only 30% of markers with the highest diagnostic index.</p>
+<p>The figure shows high genetic variability across the data. Next, let’s plot only 40% of markers with the highest diagnostic index.</p>
 <div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="DIfiltering.html#cb25-1" tabindex="-1"></a><span class="co"># read the marker diagnostics file. read.table is possible, </span></span>
-<span id="cb25-2"><a href="DIfiltering.html#cb25-2" tabindex="-1"></a><span class="co"># but for large genomic datasets, fread is more efficient</span></span>
-<span id="cb25-3"><a href="DIfiltering.html#cb25-3" tabindex="-1"></a>DI <span class="ot">&lt;-</span> data.table<span class="sc">::</span><span class="fu">fread</span>(<span class="st">&quot;MarkerDiagnosticsWithOptimalPolarities.txt&quot;</span>, </span>
-<span id="cb25-4"><a href="DIfiltering.html#cb25-4" tabindex="-1"></a>  <span class="at">header =</span> <span class="cn">TRUE</span>, <span class="at">data.table =</span> <span class="cn">FALSE</span></span>
-<span id="cb25-5"><a href="DIfiltering.html#cb25-5" tabindex="-1"></a>)</span>
-<span id="cb25-6"><a href="DIfiltering.html#cb25-6" tabindex="-1"></a></span>
-<span id="cb25-7"><a href="DIfiltering.html#cb25-7" tabindex="-1"></a><span class="co"># keep the top 40% most diagnostic sites</span></span>
-<span id="cb25-8"><a href="DIfiltering.html#cb25-8" tabindex="-1"></a>threshold <span class="ot">&lt;-</span> <span class="fl">0.6</span></span>
-<span id="cb25-9"><a href="DIfiltering.html#cb25-9" tabindex="-1"></a>whichMarkers <span class="ot">&lt;-</span> DI<span class="sc">$</span>DI <span class="sc">&gt;=</span> <span class="fu">quantile</span>(DI<span class="sc">$</span>DI, <span class="at">probs =</span> threshold)</span>
-<span id="cb25-10"><a href="DIfiltering.html#cb25-10" tabindex="-1"></a></span>
-<span id="cb25-11"><a href="DIfiltering.html#cb25-11" tabindex="-1"></a><span class="co"># calculate hybrid indices from the filtered genotypes</span></span>
-<span id="cb25-12"><a href="DIfiltering.html#cb25-12" tabindex="-1"></a>HI2 <span class="ot">&lt;-</span> <span class="fu">hybridIndex</span>(gen[, whichMarkers], <span class="at">rescale =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb25-13"><a href="DIfiltering.html#cb25-13" tabindex="-1"></a></span>
-<span id="cb25-14"><a href="DIfiltering.html#cb25-14" tabindex="-1"></a><span class="co"># plot HI and all genotypes</span></span>
-<span id="cb25-15"><a href="DIfiltering.html#cb25-15" tabindex="-1"></a><span class="fu">layout</span>(<span class="fu">matrix</span>(<span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">2</span>,<span class="dv">2</span>,<span class="dv">2</span>), <span class="at">nrow =</span> <span class="dv">1</span>))</span>
-<span id="cb25-16"><a href="DIfiltering.html#cb25-16" tabindex="-1"></a>indOrder2 <span class="ot">&lt;-</span> <span class="fu">order</span>(HI2)</span>
-<span id="cb25-17"><a href="DIfiltering.html#cb25-17" tabindex="-1"></a><span class="co"># plot hybrid indices</span></span>
-<span id="cb25-18"><a href="DIfiltering.html#cb25-18" tabindex="-1"></a><span class="fu">plot</span>(HI2[indOrder2], <span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(HI2), </span>
-<span id="cb25-19"><a href="DIfiltering.html#cb25-19" tabindex="-1"></a>  <span class="at">xlab =</span> <span class="st">&quot;Hybrid index&quot;</span>, <span class="at">ylab =</span> <span class="st">&quot;Individuals&quot;</span>, <span class="at">axes =</span> <span class="cn">FALSE</span>,</span>
-<span id="cb25-20"><a href="DIfiltering.html#cb25-20" tabindex="-1"></a>  <span class="at">ylim =</span> <span class="fu">c</span>(<span class="fl">0.5</span>, <span class="fu">length</span>(HI) <span class="sc">+</span> <span class="fl">0.5</span>), <span class="at">pch =</span> <span class="dv">19</span>,</span>
-<span id="cb25-21"><a href="DIfiltering.html#cb25-21" tabindex="-1"></a>  <span class="at">yaxs =</span> <span class="st">&quot;i&quot;</span>, <span class="at">xpd =</span> <span class="cn">NA</span>)</span>
-<span id="cb25-22"><a href="DIfiltering.html#cb25-22" tabindex="-1"></a><span class="co"># add axes with ordered individual labels</span></span>
-<span id="cb25-23"><a href="DIfiltering.html#cb25-23" tabindex="-1"></a><span class="fu">axis</span>(<span class="dv">1</span>)</span>
-<span id="cb25-24"><a href="DIfiltering.html#cb25-24" tabindex="-1"></a><span class="fu">axis</span>(<span class="dv">2</span>, <span class="at">at =</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(HI2), <span class="at">labels =</span> inds[indOrder2], <span class="at">las =</span> <span class="dv">1</span>)</span>
-<span id="cb25-25"><a href="DIfiltering.html#cb25-25" tabindex="-1"></a><span class="fu">box</span>()</span>
-<span id="cb25-26"><a href="DIfiltering.html#cb25-26" tabindex="-1"></a><span class="co"># plot genotypes</span></span>
-<span id="cb25-27"><a href="DIfiltering.html#cb25-27" tabindex="-1"></a><span class="fu">plotPolarized</span>(gen[, whichMarkers], <span class="at">HI =</span> HI2, <span class="at">ylab =</span> <span class="st">&quot;&quot;</span>)</span></code></pre></div>
+<span id="cb25-2"><a href="DIfiltering.html#cb25-2" tabindex="-1"></a><span class="co"># but for large genomic datasets, fread from the pacckage</span></span>
+<span id="cb25-3"><a href="DIfiltering.html#cb25-3" tabindex="-1"></a><span class="co"># data.table is more efficient</span></span>
+<span id="cb25-4"><a href="DIfiltering.html#cb25-4" tabindex="-1"></a>DI <span class="ot">&lt;-</span> data.table<span class="sc">::</span><span class="fu">fread</span>(<span class="st">&quot;MarkerDiagnosticsWithOptimalPolarities.txt&quot;</span>, </span>
+<span id="cb25-5"><a href="DIfiltering.html#cb25-5" tabindex="-1"></a>  <span class="at">header =</span> <span class="cn">TRUE</span>, <span class="at">data.table =</span> <span class="cn">FALSE</span></span>
+<span id="cb25-6"><a href="DIfiltering.html#cb25-6" tabindex="-1"></a>)</span>
+<span id="cb25-7"><a href="DIfiltering.html#cb25-7" tabindex="-1"></a></span>
+<span id="cb25-8"><a href="DIfiltering.html#cb25-8" tabindex="-1"></a><span class="co"># keep the top 40% most diagnostic sites</span></span>
+<span id="cb25-9"><a href="DIfiltering.html#cb25-9" tabindex="-1"></a>threshold <span class="ot">&lt;-</span> <span class="fl">0.6</span></span>
+<span id="cb25-10"><a href="DIfiltering.html#cb25-10" tabindex="-1"></a>whichMarkers <span class="ot">&lt;-</span> DI<span class="sc">$</span>DI <span class="sc">&gt;=</span> <span class="fu">quantile</span>(DI<span class="sc">$</span>DI, <span class="at">probs =</span> threshold)</span>
+<span id="cb25-11"><a href="DIfiltering.html#cb25-11" tabindex="-1"></a></span>
+<span id="cb25-12"><a href="DIfiltering.html#cb25-12" tabindex="-1"></a><span class="co"># calculate hybrid indices from the filtered genotypes</span></span>
+<span id="cb25-13"><a href="DIfiltering.html#cb25-13" tabindex="-1"></a>HI2 <span class="ot">&lt;-</span> <span class="fu">hybridIndex</span>(gen[, whichMarkers], <span class="at">rescale =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb25-14"><a href="DIfiltering.html#cb25-14" tabindex="-1"></a></span>
+<span id="cb25-15"><a href="DIfiltering.html#cb25-15" tabindex="-1"></a><span class="co"># plot HI and all genotypes</span></span>
+<span id="cb25-16"><a href="DIfiltering.html#cb25-16" tabindex="-1"></a><span class="fu">layout</span>(<span class="fu">matrix</span>(<span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">2</span>,<span class="dv">2</span>,<span class="dv">2</span>), <span class="at">nrow =</span> <span class="dv">1</span>))</span>
+<span id="cb25-17"><a href="DIfiltering.html#cb25-17" tabindex="-1"></a>indOrder2 <span class="ot">&lt;-</span> <span class="fu">order</span>(HI2)</span>
+<span id="cb25-18"><a href="DIfiltering.html#cb25-18" tabindex="-1"></a><span class="co"># plot hybrid indices</span></span>
+<span id="cb25-19"><a href="DIfiltering.html#cb25-19" tabindex="-1"></a><span class="fu">plot</span>(HI2[indOrder2], <span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(HI2), </span>
+<span id="cb25-20"><a href="DIfiltering.html#cb25-20" tabindex="-1"></a>  <span class="at">xlab =</span> <span class="st">&quot;Hybrid index&quot;</span>, <span class="at">ylab =</span> <span class="st">&quot;Individuals&quot;</span>, <span class="at">axes =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb25-21"><a href="DIfiltering.html#cb25-21" tabindex="-1"></a>  <span class="at">ylim =</span> <span class="fu">c</span>(<span class="fl">0.5</span>, <span class="fu">length</span>(HI) <span class="sc">+</span> <span class="fl">0.5</span>), <span class="at">pch =</span> <span class="dv">19</span>,</span>
+<span id="cb25-22"><a href="DIfiltering.html#cb25-22" tabindex="-1"></a>  <span class="at">yaxs =</span> <span class="st">&quot;i&quot;</span>, <span class="at">xpd =</span> <span class="cn">NA</span>)</span>
+<span id="cb25-23"><a href="DIfiltering.html#cb25-23" tabindex="-1"></a><span class="co"># add axes with ordered individual labels</span></span>
+<span id="cb25-24"><a href="DIfiltering.html#cb25-24" tabindex="-1"></a><span class="fu">axis</span>(<span class="dv">1</span>)</span>
+<span id="cb25-25"><a href="DIfiltering.html#cb25-25" tabindex="-1"></a><span class="fu">axis</span>(<span class="dv">2</span>, <span class="at">at =</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(HI2), <span class="at">labels =</span> inds[indOrder2], <span class="at">las =</span> <span class="dv">1</span>)</span>
+<span id="cb25-26"><a href="DIfiltering.html#cb25-26" tabindex="-1"></a><span class="fu">box</span>()</span>
+<span id="cb25-27"><a href="DIfiltering.html#cb25-27" tabindex="-1"></a><span class="co"># plot genotypes</span></span>
+<span id="cb25-28"><a href="DIfiltering.html#cb25-28" tabindex="-1"></a><span class="fu">plotPolarized</span>(gen[, whichMarkers], <span class="at">HI =</span> HI2, <span class="at">ylab =</span> <span class="st">&quot;&quot;</span>)</span></code></pre></div>
 <p><img src="figs/testdata-DI40.png" width="100%" /></p>
 <div id="selecting-the-filtering-threshold" class="section level2 hasAnchor" number="7.1">
 <h2><span class="header-section-number">7.1</span> Selecting the filtering threshold<a href="DIfiltering.html#selecting-the-filtering-threshold" class="anchor-section" aria-label="Anchor link to header"></a></h2>
@@ -337,27 +343,30 @@ Full code to prepare data to execute the examples in this chapter
 <span id="cb26-4"><a href="DIfiltering.html#cb26-4" tabindex="-1"></a><span class="fu">hist</span>(DI<span class="sc">$</span>DI, <span class="at">xlab =</span> <span class="st">&quot;Diagnostic index&quot;</span>, <span class="at">n =</span> <span class="dv">20</span>, <span class="at">main =</span> <span class="st">&quot;&quot;</span>)</span>
 <span id="cb26-5"><a href="DIfiltering.html#cb26-5" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">v =</span> <span class="fu">quantile</span>(DI<span class="sc">$</span>DI, <span class="at">probs =</span> thresholds), <span class="at">col =</span> <span class="st">&quot;red&quot;</span>, <span class="at">lty =</span> <span class="dv">2</span>)</span></code></pre></div>
 <p><img src="figs/hist.png" width="100%" /></p>
-<p>Plotting the DI distribution helps identify whether the dataset has a natural break or continuous spectrum of diagnostic values, guiding selection of a reasonable cutoff. Often in genomic datasets, the distribution of DI values is unimodal. In such cases, exploring how DI filtering affects hybrid index profiles is often a more informative way to select an appropriate threshold.</p>
+<p>Plotting the DI distribution helps identify whether the dataset has a natural break or continuous spectrum of diagnostic values, guiding selection of a reasonable cutoff. Often in genomic datasets, the distribution of DI values is unimodal. In such cases, exploring how DI filtering affects hybrid index profiles is a more informative way to select an appropriate threshold.</p>
 <div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb27-1"><a href="DIfiltering.html#cb27-1" tabindex="-1"></a><span class="co"># load HI from the ploidy-aware whole-genome HI in diem output</span></span>
 <span id="cb27-2"><a href="DIfiltering.html#cb27-2" tabindex="-1"></a>HI <span class="ot">&lt;-</span> <span class="fu">hybridIndex</span>(<span class="st">&quot;HIwithOptimalPolarities.txt&quot;</span>, <span class="at">rescale =</span> <span class="cn">FALSE</span>)</span>
 <span id="cb27-3"><a href="DIfiltering.html#cb27-3" tabindex="-1"></a>indOrder <span class="ot">&lt;-</span> <span class="fu">order</span>(HI)</span>
 <span id="cb27-4"><a href="DIfiltering.html#cb27-4" tabindex="-1"></a></span>
 <span id="cb27-5"><a href="DIfiltering.html#cb27-5" tabindex="-1"></a><span class="fu">layout</span>(<span class="fu">matrix</span>(<span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">2</span>), <span class="at">nrow =</span> <span class="dv">1</span>))</span>
-<span id="cb27-6"><a href="DIfiltering.html#cb27-6" tabindex="-1"></a><span class="fu">plot</span>(HI[indOrder], <span class="at">pch =</span> <span class="dv">19</span>, <span class="at">ylim =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">1</span>),</span>
+<span id="cb27-6"><a href="DIfiltering.html#cb27-6" tabindex="-1"></a><span class="fu">plot</span>(HI[indOrder], <span class="at">pch =</span> <span class="dv">19</span>, <span class="at">ylim =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">1</span>), <span class="at">axes =</span> <span class="cn">FALSE</span>,</span>
 <span id="cb27-7"><a href="DIfiltering.html#cb27-7" tabindex="-1"></a>    <span class="at">xlab =</span> <span class="st">&quot;Individuals&quot;</span>, <span class="at">ylab =</span> <span class="st">&quot;Hybrid index&quot;</span></span>
 <span id="cb27-8"><a href="DIfiltering.html#cb27-8" tabindex="-1"></a>)</span>
-<span id="cb27-9"><a href="DIfiltering.html#cb27-9" tabindex="-1"></a></span>
-<span id="cb27-10"><a href="DIfiltering.html#cb27-10" tabindex="-1"></a><span class="cf">for</span> (threshold <span class="cf">in</span> thresholds){</span>
-<span id="cb27-11"><a href="DIfiltering.html#cb27-11" tabindex="-1"></a>  whichMarkers <span class="ot">&lt;-</span> DI<span class="sc">$</span>DI <span class="sc">&gt;=</span> <span class="fu">quantile</span>(DI<span class="sc">$</span>DI, <span class="at">probs =</span> threshold)</span>
-<span id="cb27-12"><a href="DIfiltering.html#cb27-12" tabindex="-1"></a>  HI <span class="ot">&lt;-</span> <span class="fu">hybridIndex</span>(gen[, whichMarkers], <span class="at">rescale =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb27-13"><a href="DIfiltering.html#cb27-13" tabindex="-1"></a>  <span class="fu">points</span>(<span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(HI), HI[indOrder], <span class="at">pch =</span> threshold <span class="sc">*</span> <span class="dv">10</span> <span class="sc">-</span> <span class="dv">4</span>) </span>
-<span id="cb27-14"><a href="DIfiltering.html#cb27-14" tabindex="-1"></a>}</span>
-<span id="cb27-15"><a href="DIfiltering.html#cb27-15" tabindex="-1"></a><span class="co"># legend for the comparison of DI thresholds</span></span>
-<span id="cb27-16"><a href="DIfiltering.html#cb27-16" tabindex="-1"></a><span class="fu">plot.new</span>()</span>
-<span id="cb27-17"><a href="DIfiltering.html#cb27-17" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">&quot;right&quot;</span>, <span class="at">xpd =</span> <span class="cn">NA</span>, </span>
-<span id="cb27-18"><a href="DIfiltering.html#cb27-18" tabindex="-1"></a>  <span class="at">legend =</span> <span class="fu">c</span>(<span class="st">&quot;Whole-genome&quot;</span>, <span class="fu">paste0</span>(<span class="st">&quot;Top &quot;</span>, <span class="dv">100</span> <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">-</span> thresholds), <span class="st">&quot;% markers&quot;</span>)),</span>
-<span id="cb27-19"><a href="DIfiltering.html#cb27-19" tabindex="-1"></a>  <span class="at">pch =</span> <span class="fu">c</span>(<span class="dv">19</span>, thresholds <span class="sc">*</span> <span class="dv">10</span> <span class="sc">-</span> <span class="dv">4</span>)</span>
-<span id="cb27-20"><a href="DIfiltering.html#cb27-20" tabindex="-1"></a>)</span></code></pre></div>
+<span id="cb27-9"><a href="DIfiltering.html#cb27-9" tabindex="-1"></a><span class="fu">axis</span>(<span class="dv">2</span>, <span class="at">las =</span> <span class="dv">1</span>)</span>
+<span id="cb27-10"><a href="DIfiltering.html#cb27-10" tabindex="-1"></a><span class="fu">axis</span>(<span class="dv">1</span>, <span class="at">at =</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(HI), <span class="at">labels =</span> indOrder)</span>
+<span id="cb27-11"><a href="DIfiltering.html#cb27-11" tabindex="-1"></a><span class="fu">box</span>()</span>
+<span id="cb27-12"><a href="DIfiltering.html#cb27-12" tabindex="-1"></a></span>
+<span id="cb27-13"><a href="DIfiltering.html#cb27-13" tabindex="-1"></a><span class="cf">for</span> (threshold <span class="cf">in</span> thresholds){</span>
+<span id="cb27-14"><a href="DIfiltering.html#cb27-14" tabindex="-1"></a>  whichMarkers <span class="ot">&lt;-</span> DI<span class="sc">$</span>DI <span class="sc">&gt;=</span> <span class="fu">quantile</span>(DI<span class="sc">$</span>DI, <span class="at">probs =</span> threshold)</span>
+<span id="cb27-15"><a href="DIfiltering.html#cb27-15" tabindex="-1"></a>  HI <span class="ot">&lt;-</span> <span class="fu">hybridIndex</span>(gen[, whichMarkers], <span class="at">rescale =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb27-16"><a href="DIfiltering.html#cb27-16" tabindex="-1"></a>  <span class="fu">points</span>(<span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(HI), HI[indOrder], <span class="at">pch =</span> threshold <span class="sc">*</span> <span class="dv">10</span> <span class="sc">-</span> <span class="dv">4</span>) </span>
+<span id="cb27-17"><a href="DIfiltering.html#cb27-17" tabindex="-1"></a>}</span>
+<span id="cb27-18"><a href="DIfiltering.html#cb27-18" tabindex="-1"></a><span class="co"># legend for the comparison of DI thresholds</span></span>
+<span id="cb27-19"><a href="DIfiltering.html#cb27-19" tabindex="-1"></a><span class="fu">plot.new</span>()</span>
+<span id="cb27-20"><a href="DIfiltering.html#cb27-20" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">&quot;right&quot;</span>, <span class="at">xpd =</span> <span class="cn">NA</span>, </span>
+<span id="cb27-21"><a href="DIfiltering.html#cb27-21" tabindex="-1"></a>  <span class="at">legend =</span> <span class="fu">c</span>(<span class="st">&quot;Whole-genome&quot;</span>, <span class="fu">paste0</span>(<span class="st">&quot;Top &quot;</span>, <span class="dv">100</span> <span class="sc">*</span> (<span class="dv">1</span> <span class="sc">-</span> thresholds), <span class="st">&quot;% markers&quot;</span>)),</span>
+<span id="cb27-22"><a href="DIfiltering.html#cb27-22" tabindex="-1"></a>  <span class="at">pch =</span> <span class="fu">c</span>(<span class="dv">19</span>, thresholds <span class="sc">*</span> <span class="dv">10</span> <span class="sc">-</span> <span class="dv">4</span>)</span>
+<span id="cb27-23"><a href="DIfiltering.html#cb27-23" tabindex="-1"></a>)</span></code></pre></div>
 <p><img src="figs/HI.png" width="100%" /></p>
 <p>Based on these plots, the barrier to gene flow progressively increases. Note that the order of individuals was taken from <em>the HIwithOptimalPolarities.txt</em> file produced by the <code>diem</code> run. These values are based on whole-genome variability taking into account compartment ploidy as it was defined during the analysis. This is the preferred way to explore the influence of alternative threshold values, because the visualisation is also sensitive to how individuals might change positions along the HI slope.</p>
 <div class="box caution">

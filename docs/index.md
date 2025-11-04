@@ -1,7 +1,7 @@
 ---
 title: "Genome polarisation with diemr"
 author: "Natália Martínková"
-date: "Last updated: 2025-10-15"
+date: "Last updated: 2025-11-04"
 site: bookdown::bookdown_site
 documentclass: book
 bibliography: [refs.bib]
