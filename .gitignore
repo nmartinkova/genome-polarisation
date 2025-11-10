@@ -1,0 +1,6 @@
+# macOS metadata
+.DS_Store
+
+# R session history
+.Rapp.history
+.Rhistory

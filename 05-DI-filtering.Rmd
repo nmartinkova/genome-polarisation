@@ -33,6 +33,13 @@ res <- diem(files = dat, ChosenInds = inds)
 </details>
 
 ```{r, eval = FALSE}
+# read the marker diagnostics file. read.table is possible, 
+# but for large genomic datasets, fread from the pacckage
+# data.table is more efficient
+DI <- data.table::fread("MarkerDiagnosticsWithOptimalPolarities.txt", 
+  header = TRUE, data.table = FALSE
+)
+
 # import polarised genotypes for the diagnostic markers
 gen <- importPolarized(
   system.file("extdata", "testBarrier2.txt", package = "diemr"),
@@ -70,12 +77,6 @@ The figure shows high genetic variability across the data. Next, let's plot only
 
 
 ```{r, eval = FALSE}
-# read the marker diagnostics file. read.table is possible, 
-# but for large genomic datasets, fread from the pacckage
-# data.table is more efficient
-DI <- data.table::fread("MarkerDiagnosticsWithOptimalPolarities.txt", 
-  header = TRUE, data.table = FALSE
-)
 
 # keep the top 40% most diagnostic sites
 threshold <- 0.6
