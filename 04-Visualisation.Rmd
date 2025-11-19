@@ -1,6 +1,6 @@
 
 
-# Visualisation of polarised genotypes
+# Visualisation of polarised genotypes {#visualisation}
 
 
 
@@ -46,7 +46,7 @@ A colour transition across the plot reveals the genomic gradient between parenta
 
 #### Adding chromosome information {#plotMarkerAxis}
 
-If the input data were generated from a VCF file, marker positions are already available.
+If the input data were generated from a sorted VCF file (Chapter \@ref(vcf2diem)), marker positions are already available.
 The file `*-includedSites.txt` produced by `vcf2diem` stores physical coordinates for each marker and can be used to draw chromosome names and position ticks beneath the genotype matrix. This file links plotted markers to their genomic locations.
 
 The following example uses a snippet of SNV data with _Myotis_ bat diversity [@Harazim2021].
@@ -85,7 +85,7 @@ plotPolarized(
 knitr::include_graphics("figs/myo-rectangle.png")
 ```
 
-If the default marker axis needs adjustments, such as here, where accession numbers overlap, use `plotMarkerAxis` directly. This returns an `axisInfo` list so you can modify labels before redrawing. `plotMarkerAxis` also accepts additional graphical arguments.
+If the default marker axis needs adjustments, such as here, where accession numbers overlap, use `plotMarkerAxis` directly. This returns an `axisInfo` list so you can modify labels before redrawing. `plotMarkerAxis` also accepts additional graphical arguments. For the full list of supported graphical arguments, check the function help with `?plotMarkerAxis`.
 
 ```{r, eval = FALSE}
 # Draw plot without axis

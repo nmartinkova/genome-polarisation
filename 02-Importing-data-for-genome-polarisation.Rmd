@@ -1,22 +1,46 @@
 
 
-# Importing data for genome polarisation
+# Importing data for genome polarisation {#vcf2diem}
 
 *Natália Martínková and Stuart J. E. Baird*
 
 ## Conversion from VCF format
-The package `diemr` provides a function `vcf2diem`, which converts diploid genotypes in a vcf file (optionally, the vcf file can be gzipped) or an `vcfR` object loaded into `R` to a file with format required by `diem`.  To start, load the `diemr` package or install it from CRAN if it is not yet available:
 
-```{r, eval = FALSE}
-# Attempt to load a package, if the package was not 
-# available, install and load
-if(!require("diemr", character.only = TRUE)){
-    install.packages("diemr", dependencies = TRUE)
-    library("diemr", character.only = TRUE)
-}
+The package `diemr` provides a function `vcf2diem`, which converts diploid genotypes in a VCF file (optionally, the VCF file can be gzipped) or an `vcfR` object loaded into `R` to a file with format required by `diem`.  
+
+::: {.box .caution}
+Genome polarisation requires variant sites to be processed in physical order along chromosomes. If your pipeline contained sorting, no action is needed. Otherwise, guidelines for correcting site order are provided in the hidden section below.
+:::
+
+<details><summary>**Sorting VCF files before genome polarisation**</summary>
+### Sorting VCF files before genome polarisation
+
+Many tools produce ordered VCF files by default, but others may output scaffolds or contigs in an arbitrary sequence, or return variants in the order they were discovered rather than their coordinates.
+
+Before importing any VCF file into `diemr`, confirm that sites are sorted by chromosome and position.
+
+Sorting matters for three reasons:
+
+* **Spatial summaries and genome-wide visualisations** depend on correct genomic order (Chapter \@ref(visualisation)). Hybrid index interpretation is unaffected, but positional summaries are not.
+* **Marker axis plotting** (Chapter \@ref(plotMarkerAxis)) requires positions to increase monotonically. Unsorted input causes axes to wrap or jump.
+* **Window-based smoothing** (Chapter \@ref(smoothing-chapter)) relies on physical proximity. Unsorted sites disrupt neighbourhood windows and distort ancestry patterns.
+
+To ensure that the VCF is correctly sorted, use `bcftools sort`, which respects contig order in the header and handles large files efficiently.
+
+Example (recommended):
+
+```{eval = FALSE}
+bcftools sort input.vcf -Oz -o sorted.vcf.gz
+tabix -p vcf sorted.vcf.gz
 ```
 
-Next, decide whether all sites in the vcf file should be polarised from one file, or whether the analysis will benefit from parallelisation. Parallelisation is available on UNIX-based platforms, and we advise to use it for large datasets. `diem` itself can also work in parallel on multiple data _compartments_. vcf files and _compartments_ can correspond to the same thing OR you can concatenate/split vcf2diem outputs to produce `diem` input _compartments_.
+The VCF files can also be sorted with tools such as `vcf-sort` (from `vcftools`) or a plain UNIX `sort`, but these methods rely on lexicographic chromosome order and may mis-order contigs unless a contig header is present. For reproducible workflows, always prefer `bcftools sort`.
+
+Once the VCF is sorted and indexed, it is ready for `vcf2diem` conversion.
+
+</details>
+
+The number of chunks the SNVs are divided into matters for parallelisation of `diem` analyses and import of polarised genotypes. Therefore, decide whether all sites in the VCF file should be polarised from one file, or whether the analysis will benefit from parallelisation. Parallelisation is available on UNIX-based platforms, and we advise to use it for large datasets. `diem` itself can also work in parallel on multiple data _compartments_. VCF files and _compartments_ can correspond to the same thing or you can concatenate/split `vcf2diem` outputs to produce `diem` input _compartments_. Parallelisation is most efficient when **chunks contain the same number of SNVs**. 
 
 ```{r, eval = FALSE}
 # Path to the vcf file
@@ -32,7 +56,7 @@ vcf2diem(SNP = inputfile, filename = outputfile, chunk = 2)
 # Done with chunk 1
 ```
 
-The `vcf2diem` function processes calls for sites into the `diem` encoding for sites. The site order will be identical to that in the original vcf file (but see chapter [Sites not informative for genome polarisation]). 
+The `vcf2diem` function converts diploid calls into the `diem` site encoding. The order of sites in the output matches the original VCF file (but see chapter [Sites not informative for genome polarisation]). 
 
 
 
@@ -108,12 +132,12 @@ Diploid sites in DNA sequence alignment can be resolved in an analogous way to h
 
 ## Variant call format
 
-Variant sites in genomic context will be most often identified using variant callers from sequence reads mapped onto a reference. Such data are stored or can be converted to variant call format (vcf). We implemented conversion of vcf files to diem format for the [vcf version 4.2](https://github.com/samtools/hts-specs/blob/master/VCFv4.2.pdf) in function `vcf2diem`. The function resolves indels and sites with more than two alleles to obtain biallelic genotypes for all sites included in the original vcf file.
+Variant sites in genomic context will be most often identified using variant callers from sequence reads mapped onto a reference. Such data are stored or can be converted to variant call format (VCF). We implemented conversion of VCF files to diem format for the [VCF version 4.2](https://github.com/samtools/hts-specs/blob/master/VCFv4.2.pdf) in function `vcf2diem`. The function resolves indels and sites with more than two alleles to obtain biallelic genotypes for all sites included in the original VCF file.
 
 1. Sites with the reference allele (column REF) containing insertions are set as unknown.
 1. Sites with the alternative allele (column ALT) containing only indels are set as unknown.
 1. Indels in the alternative alleles are set as unknown.
-1. Overall allele counts in sites with more than two alleles representing substitutions are calculated and the two most frequent alleles are selected. Ties are (arbitrarily) resolved according to the allele order in the vcf file. 
+1. Overall allele counts in sites with more than two alleles representing substitutions are calculated and the two most frequent alleles are selected. Ties are (arbitrarily) resolved according to the allele order in the VCF file. 
 1. Third and fourth most frequent substitutions are set as unknown. 
 
 The conversion might result in some sites no longer being polymorphic. We advise checking how frequent invariant sites are after conversion.
@@ -154,7 +178,7 @@ The same principles apply to higher ploidy datasets. Preparing data in `diem` fo
 1. Identify two most frequent alleles for each site.
 1. Encode homozygous and heterozygous (mixed) genotypes that include only the two most frequent alleles.
 
-Note that `vcf2diem` only converts diploid datasets at this time, and should not be used to convert polyploid vcf files. 
+Note that `vcf2diem` only converts diploid datasets at this time, and should not be used to convert polyploid VCF files. 
 
 
 

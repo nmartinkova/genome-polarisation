@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 8 Smoothing polarised genotypes | Genome polarisation with diemr</title>
+  <meta name="description" content="Chapter 8 Smoothing polarised genotypes | Genome polarisation with diemr" />
+  <meta name="generator" content="bookdown 0.45 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapter 8 Smoothing polarised genotypes | Genome polarisation with diemr" />
+  <meta property="og:type" content="book" />
+  
+  
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 8 Smoothing polarised genotypes | Genome polarisation with diemr" />
+  
+  
+  
+
+<meta name="author" content="Natália Martínková" />
+
+
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="DIfiltering.html"/>
+<link rel="next" href="references.html"/>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<style type="text/css">
+  
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+</style>
+<style type="text/css">
+/* Used with Pandoc 2.11+ new --citeproc when CSL is used */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+  margin-bottom: 0em;
+}
+.hanging div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">Genome polarisation with diemr</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Introduction</a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="index.html"><a href="index.html#how-to-cite"><i class="fa fa-check"></i><b>1.1</b> How to cite</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="intro.html"><a href="intro.html"><i class="fa fa-check"></i><b>2</b> Quick start</a></li>
+<li class="chapter" data-level="3" data-path="diemFormat.html"><a href="diemFormat.html"><i class="fa fa-check"></i><b>3</b> Input data</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="diemFormat.html"><a href="diemFormat.html#multiple-compartments-with-different-ploidies"><i class="fa fa-check"></i><b>3.1</b> Multiple compartments with different ploidies</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="vcf2diem.html"><a href="vcf2diem.html"><i class="fa fa-check"></i><b>4</b> Importing data for genome polarisation</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="vcf2diem.html"><a href="vcf2diem.html#conversion-from-vcf-format"><i class="fa fa-check"></i><b>4.1</b> Conversion from VCF format</a>
+<ul>
+<li class="chapter" data-level="4.1.1" data-path="vcf2diem.html"><a href="vcf2diem.html#sorting-vcf-files-before-genome-polarisation"><i class="fa fa-check"></i><b>4.1.1</b> Sorting VCF files before genome polarisation</a></li>
+</ul></li>
+<li class="chapter" data-level="4.2" data-path="vcf2diem.html"><a href="vcf2diem.html#principle-of-conversion-to-diem-format"><i class="fa fa-check"></i><b>4.2</b> Principle of conversion to diem format</a>
+<ul>
+<li class="chapter" data-level="4.2.1" data-path="vcf2diem.html"><a href="vcf2diem.html#invariant-sites-and-indels"><i class="fa fa-check"></i><b>4.2.1</b> Invariant sites and indels</a></li>
+<li class="chapter" data-level="4.2.2" data-path="vcf2diem.html"><a href="vcf2diem.html#sites-not-informative-for-genome-polarisation"><i class="fa fa-check"></i><b>4.2.2</b> Sites not informative for genome polarisation</a></li>
+<li class="chapter" data-level="4.2.3" data-path="vcf2diem.html"><a href="vcf2diem.html#haploid-data"><i class="fa fa-check"></i><b>4.2.3</b> Haploid data</a></li>
+<li class="chapter" data-level="4.2.4" data-path="vcf2diem.html"><a href="vcf2diem.html#diploid-data"><i class="fa fa-check"></i><b>4.2.4</b> Diploid data</a></li>
+</ul></li>
+<li class="chapter" data-level="4.3" data-path="vcf2diem.html"><a href="vcf2diem.html#variant-call-format"><i class="fa fa-check"></i><b>4.3</b> Variant call format</a></li>
+<li class="chapter" data-level="4.4" data-path="vcf2diem.html"><a href="vcf2diem.html#polyploid-data"><i class="fa fa-check"></i><b>4.4</b> Polyploid data</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="understanding-genome-polarisation-output-files.html"><a href="understanding-genome-polarisation-output-files.html"><i class="fa fa-check"></i><b>5</b> Understanding genome polarisation output files</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="understanding-genome-polarisation-output-files.html"><a href="understanding-genome-polarisation-output-files.html#defaults"><i class="fa fa-check"></i><b>5.1</b> Obligatory outputs</a>
+<ul>
+<li class="chapter" data-level="5.1.1" data-path="understanding-genome-polarisation-output-files.html"><a href="understanding-genome-polarisation-output-files.html#markerDiagnostics"><i class="fa fa-check"></i><b>5.1.1</b> MarkerDiagnosticsWithOptimalPolarities</a></li>
+<li class="chapter" data-level="5.1.2" data-path="understanding-genome-polarisation-output-files.html"><a href="understanding-genome-polarisation-output-files.html#HI"><i class="fa fa-check"></i><b>5.1.2</b> HIwithOptimalPolarities</a></li>
+<li class="chapter" data-level="5.1.3" data-path="understanding-genome-polarisation-output-files.html"><a href="understanding-genome-polarisation-output-files.html#I4"><i class="fa fa-check"></i><b>5.1.3</b> I4withOptimalPolarities</a></li>
+</ul></li>
+<li class="chapter" data-level="5.2" data-path="understanding-genome-polarisation-output-files.html"><a href="understanding-genome-polarisation-output-files.html#optional-outputs"><i class="fa fa-check"></i><b>5.2</b> Optional outputs</a>
+<ul>
+<li class="chapter" data-level="5.2.1" data-path="understanding-genome-polarisation-output-files.html"><a href="understanding-genome-polarisation-output-files.html#the-user-perspective"><i class="fa fa-check"></i><b>5.2.1</b> The user perspective</a></li>
+<li class="chapter" data-level="5.2.2" data-path="understanding-genome-polarisation-output-files.html"><a href="understanding-genome-polarisation-output-files.html#nullmarkerpolarities"><i class="fa fa-check"></i><b>5.2.2</b> NullMarkerPolarities</a></li>
+<li class="chapter" data-level="5.2.3" data-path="understanding-genome-polarisation-output-files.html"><a href="understanding-genome-polarisation-output-files.html#changedPolarities"><i class="fa fa-check"></i><b>5.2.3</b> MarkersWithChangedPolarities</a></li>
+<li class="chapter" data-level="5.2.4" data-path="understanding-genome-polarisation-output-files.html"><a href="understanding-genome-polarisation-output-files.html#iteration-specific-graphics"><i class="fa fa-check"></i><b>5.2.4</b> Iteration-specific graphics</a></li>
+<li class="chapter" data-level="5.2.5" data-path="understanding-genome-polarisation-output-files.html"><a href="understanding-genome-polarisation-output-files.html#the-log-file"><i class="fa fa-check"></i><b>5.2.5</b> The log file</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="visualisation.html"><a href="visualisation.html"><i class="fa fa-check"></i><b>6</b> Visualisation of polarised genotypes</a>
+<ul>
+<li class="chapter" data-level="6.1" data-path="visualisation.html"><a href="visualisation.html#plotting-polarised-genotypes"><i class="fa fa-check"></i><b>6.1</b> Plotting polarised genotypes</a>
+<ul>
+<li class="chapter" data-level="6.1.1" data-path="visualisation.html"><a href="visualisation.html#rectangular-plot"><i class="fa fa-check"></i><b>6.1.1</b> Rectangular plot</a></li>
+</ul></li>
+<li class="chapter" data-level="6.2" data-path="visualisation.html"><a href="visualisation.html#circular-iris-plot"><i class="fa fa-check"></i><b>6.2</b> Circular (iris) plot</a></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="DIfiltering.html"><a href="DIfiltering.html"><i class="fa fa-check"></i><b>7</b> Filtering sites by diagnostic index</a>
+<ul>
+<li class="chapter" data-level="7.1" data-path="DIfiltering.html"><a href="DIfiltering.html#selecting-the-filtering-threshold"><i class="fa fa-check"></i><b>7.1</b> Selecting the filtering threshold</a></li>
+<li class="chapter" data-level="7.2" data-path="DIfiltering.html"><a href="DIfiltering.html#biological-signal-insights"><i class="fa fa-check"></i><b>7.2</b> Biological signal insights</a></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="smoothing-chapter.html"><a href="smoothing-chapter.html"><i class="fa fa-check"></i><b>8</b> Smoothing polarised genotypes</a>
+<ul>
+<li class="chapter" data-level="8.1" data-path="smoothing-chapter.html"><a href="smoothing-chapter.html#smoothing-across-mapped-distances"><i class="fa fa-check"></i><b>8.1</b> Smoothing across mapped distances</a>
+<ul>
+<li class="chapter" data-level="8.1.1" data-path="smoothing-chapter.html"><a href="smoothing-chapter.html#mapping-diagnostic-markers"><i class="fa fa-check"></i><b>8.1.1</b> Mapping diagnostic markers</a></li>
+<li class="chapter" data-level="8.1.2" data-path="smoothing-chapter.html"><a href="smoothing-chapter.html#visual-comparison-of-raw-and-smoothed-results"><i class="fa fa-check"></i><b>8.1.2</b> Visual comparison of raw and smoothed results</a></li>
+</ul></li>
+<li class="chapter" data-level="8.2" data-path="smoothing-chapter.html"><a href="smoothing-chapter.html#interpretation-and-downstream-use"><i class="fa fa-check"></i><b>8.2</b> Interpretation and downstream use</a>
+<ul>
+<li class="chapter" data-level="8.2.1" data-path="smoothing-chapter.html"><a href="smoothing-chapter.html#Laplace"><i class="fa fa-check"></i><b>8.2.1</b> Methodological explanation of the Laplace kernel smoothing</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
+<li class="divider"></li>
+<li><a href="https://github.com/nmartinkova/genome-polarisation" target="_blank">
+  Contribute on GitHub
+</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Genome polarisation with diemr</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="smoothing-chapter" class="section level1 hasAnchor" number="8">
+<h1><span class="header-section-number">Chapter 8</span> Smoothing polarised genotypes<a href="smoothing-chapter.html#smoothing-chapter" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<p>After filtering markers by diagnostic index (Chapter <a href="DIfiltering.html#DIfiltering">7</a>), genome polarisation analyses can be mapped to physical coordinates to reveal the genomic landscape of barriers to gene flow. Because SNVs are rarely evenly spaced along chromosomes, the polarised signal can fluctuate sharply between adjacent markers. But these fluctuations might not represent signal change, but confluence with standing genetic variation. While, diagnostic index filtering already removed much of the effect of genetic variation orthogonal to the barrier to gene flow, smoothing along mapped distances helps visualise broad ancestry patterns.</p>
+<div id="smoothing-across-mapped-distances" class="section level2 hasAnchor" number="8.1">
+<h2><span class="header-section-number">8.1</span> Smoothing across mapped distances<a href="smoothing-chapter.html#smoothing-across-mapped-distances" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>The <code>smoothPolarizedGenotypes</code> function applies kernel smoothing to the polarised genotype matrix, using physical distances between markers rather than their rank order. This approach preserves the broad genomic signal while suppressing local irregularities caused by uneven SNV spacing.</p>
+<div id="mapping-diagnostic-markers" class="section level3 hasAnchor" number="8.1.1">
+<h3><span class="header-section-number">8.1.1</span> Mapping diagnostic markers<a href="smoothing-chapter.html#mapping-diagnostic-markers" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>The chromosomal coordinates of diagnostic markers are stored in the output file <em>-includedSites.txt</em>, created during VCF conversion by the function <code>vcf2diem</code>. This file lists all sites retained for polarisation and includes columns CHROM, POS, QUAL from the VCF file and allele0 and allele2 indicating alleles represented by the respective numbers when homozygous.</p>
+<p>The positional information needed for smoothing can be extracted directly from this file. The function <code>rank2map</code> converts the ranked order of sites in the polarised genotype matrix into their corresponding chromosomal coordinates based on the <em>-includedSites.txt</em> file. While it is called internally by <code>smoothPolarizedGenotypes</code>, exploring its output helps understand how physical mapping guides the smoothing process.</p>
+<details>
+<summary>
+Full code to prepare data to execute the examples in this chapter
+</summary>
+<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb28-1"><a href="smoothing-chapter.html#cb28-1" tabindex="-1"></a><span class="fu">library</span>(diemr)</span>
+<span id="cb28-2"><a href="smoothing-chapter.html#cb28-2" tabindex="-1"></a></span>
+<span id="cb28-3"><a href="smoothing-chapter.html#cb28-3" tabindex="-1"></a>dat <span class="ot">&lt;-</span> <span class="fu">system.file</span>(<span class="st">&quot;extdata&quot;</span>, <span class="st">&quot;myotis.vcf&quot;</span>, <span class="at">package =</span> <span class="st">&quot;diemr&quot;</span>)</span>
+<span id="cb28-4"><a href="smoothing-chapter.html#cb28-4" tabindex="-1"></a></span>
+<span id="cb28-5"><a href="smoothing-chapter.html#cb28-5" tabindex="-1"></a><span class="fu">vcf2diem</span>(<span class="at">SNP =</span> dat, <span class="at">filename =</span> <span class="st">&quot;myo&quot;</span>, <span class="at">requireHomozygous =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb28-6"><a href="smoothing-chapter.html#cb28-6" tabindex="-1"></a></span>
+<span id="cb28-7"><a href="smoothing-chapter.html#cb28-7" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">54869</span>)</span>
+<span id="cb28-8"><a href="smoothing-chapter.html#cb28-8" tabindex="-1"></a>res <span class="ot">&lt;-</span> <span class="fu">diem</span>(<span class="st">&quot;myo-001.txt&quot;</span>, <span class="at">ChosenInds =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">14</span>)</span>
+<span id="cb28-9"><a href="smoothing-chapter.html#cb28-9" tabindex="-1"></a></span>
+<span id="cb28-10"><a href="smoothing-chapter.html#cb28-10" tabindex="-1"></a>gen <span class="ot">&lt;-</span> <span class="fu">importPolarized</span>(<span class="st">&quot;myo-001.txt&quot;</span>, </span>
+<span id="cb28-11"><a href="smoothing-chapter.html#cb28-11" tabindex="-1"></a>  <span class="at">changePolarity =</span> res<span class="sc">$</span>markerPolarity, </span>
+<span id="cb28-12"><a href="smoothing-chapter.html#cb28-12" tabindex="-1"></a>  <span class="at">ChosenInds =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">14</span>  </span>
+<span id="cb28-13"><a href="smoothing-chapter.html#cb28-13" tabindex="-1"></a>)</span>
+<span id="cb28-14"><a href="smoothing-chapter.html#cb28-14" tabindex="-1"></a></span>
+<span id="cb28-15"><a href="smoothing-chapter.html#cb28-15" tabindex="-1"></a>HI <span class="ot">&lt;-</span> <span class="fu">hybridIndex</span>(gen)</span></code></pre></div>
+</details>
+<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb29-1"><a href="smoothing-chapter.html#cb29-1" tabindex="-1"></a><span class="co"># read the includedSites file</span></span>
+<span id="cb29-2"><a href="smoothing-chapter.html#cb29-2" tabindex="-1"></a>bed <span class="ot">&lt;-</span> <span class="fu">readIncludedSites</span>(<span class="st">&quot;myo-includedSites.txt&quot;</span>)</span>
+<span id="cb29-3"><a href="smoothing-chapter.html#cb29-3" tabindex="-1"></a></span>
+<span id="cb29-4"><a href="smoothing-chapter.html#cb29-4" tabindex="-1"></a><span class="co"># generate mapping of ranks to genome positions</span></span>
+<span id="cb29-5"><a href="smoothing-chapter.html#cb29-5" tabindex="-1"></a>windows <span class="ot">&lt;-</span> <span class="fu">rank2map</span>(<span class="st">&quot;myo-includedSites.txt&quot;</span>, <span class="at">windowSize =</span> <span class="dv">150</span>)</span>
+<span id="cb29-6"><a href="smoothing-chapter.html#cb29-6" tabindex="-1"></a></span>
+<span id="cb29-7"><a href="smoothing-chapter.html#cb29-7" tabindex="-1"></a><span class="co"># show how window ranges correspond to sites</span></span>
+<span id="cb29-8"><a href="smoothing-chapter.html#cb29-8" tabindex="-1"></a><span class="fu">cbind</span>(windows, bed)</span>
+<span id="cb29-9"><a href="smoothing-chapter.html#cb29-9" tabindex="-1"></a><span class="co">#     1  2      CHROM POS QUAL allele0 allele2</span></span>
+<span id="cb29-10"><a href="smoothing-chapter.html#cb29-10" tabindex="-1"></a><span class="co"># 1   1  1 KE210828.1  60    .       A       G</span></span>
+<span id="cb29-11"><a href="smoothing-chapter.html#cb29-11" tabindex="-1"></a><span class="co"># 2   2  2 KE210828.1 171    .       G       T</span></span>
+<span id="cb29-12"><a href="smoothing-chapter.html#cb29-12" tabindex="-1"></a><span class="co"># 3   3  3 KE212673.1  84    .       A       T</span></span>
+<span id="cb29-13"><a href="smoothing-chapter.html#cb29-13" tabindex="-1"></a><span class="co"># 4   4  4 KE214857.1  90    .       A       G</span></span>
+<span id="cb29-14"><a href="smoothing-chapter.html#cb29-14" tabindex="-1"></a><span class="co"># 5   5  8 KE222443.1 134    .       G       A</span></span>
+<span id="cb29-15"><a href="smoothing-chapter.html#cb29-15" tabindex="-1"></a><span class="co"># 6   5  8 KE222443.1 156    .       T       G</span></span>
+<span id="cb29-16"><a href="smoothing-chapter.html#cb29-16" tabindex="-1"></a><span class="co"># 7   5  9 KE222443.1 171    .       T       G</span></span>
+<span id="cb29-17"><a href="smoothing-chapter.html#cb29-17" tabindex="-1"></a><span class="co"># 8   5  9 KE222443.1 183    .       C       T</span></span>
+<span id="cb29-18"><a href="smoothing-chapter.html#cb29-18" tabindex="-1"></a><span class="co"># 9   7  9 KE222443.1 244    .       C       G</span></span>
+<span id="cb29-19"><a href="smoothing-chapter.html#cb29-19" tabindex="-1"></a><span class="co"># 10 10 10 KE222801.1 100    .       G       A</span></span>
+<span id="cb29-20"><a href="smoothing-chapter.html#cb29-20" tabindex="-1"></a><span class="co"># 11 11 14 KE224361.1 120    .       G       A</span></span>
+<span id="cb29-21"><a href="smoothing-chapter.html#cb29-21" tabindex="-1"></a><span class="co"># 12 11 14 KE224361.1 132    .       G       C</span></span>
+<span id="cb29-22"><a href="smoothing-chapter.html#cb29-22" tabindex="-1"></a><span class="co"># 13 11 14 KE224361.1 175    .       A       C</span></span>
+<span id="cb29-23"><a href="smoothing-chapter.html#cb29-23" tabindex="-1"></a><span class="co"># 14 11 14 KE224361.1 179    .       G       T</span></span>
+<span id="cb29-24"><a href="smoothing-chapter.html#cb29-24" tabindex="-1"></a><span class="co"># 15 15 15 KE227386.1 153    .       A       G</span></span></code></pre></div>
+<p>Each entry in <code>windows</code> corresponds to one marker in the <em>myo-includedSites.txt</em> file and shows a range of sites that are within the desired <code>windowSize</code>, where the window is centered at the reference site. In practice, <code>rank2map</code> looks for half the <code>windowSize</code> in either direction from the evaluated site, respecting the afinity to unique <code>CHROM</code> values. For genomes composed of multiple scaffolds or chromosomes, smoothing should be performed separately for each element, and <code>rank2map</code> ensures that the windows are set up with respect to <code>CHROM</code> values.</p>
+</div>
+<div id="visual-comparison-of-raw-and-smoothed-results" class="section level3 hasAnchor" number="8.1.2">
+<h3><span class="header-section-number">8.1.2</span> Visual comparison of raw and smoothed results<a href="smoothing-chapter.html#visual-comparison-of-raw-and-smoothed-results" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div class="box caution">
+<p>Smoothing should only be applied to mapped data. Using it on unordered or scaffold‑level datasets can distort the genomic signal.</p>
+</div>
+<p>For smoothing to produce meaningful results, the sites in the original VCF file must be sorted by their genomic coordinates. This is an important consideration of the data prior to <code>vcf2diem</code> conversion. See Chapter <span class="citation">(<a href="#ref-ref"><strong>ref?</strong></a>)</span>(vcf2diem).</p>
+<p>The function <code>smoothPolarizedGenotypes()</code> then applies a <strong>Laplace‑kernel weighted mode</strong> (Chapter <span class="citation">(<a href="#ref-ref"><strong>ref?</strong></a>)</span>(Laplace)) to neighbouring markers within a defined window.</p>
+<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb30-1"><a href="smoothing-chapter.html#cb30-1" tabindex="-1"></a><span class="co"># smooth the polarised genotypes using a 150 bp window</span></span>
+<span id="cb30-2"><a href="smoothing-chapter.html#cb30-2" tabindex="-1"></a>genSmooth <span class="ot">&lt;-</span> <span class="fu">smoothPolarizedGenotypes</span>(</span>
+<span id="cb30-3"><a href="smoothing-chapter.html#cb30-3" tabindex="-1"></a>  <span class="at">genotypes =</span> gen,</span>
+<span id="cb30-4"><a href="smoothing-chapter.html#cb30-4" tabindex="-1"></a>  <span class="at">includedSites =</span> <span class="st">&quot;myo-includedSites.txt&quot;</span>,</span>
+<span id="cb30-5"><a href="smoothing-chapter.html#cb30-5" tabindex="-1"></a>  <span class="at">windowSize =</span> <span class="dv">150</span></span>
+<span id="cb30-6"><a href="smoothing-chapter.html#cb30-6" tabindex="-1"></a>)</span></code></pre></div>
+<p>The function returns a genotype matrix with the same dimensions and site order as the input, but with smoothed genomic states. These can be used directly in <code>plotPolarized()</code> or in hybrid‑index calculations just like raw genotypes.</p>
+<p>The window size is specified in base pairs and should match the expected local scale of linkage. Because recombination rates differ among taxa and genomic regions, it is best to compare several window values empirically. Smaller windows follow local fluctuations more closely, whereas larger windows yield a smoother signal that can merge nearby ancestry blocks. The goal is to retain broad ancestry patterns while avoiding over‑smoothing.</p>
+<p>The example below compares raw and smoothed genotype visualisations. The smoothing does not change overall polarity—it only reduces short‑range noise introduced by individual SNVs.</p>
+<div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb31-1"><a href="smoothing-chapter.html#cb31-1" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>))</span>
+<span id="cb31-2"><a href="smoothing-chapter.html#cb31-2" tabindex="-1"></a><span class="fu">plotPolarized</span>(gen, HI)</span>
+<span id="cb31-3"><a href="smoothing-chapter.html#cb31-3" tabindex="-1"></a><span class="fu">plotPolarized</span>(genSmooth, HI)</span></code></pre></div>
+<p><img src="figs/smooth.png" width="100%" /></p>
+<p>The smoothed profile follows the same general trajectory as the raw data but removes fine‑scale irregularities. The resulting heatmap highlights broad ancestry transitions and provides a clearer view of barriers to gene flow along chromosomes.</p>
+</div>
+</div>
+<div id="interpretation-and-downstream-use" class="section level2 hasAnchor" number="8.2">
+<h2><span class="header-section-number">8.2</span> Interpretation and downstream use<a href="smoothing-chapter.html#interpretation-and-downstream-use" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Smoothing algorithm implemented in <code>diemr</code> since version 1.4.2 uses a truncated Laplace kernel to calculate weighted mode genomic state for each smoothed site. The Laplace kernel gives the highest weight to nearby markers while gradually down-weighting distant ones, producing smooth but localised transitions in the polarised signal. The truncation limits the influence of distant loci so that ancestry shifts remain aligned with finite physical genomic distance.</p>
+<p>Mapping and smoothing improve interpretability of <em>diem</em> output in three ways:</p>
+<ol style="list-style-type: decimal">
+<li><p>stabilising local genomic states and reducing noise caused by marker spacing,</p></li>
+<li><p>expressing barrier strength and ancestry transitions in physical coordinates, and</p></li>
+<li><p>facilitating integration with genomic context such as recombination rate, gene density, or structural features.</p></li>
+</ol>
+<p>When reporting smoothed results, always specify the window size and kernel type used.
+Smoothing clarifies broad-scale patterns but should not replace marker-level interpretation.</p>
+<details>
+<summary>
+<strong>Methodological explanation of the Laplace kernel smoothing</strong>
+</summary>
+<div id="Laplace" class="section level3 hasAnchor" number="8.2.1">
+<h3><span class="header-section-number">8.2.1</span> Methodological explanation of the Laplace kernel smoothing<a href="smoothing-chapter.html#Laplace" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>The smoothing algorithm applies a truncated Laplace kernel over physical distance and assigns each site the weighted modal genomic state within the window. This can be described as <strong>Laplace-kernel weighted mode smoothing</strong>.</p>
+<p>Smoothing is applied <strong>per chromosome</strong>. For each individual <span class="math inline">\(i\)</span> and focal site <span class="math inline">\(j\)</span> at position <span class="math inline">\(x_j\)</span>, we consider all neighbouring sites within a symmetric window of half-width <span class="math inline">\(\text{windowSize}/2\)</span> base pairs. Rather than averaging genotype values, the algorithm computes a <strong>kernel-weighted vote</strong> over discrete genomic states <span class="math inline">\(s \in \{_,0,1,2\}\)</span> (unknown genomic state <code>_</code>, homozygous genotypes of two most frequent alleles denoted as <code>0</code> and <code>2</code>, and heterozygots as <code>1</code>, chapter <a href="diemFormat.html#diemFormat">3</a>) and assigns the <strong>state with the highest weighted support</strong> to the focal site.</p>
+<p>The goal is to reduce short-range noise caused by uneven marker spacing and stochastic variation, while preserving discrete genomic states that reflect linkage blocks and recombination.</p>
+<p>The smoothing method considers a <strong>centred physical window</strong> of width <code>windowSize</code> (bp), i.e. positions <span class="math inline">\(x\)</span> with
+<span class="math display">\[
+x \in \left[x_j - \frac{\text{windowSize}}{2}, x_j + \frac{\text{windowSize}}{2}\right].
+\]</span>
+Within that window, neighbouring markers “vote” for their discrete genomic states <span class="math inline">\(s\in \{_,0,1,2\}\)</span> with <strong>Laplace weights</strong> that decay with distance from the focal site. The smoothed value at <span class="math inline">\(j\)</span> is the <strong>weighted mode</strong> (state with the largest total weight).</p>
+<p>It is important that the smoothing is applied to physical distances between SNVs, so the <code>rank2map</code> internally computes the <strong>start and end site indices</strong> whose positions fall inside the centred interval for site <span class="math inline">\(j\)</span>.</p>
+<div id="implemented-kernel-truncation-and-scaling" class="section level4 hasAnchor" number="8.2.1.1">
+<h4><span class="header-section-number">8.2.1.1</span> Implemented kernel, truncation and scaling<a href="smoothing-chapter.html#implemented-kernel-truncation-and-scaling" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<p>Let <span class="math inline">\(d = x - x_j\)</span> be the <strong>centred physical distance</strong> (bp) from the focal site. The kernel is only ever evaluated inside the centred window; weights for positions outside are never computed or used.</p>
+<p>Define the <strong>Laplace scale</strong> <span class="math inline">\(b\)</span> as a function of <code>windowSize</code>:
+<span class="math display">\[
+b = \frac{\text{windowSize}}{2 \ln 20}.
+\]</span></p>
+<p>This choice guarantees that a two-sided Laplace distribution truncated at <span class="math inline">\(\pm b\ln 20\)</span> retains 95% of its mass (because <span class="math inline">\(\Pr(|X|&gt;a)=e^{-a/b}\)</span>, so with <span class="math inline">\(a=b\ln 20\)</span>, the tail is <span class="math inline">\(1/20=0.05)\)</span>.</p>
+<p>The code evaluates integer-spaced centred offsets
+<span class="math display">\[
+x \in {-\lfloor \tfrac{\text{windowSize}}{2}\rfloor,\ldots, -1,0,1,\ldots,\lfloor \tfrac{\text{windowSize}}{2}\rfloor}
+\]</span>
+and assigns <strong>truncated Laplace weights</strong>:
+<span class="math display">\[
+w_x = \frac{10}{19} \exp\left(-\frac{|x|}{b}\right),\quad \text{for } |x| \le \frac{\text{windowSize}}{2}.
+\]</span></p>
+<blockquote>
+<p><strong>Notes on scaling and normalisation:</strong></p>
+<ul>
+<li>The constant <span class="math inline">\(10/19\)</span> is an explicit global scaling applied to all in-window weights (see <code>truncatedLaplace</code>); it is not a per-site normalisation.</li>
+<li>Because the algorithm selects a <strong>weighted mode</strong>, only relative weights matter; any common multiplicative constant cancels.</li>
+<li>There is no per-window re-normalisation; the code compares <strong>sums of weights</strong> across states directly.</li>
+</ul>
+</blockquote>
+</div>
+<div id="weighted-mode-smoothing" class="section level4 hasAnchor" number="8.2.1.2">
+<h4><span class="header-section-number">8.2.1.2</span> Weighted-mode smoothing<a href="smoothing-chapter.html#weighted-mode-smoothing" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<p>For each focal site <span class="math inline">\(j\)</span> and individual <span class="math inline">\(i\)</span>, we compute <strong>state-specific support</strong> by summing weights over all neighbours within the centred window whose genotype equals that state:
+<span class="math display">\[
+S_s(i,j) = \sum_{k \in \text{window}(j)}
+  \begin{cases}
+    w_{(x_k - x_j)}, &amp; \text{if } g_{i,k} = s, \\
+    0, &amp; \text{otherwise.}
+  \end{cases}
+\]</span></p>
+<p>The <strong>smoothed state</strong> is the argmax:
+<span class="math display">\[
+\tilde g_{i,j} = \arg\max_{s\in \{_,0,1,2\}} S_s(i,j).
+\]</span></p>
+</div>
+<div id="tie-breaking-exact-order-used" class="section level4 hasAnchor" number="8.2.1.3">
+<h4><span class="header-section-number">8.2.1.3</span> Tie-breaking (exact order used)<a href="smoothing-chapter.html#tie-breaking-exact-order-used" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<p>If two or more states tie, internal function <code>unbiasedWeightedStateChoice</code> breaks ties in this strict sequence:</p>
+<ol style="list-style-type: decimal">
+<li><strong>Higher total weight</strong> <span class="math inline">\(S_s(i,j)\)</span> (the primary criterion).</li>
+<li><strong>Higher single-occurrence weight</strong> for the state (i.e. the largest <span class="math inline">\(w\)</span> among markers supporting that state).</li>
+<li><strong>Lexicographic order</strong> of the state label (with numeric states treated as character, effectively <code>"0" &lt; "1" &lt; "2"</code>).</li>
+</ol>
+<p>This is the complete list; there is <strong>no</strong> preference for the focal site’s own genotype unless it wins under the rules above.</p>
+</details>
+
+</div>
+</div>
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="DIfiltering.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="references.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+  "sharing": null,
+  "fontsettings": {
+    "theme": "white",
+    "family": "sans",
+    "size": 2
+  },
+  "edit": {
+    "link": null,
+    "text": null
+  },
+  "history": {
+    "link": null,
+    "text": null
+  },
+  "view": {
+    "link": null,
+    "text": null
+  },
+  "download": ["genome-polarisation.pdf", "genome-polarisation.epub"],
+  "search": {
+    "engine": "fuse",
+    "options": null
+  },
+  "toc": {
+    "collapse": "section"
+  },
+  "navbar": {
+    "right": [
+      {
+        "text": "Cite",
+        "href": "#how-to-cite"
+      }
+    ]
+  }
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

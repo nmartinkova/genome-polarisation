@@ -4,7 +4,7 @@
 
 
 
-After obtaining polarised genotypes and diagnostic indices from previous steps, the next step is to identify markers that most clearly distinguish the two sides of the barrier. This chapter demonstrates how to use the diagnostic index (DI) for that purpose. A note in the Chapter \@ref(intro) cautioned against using whole-genome summaries for downstream analyses. This chapter expands the *Quick start* introduction.
+After obtaining polarised genotypes and diagnostic indices from previous steps, the next step is to identify markers that most clearly distinguish the two sides of the barrier. This chapter demonstrates how to use the diagnostic index for that purpose. A note in the Chapter \@ref(intro) cautioned against using whole-genome summaries for downstream analyses. This chapter expands the *Quick start* introduction.
 
 During genome polarisation, each site receives a likelihood-based **diagnostic index (DI)** that quantifies its contribution to distinguishing the two sides of the barrier. Sites with low DI are weakly informative and act as noise; they inflate apparent heterogeneity and reduce clarity in hybrid index (HI) plots. Filtering sites by DI allows extraction of informative genomic markers that:
 

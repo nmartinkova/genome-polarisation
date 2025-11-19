@@ -119,7 +119,7 @@
 
 \title{Genome polarisation with diemr}
 \author{Natália Martínková}
-\date{Last updated: 2025-10-15}
+\date{Last updated: 2025-11-19}
 
 \begin{document}
 \maketitle
@@ -333,7 +333,7 @@ from each compartment can be extracted from the list in the \texttt{res2\$Polari
 \CommentTok{\# Import each compartment into a list}
 \NormalTok{genotypes2 }\OtherTok{\textless{}{-}} \FunctionTok{importPolarized}\NormalTok{(}\AttributeTok{file =}\NormalTok{ filepaths2, }
                        \AttributeTok{changePolarity =}\NormalTok{ res2}\SpecialCharTok{$}\NormalTok{markerPolarity, }
-                       \AttributeTok{ChosenInds =}\NormalTok{ samples)}\ErrorTok{)} 
+                       \AttributeTok{ChosenInds =}\NormalTok{ samples) }
                        
 \CommentTok{\# Load individual hybrid indices from a stored file}
 \NormalTok{h2 }\OtherTok{\textless{}{-}} \FunctionTok{hybridIndex}\NormalTok{(}\StringTok{"HIwithOptimalPolarities.txt"}\NormalTok{)}
@@ -346,26 +346,52 @@ from each compartment can be extracted from the list in the \texttt{res2\$Polari
 
 \begin{center}\includegraphics{01-diemr-diagnostic-index-expecation-maximisation-in-r_files/figure-latex/unnamed-chunk-9-1} \end{center}
 
-\chapter{Importing data for genome polarisation}\label{importing-data-for-genome-polarisation}
+\chapter{Importing data for genome polarisation}\label{vcf2diem}
 
 \emph{Natália Martínková and Stuart J. E. Baird}
 
 \section{Conversion from VCF format}\label{conversion-from-vcf-format}
 
-The package \texttt{diemr} provides a function \texttt{vcf2diem}, which converts diploid genotypes in a vcf file (optionally, the vcf file can be gzipped) or an \texttt{vcfR} object loaded into \texttt{R} to a file with format required by \texttt{diem}. To start, load the \texttt{diemr} package or install it from CRAN if it is not yet available:
+The package \texttt{diemr} provides a function \texttt{vcf2diem}, which converts diploid genotypes in a VCF file (optionally, the VCF file can be gzipped) or an \texttt{vcfR} object loaded into \texttt{R} to a file with format required by \texttt{diem}.
+
+Genome polarisation requires variant sites to be processed in physical order along chromosomes. If your pipeline contained sorting, no action is needed. Otherwise, guidelines for correcting site order are provided in the hidden section below.
+
+\textbf{Sorting VCF files before genome polarisation}
+
+\subsection{Sorting VCF files before genome polarisation}\label{sorting-vcf-files-before-genome-polarisation}
+
+Many tools produce ordered VCF files by default, but others may output scaffolds or contigs in an arbitrary sequence, or return variants in the order they were discovered rather than their coordinates.
+
+Before importing any VCF file into \texttt{diemr}, confirm that sites are sorted by chromosome and position.
+
+Sorting matters for three reasons:
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Spatial summaries and genome-wide visualisations} depend on correct genomic order (Chapter \ref{visualisation}). Hybrid index interpretation is unaffected, but positional summaries are not.
+\item
+  \textbf{Marker axis plotting} (Chapter \ref{plotMarkerAxis}) requires positions to increase monotonically. Unsorted input causes axes to wrap or jump.
+\item
+  \textbf{Window-based smoothing} (Chapter \ref{smoothing-chapter}) relies on physical proximity. Unsorted sites disrupt neighbourhood windows and distort ancestry patterns.
+\end{itemize}
+
+To ensure that the VCF is correctly sorted, use \texttt{bcftools\ sort}, which respects contig order in the header and handles large files efficiently.
+
+Example (recommended):
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\CommentTok{\# Attempt to load a package, if the package was not }
-\CommentTok{\# available, install and load}
-\ControlFlowTok{if}\NormalTok{(}\SpecialCharTok{!}\FunctionTok{require}\NormalTok{(}\StringTok{"diemr"}\NormalTok{, }\AttributeTok{character.only =} \ConstantTok{TRUE}\NormalTok{))\{}
-    \FunctionTok{install.packages}\NormalTok{(}\StringTok{"diemr"}\NormalTok{, }\AttributeTok{dependencies =} \ConstantTok{TRUE}\NormalTok{)}
-    \FunctionTok{library}\NormalTok{(}\StringTok{"diemr"}\NormalTok{, }\AttributeTok{character.only =} \ConstantTok{TRUE}\NormalTok{)}
-\NormalTok{\}}
+\NormalTok{bcftools sort input.vcf {-}Oz {-}o sorted.vcf.gz}
+\NormalTok{tabix {-}p vcf sorted.vcf.gz}
 \end{Highlighting}
 \end{Shaded}
 
-Next, decide whether all markers in the vcf file should be polarised from one file, or whether the analysis will benefit from parallelisation. Parallelisation is available on UNIX-based platforms, and we advise to use it for large datasets. \texttt{diem} itself can also work in parallel on multiple data \emph{compartments}. vcf files and \emph{compartments} can correspond to the same thing OR you can concatenate/split vcf2diem outputs to produce \texttt{diem} input \emph{compartments}.
+The VCF files can also be sorted with tools such as \texttt{vcf-sort} (from \texttt{vcftools}) or a plain UNIX \texttt{sort}, but these methods rely on lexicographic chromosome order and may mis-order contigs unless a contig header is present. For reproducible workflows, always prefer \texttt{bcftools\ sort}.
+
+Once the VCF is sorted and indexed, it is ready for \texttt{vcf2diem} conversion.
+
+The number of chunks the SNVs are divided into matters for parallelisation of \texttt{diem} analyses and import of polarised genotypes. Therefore, decide whether all sites in the VCF file should be polarised from one file, or whether the analysis will benefit from parallelisation. Parallelisation is available on UNIX-based platforms, and we advise to use it for large datasets. \texttt{diem} itself can also work in parallel on multiple data \emph{compartments}. VCF files and \emph{compartments} can correspond to the same thing or you can concatenate/split \texttt{vcf2diem} outputs to produce \texttt{diem} input \emph{compartments}. Parallelisation is most efficient when \textbf{chunks contain the same number of SNVs}.
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -377,13 +403,13 @@ Next, decide whether all markers in the vcf file should be polarised from one fi
 \NormalTok{outputfile }\OtherTok{\textless{}{-}} \StringTok{"myotis"}
 \CommentTok{\# Convert the vcf file to two diem files}
 \FunctionTok{vcf2diem}\NormalTok{(}\AttributeTok{SNP =}\NormalTok{ inputfile, }\AttributeTok{filename =}\NormalTok{ outputfile, }\AttributeTok{chunk =} \DecValTok{2}\NormalTok{)}
-\CommentTok{\# Expecting to include 11 markers per diem file.}
-\CommentTok{\# If you expect more markers in the file, provide suitable chunk size.}
+\CommentTok{\# Expecting to include 11 sites per diem file.}
+\CommentTok{\# If you expect more sites in the file, provide suitable chunk size.}
 \CommentTok{\# Done with chunk 1}
 \end{Highlighting}
 \end{Shaded}
 
-The \texttt{vcf2diem} function processes calls for sites into the \texttt{diem} encoding for sites. The site order will be identical to that in the original vcf file (but see chapter \hyperref[sites-not-informative-for-genome-polarisation]{Sites not informative for genome polarisation}).
+The \texttt{vcf2diem} function converts diploid calls into the \texttt{diem} site encoding. The order of sites in the output matches the original VCF file (but see chapter \hyperref[sites-not-informative-for-genome-polarisation]{Sites not informative for genome polarisation}).
 
 \section{Principle of conversion to diem format}\label{principle-of-conversion-to-diem-format}
 
@@ -394,11 +420,11 @@ and \texttt{U} (symbol ``\_'' is also allowed) is an unknown state that can be a
 
 \subsection{Invariant sites and indels}\label{invariant-sites-and-indels}
 
-What logically follows from this description is that genome polarisation is meaningful only for variant sites (markers). Invariant sites will have \textbf{low support} and, though they will not change the \texttt{diem} outcome, they will slow down convergence and obscure the nature of change between taxa. During \texttt{diem} iterations their obscuring effect is removed by rescaling the hybrid indices onto \([0,1]\)
+What logically follows from this description is that genome polarisation is meaningful only for variant sites (we call variant sites with high diagnostic index after genome polarisation markers). Invariant sites will have \textbf{low support} and, though they will not change the \texttt{diem} outcome, they will slow down convergence and obscure the nature of change between taxa. During \texttt{diem} iterations their obscuring effect is removed by rescaling the hybrid indices onto \([0,1]\)
 
 Including invariant sites in genome polarisation is acceptable, and likely unavoidable. A proportion of truly invariant sites will be mis-diagnosed as variant due to sequencing errors.
 
-At this time, genome polarisation uses variant markers where alleles differ in nucleotide substitutions. Insertions or deletions (indels) are not allowed to be classified among the most frequent alleles in the \texttt{vcf2diem} function.
+At this time, genome polarisation uses variant sites where alleles differ in nucleotide substitutions. Insertions or deletions (indels) are not allowed to be classified among the most frequent alleles in the \texttt{vcf2diem} function.
 
 \subsection{Sites not informative for genome polarisation}\label{sites-not-informative-for-genome-polarisation}
 
@@ -408,7 +434,7 @@ Uninformative sites will have support equal to 0, and their polarity will thus b
 
 \subsection{Haploid data}\label{haploid-data}
 
-Haploid data, including markers on sex chromosomes of the heterogametic sex, are usually shown as sequence alignments. To illustrate the principle of genome representation used in \texttt{diem}, let's have an 8bp-long alignment with five individuals.
+Haploid data, including sites on sex chromosomes of the heterogametic sex, are usually shown as sequence alignments. To illustrate the principle of genome representation used in \texttt{diem}, let's have an 8bp-long alignment with five individuals.
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -421,20 +447,20 @@ Haploid data, including markers on sex chromosomes of the heterogametic sex, are
 \end{Highlighting}
 \end{Shaded}
 
-We can see that the example alignment contains four variant markers at sites 1, 4, 5, and 8. Marker 5 contains a deletion in ind3, while other markers vary in different nucleotide substitutions. In marker 1, two individuals have an allele A, two individuals have an allele T and one has a C. This marker can be resolved in terms of two most frequent alleles A and T, where the individual ind4 has a third allele and is therefore considered as having an unknown genomic state. To convert the marker into \texttt{diem} format, we must make a decision on which allele will be encoded as 0. The choice is arbitrary. Good practice is to \textbf{keep a record of genotype encoding}. Let's decide that all alleles in ind1 will be encoded as 0. Marker 1 will then be \texttt{022\_0}.
+We can see that the example alignment contains four variant sites at sites 1, 4, 5, and 8. Site 5 contains a deletion in ind3, while other sites vary in different nucleotide substitutions. In site 1, two individuals have an allele A, two individuals have an allele T and one has a C. This site can be resolved in terms of two most frequent alleles A and T, where the individual ind4 has a third allele and is therefore considered as having an unknown genomic state. To convert the site into \texttt{diem} format, we must make a decision on which allele will be encoded as 0. The choice is arbitrary. Good practice is to \textbf{keep a record of genotype encoding}. Let's decide that all alleles in ind1 will be encoded as 0. Site 1 will then be \texttt{022\_0}.
 
-Contrary to DNA sequence alignments, diem format transposes the data. Rows in diem input files are markers and columns represent individual samples. The diem output for the example alignment will thus have four lines representing the four variant markers, and five columns representing the individuals.
+Contrary to DNA sequence alignments, diem format transposes the data. Rows in diem input files are sites and columns represent individual samples. The diem output for the example alignment will thus have four lines representing the four variant sites, and five columns representing the individuals.
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\NormalTok{Marker1   }\DecValTok{022}\NormalTok{\_0}
-\NormalTok{Marker4   }\DecValTok{02020}
-\NormalTok{Marker5   }\DecValTok{02}\NormalTok{\_00}
-\NormalTok{Marker8   }\DecValTok{00202}
+\NormalTok{Site1   }\DecValTok{022}\NormalTok{\_0}
+\NormalTok{Site4   }\DecValTok{02020}
+\NormalTok{Site5   }\DecValTok{02}\NormalTok{\_00}
+\NormalTok{Site8   }\DecValTok{00202}
 \end{Highlighting}
 \end{Shaded}
 
-The diem format does not store information on marker identification or location. This metadata must be saved separately in a `bed-like' file (with at minimum the scaffold and position for each site). \texttt{diem} uses a prefix \texttt{S} at line starts to ensure that all operating systems always read genotypes as strings without attempting to convert them into numbers. Encoding of markers 4 and 8 shown above is at risk of being interpreted as numeric. The final file in \texttt{diem} format will be:
+The \emph{diem} format does not store information on site identification or location. This metadata must be saved separately in a `bed-like' file (with at minimum the scaffold and position for each site). \texttt{diem} uses a prefix \texttt{S} at line starts to ensure that all operating systems always read genotypes as strings without attempting to convert them into numbers. Encoding of sites 4 and 8 shown above is at risk of being interpreted as numeric. The final file in \texttt{diem} format will be:
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -449,37 +475,37 @@ The diem format does not store information on marker identification or location.
 
 \subsubsection{Heterozygotes in DNA sequence alignments}\label{heterozygotes-in-dna-sequence-alignments}
 
-Diploid markers in DNA sequence alignment can be resolved in an analogous way to haploid markers. Heterozygotes in alignments can be identified according to their \href{https://www.ncbi.nlm.nih.gov/pmc/articles/PMC2865858/table/T1/}{IUPAC DNA ambiguity codes}. For example, code W may represent an accepted heterozygote in Marker 1, where the most frequent alleles are A and T.
+Diploid sites in DNA sequence alignment can be resolved in an analogous way to haploid sites. Heterozygotes in alignments can be identified according to their \href{https://www.ncbi.nlm.nih.gov/pmc/articles/PMC2865858/table/T1/}{IUPAC DNA ambiguity codes}. For example, code W may represent an accepted heterozygote in Site 1, where the most frequent alleles are A and T.
 
 \section{Variant call format}\label{variant-call-format}
 
-Variant markers in genomic context will be most often identified using variant callers from sequence reads mapped onto a reference. Such data are stored or can be converted to variant call format (vcf). We implemented conversion of vcf files to diem format for the \href{https://github.com/samtools/hts-specs/blob/master/VCFv4.2.pdf}{vcf version 4.2} in function \texttt{vcf2diem}. The function resolves indels and markers with more than two alleles to obtain biallelic genotypes for all markers included in the original vcf file.
+Variant sites in genomic context will be most often identified using variant callers from sequence reads mapped onto a reference. Such data are stored or can be converted to variant call format (VCF). We implemented conversion of VCF files to diem format for the \href{https://github.com/samtools/hts-specs/blob/master/VCFv4.2.pdf}{VCF version 4.2} in function \texttt{vcf2diem}. The function resolves indels and sites with more than two alleles to obtain biallelic genotypes for all sites included in the original VCF file.
 
 \begin{enumerate}
 \def\labelenumi{\arabic{enumi}.}
 \tightlist
 \item
-  Markers with the reference allele (column REF) containing insertions are set as unknown.
+  Sites with the reference allele (column REF) containing insertions are set as unknown.
 \item
-  Markers with the alternative allele (column ALT) containing only indels are set as unknown.
+  Sites with the alternative allele (column ALT) containing only indels are set as unknown.
 \item
   Indels in the alternative alleles are set as unknown.
 \item
-  Overall allele counts in markers with more than two alleles representing substitutions are calculated and the two most frequent alleles are selected. Ties are (arbitrarily) resolved according to the allele order in the vcf file.
+  Overall allele counts in sites with more than two alleles representing substitutions are calculated and the two most frequent alleles are selected. Ties are (arbitrarily) resolved according to the allele order in the VCF file.
 \item
   Third and fourth most frequent substitutions are set as unknown.
 \end{enumerate}
 
-The conversion might result in some markers no longer being polymorphic. We advise checking how frequent invariant markers are after conversion.
+The conversion might result in some sites no longer being polymorphic. We advise checking how frequent invariant sites are after conversion.
 
 \begin{Shaded}
 \begin{Highlighting}[]
 \CommentTok{\# Import the first converted file for all individuals }
-\CommentTok{\# and without changing marker polarity}
+\CommentTok{\# and without changing site polarity}
 \NormalTok{myotis }\OtherTok{\textless{}{-}} \FunctionTok{importPolarized}\NormalTok{(}\StringTok{"myotis{-}01.txt"}\NormalTok{, }
                           \AttributeTok{changePolarity =} \FunctionTok{rep}\NormalTok{(}\ConstantTok{FALSE}\NormalTok{, }\DecValTok{11}\NormalTok{), }
                           \AttributeTok{ChosenInds =} \DecValTok{1}\SpecialCharTok{:}\DecValTok{14}\NormalTok{)}
-\CommentTok{\# Check whether a marker includes heterozygotes }
+\CommentTok{\# Check whether a site includes heterozygotes }
 \CommentTok{\# or that there is more than one genotype}
 \FunctionTok{apply}\NormalTok{(myotis, }\AttributeTok{MARGIN =} \DecValTok{2}\NormalTok{, }
       \AttributeTok{FUN =}\NormalTok{ \textbackslash{}(x) }\FunctionTok{any}\NormalTok{(}\FunctionTok{grepl}\NormalTok{(}\StringTok{"1"}\NormalTok{, x)) }\SpecialCharTok{|} \FunctionTok{sum}\NormalTok{(}\FunctionTok{levels}\NormalTok{(}\FunctionTok{factor}\NormalTok{(x)) }\SpecialCharTok{\%in\%} \FunctionTok{c}\NormalTok{(}\StringTok{"0"}\NormalTok{, }\StringTok{"1"}\NormalTok{, }\StringTok{"2"}\NormalTok{)) }\SpecialCharTok{\textgreater{}} \DecValTok{1}\NormalTok{) }
@@ -488,7 +514,7 @@ The conversion might result in some markers no longer being polymorphic. We advi
 \end{Highlighting}
 \end{Shaded}
 
-Starting from version 1.2.2, \texttt{vcf2diem} removes markers that include
+Starting from version 1.2.2, \texttt{vcf2diem} removes sites that include
 
 \begin{enumerate}
 \def\labelenumi{\arabic{enumi}.}
@@ -501,9 +527,9 @@ Starting from version 1.2.2, \texttt{vcf2diem} removes markers that include
   missing data, homozygotes for one ALT allele and one heterozygote.
 \end{enumerate}
 
-We include a list of the removed markers in a bed-like file ending with \emph{-includedSites.txt} in the working directory. The file includes information from columns \texttt{CHROM}, \texttt{POS}, and \texttt{QUAL} for the respective markers, and records the (good practice) \textbf{record of genotype encoding}.
+We include a list of the removed sites in a bed-like file ending with \emph{-includedSites.txt} in the working directory. The file includes information from columns \texttt{CHROM}, \texttt{POS}, and \texttt{QUAL} for the respective sites, and records the (good practice) \textbf{record of genotype encoding}.
 
-We include a list of the removed markers in a bed-like file ending with \emph{-omittedSites.txt} in the working directory. The file includes information from columns \texttt{CHROM}, \texttt{POS}, and \texttt{QUAL} for the respective markers, and provides the reason, why the marker was omitted. \textbf{The file omittedLoci.txt must be checked when interpreting polarised markers} to ensure correct marker annotation.
+We include a list of the removed sites in a bed-like file ending with \emph{-omittedSites.txt} in the working directory. The file includes information from columns \texttt{CHROM}, \texttt{POS}, and \texttt{QUAL} for the respective sites, and provides the reason, why the site was omitted. \textbf{The file \emph{-omittedSites.txt} must be checked when interpreting polarised sites} to ensure correct site annotation.
 
 \section{Polyploid data}\label{polyploid-data}
 
@@ -520,7 +546,7 @@ The same principles apply to higher ploidy datasets. Preparing data in \texttt{d
   Encode homozygous and heterozygous (mixed) genotypes that include only the two most frequent alleles.
 \end{enumerate}
 
-Note that \texttt{vcf2diem} only converts diploid datasets at this time, and should not be used to convert polyploid vcf files.
+Note that \texttt{vcf2diem} only converts diploid datasets at this time, and should not be used to convert polyploid VCF files.
 
 \chapter{Understanding genome polarisation output files}\label{understanding-genome-polarisation-output-files}
 
@@ -537,7 +563,7 @@ Three output files will be saved to the working directory or to the path specifi
 \begin{itemize}
 \tightlist
 \item
-  MarkerDiagnosticsWitOptimalPolarities.txt,
+  MarkerDiagnosticsWithOptimalPolarities.txt,
 \item
   HIwithOptimalPolarities.txt, and
 \item
@@ -664,7 +690,7 @@ The \emph{log.txt} file provides a human-readable overview of the \texttt{diem} 
 
 For subsequent iterations, the log file also quantifies how many markers switch polarities between iterations, and shows the corresponding change to the \({}^4\mathbf{I}\).
 
-\chapter{Visualisation of polarised genotypes}\label{visualisation-of-polarised-genotypes}
+\chapter{Visualisation of polarised genotypes}\label{visualisation}
 
 Visualisation is a key step in interpreting the results of genome polarisation.
 The \texttt{diemr} package provides several functions for graphical inspection of polarised genotypes, including \texttt{plotPolarized} for genome-wide patterns, \texttt{plotMarkerAxis} for adding chromosome information, and \texttt{plotDeFinetti} for individual genotype composition summaries.
@@ -708,7 +734,7 @@ A colour transition across the plot reveals the genomic gradient between parenta
 
 \subsubsection{Adding chromosome information}\label{plotMarkerAxis}
 
-If the input data were generated from a VCF file, marker positions are already available.
+If the input data were generated from a sorted VCF file (Chapter \ref{vcf2diem}), marker positions are already available.
 The file \texttt{*-includedSites.txt} produced by \texttt{vcf2diem} stores physical coordinates for each marker and can be used to draw chromosome names and position ticks beneath the genotype matrix. This file links plotted markers to their genomic locations.
 
 The following example uses a snippet of SNV data with \emph{Myotis} bat diversity \citep{Harazim2021}.
@@ -745,7 +771,7 @@ The following example uses a snippet of SNV data with \emph{Myotis} bat diversit
 
 \begin{center}\includegraphics[width=1\linewidth]{figs/myo-rectangle} \end{center}
 
-If the default marker axis needs adjustments, such as here, where accession numbers overlap, use \texttt{plotMarkerAxis} directly. This returns an \texttt{axisInfo} list so you can modify labels before redrawing. \texttt{plotMarkerAxis} also accepts additional graphical arguments.
+If the default marker axis needs adjustments, such as here, where accession numbers overlap, use \texttt{plotMarkerAxis} directly. This returns an \texttt{axisInfo} list so you can modify labels before redrawing. \texttt{plotMarkerAxis} also accepts additional graphical arguments. For the full list of supported graphical arguments, check the function help with \texttt{?plotMarkerAxis}.
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -762,7 +788,7 @@ If the default marker axis needs adjustments, such as here, where accession numb
 \end{Highlighting}
 \end{Shaded}
 
-The \texttt{axisInfo} list will now contain five elements with plotting data. Let's shorten the contig names and convert the tick labels to base pairs (default is to display milions of base pairs). This list can then be used for plotting directly, without the need to recalculate the position of the axis elements from the \texttt{*-includedSites.txt} file.
+The \texttt{axisInfo} list will now contain five elements with plotting data. Let's shorten the contig names and convert the tick labels to base pairs (default is to display millions of base pairs). This list can then be used for plotting directly, without the need to recalculate the position of the axis elements from the \texttt{*-includedSites.txt} file.
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -821,7 +847,7 @@ This layout is compact for displaying genomes of many individuals and highlights
 
 \chapter{Filtering sites by diagnostic index}\label{DIfiltering}
 
-After obtaining polarised genotypes and diagnostic indices from previous steps, the next step is to identify markers that most clearly distinguish the two sides of the barrier. This chapter demonstrates how to use the diagnostic index (DI) for that purpose. A note in the Chapter \ref{intro} cautioned against using whole-genome summaries for downstream analyses. This chapter expands the \emph{Quick start} introduction.
+After obtaining polarised genotypes and diagnostic indices from previous steps, the next step is to identify markers that most clearly distinguish the two sides of the barrier. This chapter demonstrates how to use the diagnostic index for that purpose. A note in the Chapter \ref{intro} cautioned against using whole-genome summaries for downstream analyses. This chapter expands the \emph{Quick start} introduction.
 
 During genome polarisation, each site receives a likelihood-based \textbf{diagnostic index (DI)} that quantifies its contribution to distinguishing the two sides of the barrier. Sites with low DI are weakly informative and act as noise; they inflate apparent heterogeneity and reduce clarity in hybrid index (HI) plots. Filtering sites by DI allows extraction of informative genomic markers that:
 
@@ -856,6 +882,13 @@ Full code to prepare data to execute the examples in this chapter
 
 \begin{Shaded}
 \begin{Highlighting}[]
+\CommentTok{\# read the marker diagnostics file. read.table is possible, }
+\CommentTok{\# but for large genomic datasets, fread from the pacckage}
+\CommentTok{\# data.table is more efficient}
+\NormalTok{DI }\OtherTok{\textless{}{-}}\NormalTok{ data.table}\SpecialCharTok{::}\FunctionTok{fread}\NormalTok{(}\StringTok{"MarkerDiagnosticsWithOptimalPolarities.txt"}\NormalTok{, }
+  \AttributeTok{header =} \ConstantTok{TRUE}\NormalTok{, }\AttributeTok{data.table =} \ConstantTok{FALSE}
+\NormalTok{)}
+
 \CommentTok{\# import polarised genotypes for the diagnostic markers}
 \NormalTok{gen }\OtherTok{\textless{}{-}} \FunctionTok{importPolarized}\NormalTok{(}
   \FunctionTok{system.file}\NormalTok{(}\StringTok{"extdata"}\NormalTok{, }\StringTok{"testBarrier2.txt"}\NormalTok{, }\AttributeTok{package =} \StringTok{"diemr"}\NormalTok{),}
@@ -888,16 +921,10 @@ Full code to prepare data to execute the examples in this chapter
 
 The function \texttt{hybridIndex} estimates the proportion of alleles belonging to one side of the barrier across all polarised sites for each individual, automatically accounting for missing data. \texttt{plotPolarized} orders individuals by their hybrid index. Displaying the hybrid indices alongside a heatmap of polarised genotypes provides a visual guide to the quantitative change in genome admixture.
 
-The figure shows high genetic variability across the data. Next, let's plot only 30\% of markers with the highest diagnostic index.
+The figure shows high genetic variability across the data. Next, let's plot only 40\% of markers with the highest diagnostic index.
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\CommentTok{\# read the marker diagnostics file. read.table is possible, }
-\CommentTok{\# but for large genomic datasets, fread is more efficient}
-\NormalTok{DI }\OtherTok{\textless{}{-}}\NormalTok{ data.table}\SpecialCharTok{::}\FunctionTok{fread}\NormalTok{(}\StringTok{"MarkerDiagnosticsWithOptimalPolarities.txt"}\NormalTok{, }
-  \AttributeTok{header =} \ConstantTok{TRUE}\NormalTok{, }\AttributeTok{data.table =} \ConstantTok{FALSE}
-\NormalTok{)}
-
 \CommentTok{\# keep the top 40\% most diagnostic sites}
 \NormalTok{threshold }\OtherTok{\textless{}{-}} \FloatTok{0.6}
 \NormalTok{whichMarkers }\OtherTok{\textless{}{-}}\NormalTok{ DI}\SpecialCharTok{$}\NormalTok{DI }\SpecialCharTok{\textgreater{}=} \FunctionTok{quantile}\NormalTok{(DI}\SpecialCharTok{$}\NormalTok{DI, }\AttributeTok{probs =}\NormalTok{ threshold)}
@@ -951,7 +978,7 @@ The first option is the cleanest, but both are not mutually exclusive. Let's use
 
 \includegraphics[width=1\linewidth]{figs/hist}
 
-Plotting the DI distribution helps identify whether the dataset has a natural break or continuous spectrum of diagnostic values, guiding selection of a reasonable cutoff. Often in genomic datasets, the distribution of DI values is unimodal. In such cases, exploring how DI filtering affects hybrid index profiles is often a more informative way to select an appropriate threshold.
+Plotting the DI distribution helps identify whether the dataset has a natural break or continuous spectrum of diagnostic values, guiding selection of a reasonable cutoff. Often in genomic datasets, the distribution of DI values is unimodal. In such cases, exploring how DI filtering affects hybrid index profiles is a more informative way to select an appropriate threshold.
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -960,9 +987,12 @@ Plotting the DI distribution helps identify whether the dataset has a natural br
 \NormalTok{indOrder }\OtherTok{\textless{}{-}} \FunctionTok{order}\NormalTok{(HI)}
 
 \FunctionTok{layout}\NormalTok{(}\FunctionTok{matrix}\NormalTok{(}\FunctionTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{,}\DecValTok{1}\NormalTok{,}\DecValTok{1}\NormalTok{,}\DecValTok{2}\NormalTok{), }\AttributeTok{nrow =} \DecValTok{1}\NormalTok{))}
-\FunctionTok{plot}\NormalTok{(HI[indOrder], }\AttributeTok{pch =} \DecValTok{19}\NormalTok{, }\AttributeTok{ylim =} \FunctionTok{c}\NormalTok{(}\DecValTok{0}\NormalTok{, }\DecValTok{1}\NormalTok{),}
+\FunctionTok{plot}\NormalTok{(HI[indOrder], }\AttributeTok{pch =} \DecValTok{19}\NormalTok{, }\AttributeTok{ylim =} \FunctionTok{c}\NormalTok{(}\DecValTok{0}\NormalTok{, }\DecValTok{1}\NormalTok{), }\AttributeTok{axes =} \ConstantTok{FALSE}\NormalTok{,}
     \AttributeTok{xlab =} \StringTok{"Individuals"}\NormalTok{, }\AttributeTok{ylab =} \StringTok{"Hybrid index"}
 \NormalTok{)}
+\FunctionTok{axis}\NormalTok{(}\DecValTok{2}\NormalTok{, }\AttributeTok{las =} \DecValTok{1}\NormalTok{)}
+\FunctionTok{axis}\NormalTok{(}\DecValTok{1}\NormalTok{, }\AttributeTok{at =} \DecValTok{1}\SpecialCharTok{:}\FunctionTok{length}\NormalTok{(HI), }\AttributeTok{labels =}\NormalTok{ indOrder)}
+\FunctionTok{box}\NormalTok{()}
 
 \ControlFlowTok{for}\NormalTok{ (threshold }\ControlFlowTok{in}\NormalTok{ thresholds)\{}
 \NormalTok{  whichMarkers }\OtherTok{\textless{}{-}}\NormalTok{ DI}\SpecialCharTok{$}\NormalTok{DI }\SpecialCharTok{\textgreater{}=} \FunctionTok{quantile}\NormalTok{(DI}\SpecialCharTok{$}\NormalTok{DI, }\AttributeTok{probs =}\NormalTok{ threshold)}
@@ -992,7 +1022,7 @@ Diagnostic markers often occur in genomic regions under strong differentiation o
 
 Because markers with high DI are not evenly distributed along chromosomes \citep{Jagos2025}, DI filtering can shift the apparent contribution of different genomic regions to the overall signal. Regions with many fixed differences will remain densely represented, while more homogeneous or highly variable regions may contribute fewer diagnostic markers. When summarising results in windows or genomic compartments, keep this unequal site density in mind.
 
-\chapter{Smoothing polarised genotypes}\label{smoothing-polarised-genotypes}
+\chapter{Smoothing polarised genotypes}\label{smoothing-chapter}
 
 After filtering markers by diagnostic index (Chapter \ref{DIfiltering}), genome polarisation analyses can be mapped to physical coordinates to reveal the genomic landscape of barriers to gene flow. Because SNVs are rarely evenly spaced along chromosomes, the polarised signal can fluctuate sharply between adjacent markers. But these fluctuations might not represent signal change, but confluence with standing genetic variation. While, diagnostic index filtering already removed much of the effect of genetic variation orthogonal to the barrier to gene flow, smoothing along mapped distances helps visualise broad ancestry patterns.
 
@@ -1004,7 +1034,7 @@ The \texttt{smoothPolarizedGenotypes} function applies kernel smoothing to the p
 
 The chromosomal coordinates of diagnostic markers are stored in the output file \emph{-includedSites.txt}, created during VCF conversion by the function \texttt{vcf2diem}. This file lists all sites retained for polarisation and includes columns CHROM, POS, QUAL from the VCF file and allele0 and allele2 indicating alleles represented by the respective numbers when homozygous.
 
-The positional information needed for smoothing can be extracted directly from this file. The function \texttt{rank2map} converts the ranked order of sites in the polarised genotype matrix into their corresponding chromosomal coordinates based on the *-includedSites.txt file. While it is called internally by \texttt{smoothPolarizedGenotypes}, exploring its output helps understand how physical mapping guides the smoothing process.
+The positional information needed for smoothing can be extracted directly from this file. The function \texttt{rank2map} converts the ranked order of sites in the polarised genotype matrix into their corresponding chromosomal coordinates based on the \emph{-includedSites.txt} file. While it is called internally by \texttt{smoothPolarizedGenotypes}, exploring its output helps understand how physical mapping guides the smoothing process.
 
 Full code to prepare data to execute the examples in this chapter
 
@@ -1061,25 +1091,28 @@ Each entry in \texttt{windows} corresponds to one marker in the \emph{myo-includ
 
 \subsection{Visual comparison of raw and smoothed results}\label{visual-comparison-of-raw-and-smoothed-results}
 
-For smoothing to work, the sites in the original vcf file must be sorted.
+Smoothing should only be applied to mapped data. Using it on unordered or scaffold‑level datasets can distort the genomic signal.
+
+For smoothing to produce meaningful results, the sites in the original VCF file must be sorted by their genomic coordinates. This is an important consideration of the data prior to \texttt{vcf2diem} conversion. See Chapter \citet{ref}(vcf2diem).
+
+The function \texttt{smoothPolarizedGenotypes()} then applies a \textbf{Laplace‑kernel weighted mode} (Chapter \citet{ref}(Laplace)) to neighbouring markers within a defined window.
 
 \begin{Shaded}
 \begin{Highlighting}[]
 \CommentTok{\# smooth the polarised genotypes using a 150 bp window}
-\NormalTok{genSmooth }\OtherTok{\textless{}{-}} \FunctionTok{smoothPolarizedGenotypes}\NormalTok{(}\AttributeTok{genotypes =}\NormalTok{ gen,}
-    \AttributeTok{includedSites =} \StringTok{"myo{-}includedSites.txt"}\NormalTok{,}
-    \AttributeTok{windowSize =} \DecValTok{150}\NormalTok{)}
+\NormalTok{genSmooth }\OtherTok{\textless{}{-}} \FunctionTok{smoothPolarizedGenotypes}\NormalTok{(}
+  \AttributeTok{genotypes =}\NormalTok{ gen,}
+  \AttributeTok{includedSites =} \StringTok{"myo{-}includedSites.txt"}\NormalTok{,}
+  \AttributeTok{windowSize =} \DecValTok{150}
+\NormalTok{)}
 \end{Highlighting}
 \end{Shaded}
 
-The object returned by \texttt{smoothPolarizedGenotypes} is a genotype matrix with the same dimensions and site order as the input but containing smoothed genomic state values. These can be used interchangeably with raw genotypes in visualisation and hybrid index calculations.
+The function returns a genotype matrix with the same dimensions and site order as the input, but with smoothed genomic states. These can be used directly in \texttt{plotPolarized()} or in hybrid‑index calculations just like raw genotypes.
 
-The smoothing window is expressed in base pairs, should correspond to the expected local scale of linkage. As recombination rates differ among taxa, selecting an appropriate window is best guided by empirical inspection. Compare several values to find the level of smoothing that preserves broad ancestry patterns without obscuring fine-scale transitions.
-Larger windows produce a more continuous signal but can merge distinct ancestry blocks, while smaller windows follow local fluctuations more closely. The optimal setting depends on marker density and linkage along the genome.
+The window size is specified in base pairs and should match the expected local scale of linkage. Because recombination rates differ among taxa and genomic regions, it is best to compare several window values empirically. Smaller windows follow local fluctuations more closely, whereas larger windows yield a smoother signal that can merge nearby ancestry blocks. The goal is to retain broad ancestry patterns while avoiding over‑smoothing.
 
-Smoothing is recommended only for mapped data. Applying it to unordered or scaffold-level data can distort the genomic signal.
-
-Smoothing does not change the overall polarity of sites but modifies their local continuity. The following example compares raw and smoothed genotypes.
+The example below compares raw and smoothed genotype visualisations. The smoothing does not change overall polarity---it only reduces short‑range noise introduced by individual SNVs.
 
 \begin{Shaded}
 \begin{Highlighting}[]
@@ -1091,7 +1124,7 @@ Smoothing does not change the overall polarity of sites but modifies their local
 
 \includegraphics[width=1\linewidth]{figs/smooth}
 
-The smoothed profile follows the same overall trajectory as the raw data but removes short-range noise caused by individual SNVs. The resulting heatmap highlights broad transitions in ancestry and provides a clearer estimate of barrier to gene flow along chromosomes.
+The smoothed profile follows the same general trajectory as the raw data but removes fine‑scale irregularities. The resulting heatmap highlights broad ancestry transitions and provides a clearer view of barriers to gene flow along chromosomes.
 
 \section{Interpretation and downstream use}\label{interpretation-and-downstream-use}
 
@@ -1114,11 +1147,11 @@ Smoothing clarifies broad-scale patterns but should not replace marker-level int
 
 \textbf{Methodological explanation of the Laplace kernel smoothing}
 
-\subsection{Methodological explanation of the Laplace kernel smoothing}\label{methodological-explanation-of-the-laplace-kernel-smoothing}
+\subsection{Methodological explanation of the Laplace kernel smoothing}\label{Laplace}
 
 The smoothing algorithm applies a truncated Laplace kernel over physical distance and assigns each site the weighted modal genomic state within the window. This can be described as \textbf{Laplace-kernel weighted mode smoothing}.
 
-Smoothing is applied \textbf{per chromosome}. For each individual \(i\) and focal site \(j\) at position \(x_j\), we consider all neighbouring sites within a symmetric window of half-width \(\text{windowSize}/2\) base pairs. Rather than averaging genotype values, the algorithm computes a \textbf{kernel-weighted vote} over discrete genomic states \(s \in {0,1,2}\) (homozygous genotypes of two most frequent alleles denoted as \texttt{0} and \texttt{2}, and heterozygots as \texttt{1}, chapter \ref{diemFormat}) and assigns the \textbf{state with the highest weighted support} to the focal site.
+Smoothing is applied \textbf{per chromosome}. For each individual \(i\) and focal site \(j\) at position \(x_j\), we consider all neighbouring sites within a symmetric window of half-width \(\text{windowSize}/2\) base pairs. Rather than averaging genotype values, the algorithm computes a \textbf{kernel-weighted vote} over discrete genomic states \(s \in \{_,0,1,2\}\) (unknown genomic state \texttt{\_}, homozygous genotypes of two most frequent alleles denoted as \texttt{0} and \texttt{2}, and heterozygots as \texttt{1}, chapter \ref{diemFormat}) and assigns the \textbf{state with the highest weighted support} to the focal site.
 
 The goal is to reduce short-range noise caused by uneven marker spacing and stochastic variation, while preserving discrete genomic states that reflect linkage blocks and recombination.
 
@@ -1126,7 +1159,7 @@ The smoothing method considers a \textbf{centred physical window} of width \text
 \[
 x \in \left[x_j - \frac{\text{windowSize}}{2}, x_j + \frac{\text{windowSize}}{2}\right].
 \]
-Within that window, neighbouring markers ``vote'' for their discrete genomic states \(s\in{0,1,2}\) with \textbf{Laplace weights} that decay with distance from the focal site. The smoothed value at \(j\) is the \textbf{weighted mode} (state with the largest total weight).
+Within that window, neighbouring markers ``vote'' for their discrete genomic states \(s\in \{_,0,1,2\}\) with \textbf{Laplace weights} that decay with distance from the focal site. The smoothed value at \(j\) is the \textbf{weighted mode} (state with the largest total weight).
 
 It is important that the smoothing is applied to physical distances between SNVs, so the \texttt{rank2map} internally computes the \textbf{start and end site indices} whose positions fall inside the centred interval for site \(j\).
 
@@ -1177,9 +1210,8 @@ S_s(i,j) = \sum_{k \in \text{window}(j)}
 
 The \textbf{smoothed state} is the argmax:
 \[
-\tilde g_{i,j} = \arg\max_{s\in{0,1,2}} S_s(i,j),
+\tilde g_{i,j} = \arg\max_{s\in \{_,0,1,2\}} S_s(i,j).
 \]
-ignoring \texttt{NA} genotypes in the sums.
 
 \subsubsection{Tie-breaking (exact order used)}\label{tie-breaking-exact-order-used}
 

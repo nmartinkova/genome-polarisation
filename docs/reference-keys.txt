@@ -4,8 +4,9 @@ how-to-cite
 intro
 diemFormat
 multiple-compartments-with-different-ploidies
-importing-data-for-genome-polarisation
+vcf2diem
 conversion-from-vcf-format
+sorting-vcf-files-before-genome-polarisation
 principle-of-conversion-to-diem-format
 invariant-sites-and-indels
 sites-not-informative-for-genome-polarisation
@@ -29,7 +30,7 @@ iteration-specific-graphics
 warpswitch-files
 hybrid-index-files
 the-log-file
-visualisation-of-polarised-genotypes
+visualisation
 plotting-polarised-genotypes
 rectangular-plot
 plotMarkerAxis
@@ -37,12 +38,12 @@ circular-iris-plot
 DIfiltering
 selecting-the-filtering-threshold
 biological-signal-insights
-smoothing-polarised-genotypes
+smoothing-chapter
 smoothing-across-mapped-distances
 mapping-diagnostic-markers
 visual-comparison-of-raw-and-smoothed-results
 interpretation-and-downstream-use
-methodological-explanation-of-the-laplace-kernel-smoothing
+Laplace
 implemented-kernel-truncation-and-scaling
 weighted-mode-smoothing
 tie-breaking-exact-order-used

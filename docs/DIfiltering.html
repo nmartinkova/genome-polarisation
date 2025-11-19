@@ -29,8 +29,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-<link rel="prev" href="visualisation-of-polarised-genotypes.html"/>
-<link rel="next" href="smoothing-polarised-genotypes.html"/>
+<link rel="prev" href="visualisation.html"/>
+<link rel="next" href="smoothing-chapter.html"/>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -171,18 +171,21 @@ div.csl-indent {
 <ul>
 <li class="chapter" data-level="3.1" data-path="diemFormat.html"><a href="diemFormat.html#multiple-compartments-with-different-ploidies"><i class="fa fa-check"></i><b>3.1</b> Multiple compartments with different ploidies</a></li>
 </ul></li>
-<li class="chapter" data-level="4" data-path="importing-data-for-genome-polarisation.html"><a href="importing-data-for-genome-polarisation.html"><i class="fa fa-check"></i><b>4</b> Importing data for genome polarisation</a>
+<li class="chapter" data-level="4" data-path="vcf2diem.html"><a href="vcf2diem.html"><i class="fa fa-check"></i><b>4</b> Importing data for genome polarisation</a>
 <ul>
-<li class="chapter" data-level="4.1" data-path="importing-data-for-genome-polarisation.html"><a href="importing-data-for-genome-polarisation.html#conversion-from-vcf-format"><i class="fa fa-check"></i><b>4.1</b> Conversion from VCF format</a></li>
-<li class="chapter" data-level="4.2" data-path="importing-data-for-genome-polarisation.html"><a href="importing-data-for-genome-polarisation.html#principle-of-conversion-to-diem-format"><i class="fa fa-check"></i><b>4.2</b> Principle of conversion to diem format</a>
+<li class="chapter" data-level="4.1" data-path="vcf2diem.html"><a href="vcf2diem.html#conversion-from-vcf-format"><i class="fa fa-check"></i><b>4.1</b> Conversion from VCF format</a>
 <ul>
-<li class="chapter" data-level="4.2.1" data-path="importing-data-for-genome-polarisation.html"><a href="importing-data-for-genome-polarisation.html#invariant-sites-and-indels"><i class="fa fa-check"></i><b>4.2.1</b> Invariant sites and indels</a></li>
-<li class="chapter" data-level="4.2.2" data-path="importing-data-for-genome-polarisation.html"><a href="importing-data-for-genome-polarisation.html#sites-not-informative-for-genome-polarisation"><i class="fa fa-check"></i><b>4.2.2</b> Sites not informative for genome polarisation</a></li>
-<li class="chapter" data-level="4.2.3" data-path="importing-data-for-genome-polarisation.html"><a href="importing-data-for-genome-polarisation.html#haploid-data"><i class="fa fa-check"></i><b>4.2.3</b> Haploid data</a></li>
-<li class="chapter" data-level="4.2.4" data-path="importing-data-for-genome-polarisation.html"><a href="importing-data-for-genome-polarisation.html#diploid-data"><i class="fa fa-check"></i><b>4.2.4</b> Diploid data</a></li>
+<li class="chapter" data-level="4.1.1" data-path="vcf2diem.html"><a href="vcf2diem.html#sorting-vcf-files-before-genome-polarisation"><i class="fa fa-check"></i><b>4.1.1</b> Sorting VCF files before genome polarisation</a></li>
 </ul></li>
-<li class="chapter" data-level="4.3" data-path="importing-data-for-genome-polarisation.html"><a href="importing-data-for-genome-polarisation.html#variant-call-format"><i class="fa fa-check"></i><b>4.3</b> Variant call format</a></li>
-<li class="chapter" data-level="4.4" data-path="importing-data-for-genome-polarisation.html"><a href="importing-data-for-genome-polarisation.html#polyploid-data"><i class="fa fa-check"></i><b>4.4</b> Polyploid data</a></li>
+<li class="chapter" data-level="4.2" data-path="vcf2diem.html"><a href="vcf2diem.html#principle-of-conversion-to-diem-format"><i class="fa fa-check"></i><b>4.2</b> Principle of conversion to diem format</a>
+<ul>
+<li class="chapter" data-level="4.2.1" data-path="vcf2diem.html"><a href="vcf2diem.html#invariant-sites-and-indels"><i class="fa fa-check"></i><b>4.2.1</b> Invariant sites and indels</a></li>
+<li class="chapter" data-level="4.2.2" data-path="vcf2diem.html"><a href="vcf2diem.html#sites-not-informative-for-genome-polarisation"><i class="fa fa-check"></i><b>4.2.2</b> Sites not informative for genome polarisation</a></li>
+<li class="chapter" data-level="4.2.3" data-path="vcf2diem.html"><a href="vcf2diem.html#haploid-data"><i class="fa fa-check"></i><b>4.2.3</b> Haploid data</a></li>
+<li class="chapter" data-level="4.2.4" data-path="vcf2diem.html"><a href="vcf2diem.html#diploid-data"><i class="fa fa-check"></i><b>4.2.4</b> Diploid data</a></li>
+</ul></li>
+<li class="chapter" data-level="4.3" data-path="vcf2diem.html"><a href="vcf2diem.html#variant-call-format"><i class="fa fa-check"></i><b>4.3</b> Variant call format</a></li>
+<li class="chapter" data-level="4.4" data-path="vcf2diem.html"><a href="vcf2diem.html#polyploid-data"><i class="fa fa-check"></i><b>4.4</b> Polyploid data</a></li>
 </ul></li>
 <li class="chapter" data-level="5" data-path="understanding-genome-polarisation-output-files.html"><a href="understanding-genome-polarisation-output-files.html"><i class="fa fa-check"></i><b>5</b> Understanding genome polarisation output files</a>
 <ul>
@@ -201,29 +204,29 @@ div.csl-indent {
 <li class="chapter" data-level="5.2.5" data-path="understanding-genome-polarisation-output-files.html"><a href="understanding-genome-polarisation-output-files.html#the-log-file"><i class="fa fa-check"></i><b>5.2.5</b> The log file</a></li>
 </ul></li>
 </ul></li>
-<li class="chapter" data-level="6" data-path="visualisation-of-polarised-genotypes.html"><a href="visualisation-of-polarised-genotypes.html"><i class="fa fa-check"></i><b>6</b> Visualisation of polarised genotypes</a>
+<li class="chapter" data-level="6" data-path="visualisation.html"><a href="visualisation.html"><i class="fa fa-check"></i><b>6</b> Visualisation of polarised genotypes</a>
 <ul>
-<li class="chapter" data-level="6.1" data-path="visualisation-of-polarised-genotypes.html"><a href="visualisation-of-polarised-genotypes.html#plotting-polarised-genotypes"><i class="fa fa-check"></i><b>6.1</b> Plotting polarised genotypes</a>
+<li class="chapter" data-level="6.1" data-path="visualisation.html"><a href="visualisation.html#plotting-polarised-genotypes"><i class="fa fa-check"></i><b>6.1</b> Plotting polarised genotypes</a>
 <ul>
-<li class="chapter" data-level="6.1.1" data-path="visualisation-of-polarised-genotypes.html"><a href="visualisation-of-polarised-genotypes.html#rectangular-plot"><i class="fa fa-check"></i><b>6.1.1</b> Rectangular plot</a></li>
+<li class="chapter" data-level="6.1.1" data-path="visualisation.html"><a href="visualisation.html#rectangular-plot"><i class="fa fa-check"></i><b>6.1.1</b> Rectangular plot</a></li>
 </ul></li>
-<li class="chapter" data-level="6.2" data-path="visualisation-of-polarised-genotypes.html"><a href="visualisation-of-polarised-genotypes.html#circular-iris-plot"><i class="fa fa-check"></i><b>6.2</b> Circular (iris) plot</a></li>
+<li class="chapter" data-level="6.2" data-path="visualisation.html"><a href="visualisation.html#circular-iris-plot"><i class="fa fa-check"></i><b>6.2</b> Circular (iris) plot</a></li>
 </ul></li>
 <li class="chapter" data-level="7" data-path="DIfiltering.html"><a href="DIfiltering.html"><i class="fa fa-check"></i><b>7</b> Filtering sites by diagnostic index</a>
 <ul>
 <li class="chapter" data-level="7.1" data-path="DIfiltering.html"><a href="DIfiltering.html#selecting-the-filtering-threshold"><i class="fa fa-check"></i><b>7.1</b> Selecting the filtering threshold</a></li>
 <li class="chapter" data-level="7.2" data-path="DIfiltering.html"><a href="DIfiltering.html#biological-signal-insights"><i class="fa fa-check"></i><b>7.2</b> Biological signal insights</a></li>
 </ul></li>
-<li class="chapter" data-level="8" data-path="smoothing-polarised-genotypes.html"><a href="smoothing-polarised-genotypes.html"><i class="fa fa-check"></i><b>8</b> Smoothing polarised genotypes</a>
+<li class="chapter" data-level="8" data-path="smoothing-chapter.html"><a href="smoothing-chapter.html"><i class="fa fa-check"></i><b>8</b> Smoothing polarised genotypes</a>
 <ul>
-<li class="chapter" data-level="8.1" data-path="smoothing-polarised-genotypes.html"><a href="smoothing-polarised-genotypes.html#smoothing-across-mapped-distances"><i class="fa fa-check"></i><b>8.1</b> Smoothing across mapped distances</a>
+<li class="chapter" data-level="8.1" data-path="smoothing-chapter.html"><a href="smoothing-chapter.html#smoothing-across-mapped-distances"><i class="fa fa-check"></i><b>8.1</b> Smoothing across mapped distances</a>
 <ul>
-<li class="chapter" data-level="8.1.1" data-path="smoothing-polarised-genotypes.html"><a href="smoothing-polarised-genotypes.html#mapping-diagnostic-markers"><i class="fa fa-check"></i><b>8.1.1</b> Mapping diagnostic markers</a></li>
-<li class="chapter" data-level="8.1.2" data-path="smoothing-polarised-genotypes.html"><a href="smoothing-polarised-genotypes.html#visual-comparison-of-raw-and-smoothed-results"><i class="fa fa-check"></i><b>8.1.2</b> Visual comparison of raw and smoothed results</a></li>
+<li class="chapter" data-level="8.1.1" data-path="smoothing-chapter.html"><a href="smoothing-chapter.html#mapping-diagnostic-markers"><i class="fa fa-check"></i><b>8.1.1</b> Mapping diagnostic markers</a></li>
+<li class="chapter" data-level="8.1.2" data-path="smoothing-chapter.html"><a href="smoothing-chapter.html#visual-comparison-of-raw-and-smoothed-results"><i class="fa fa-check"></i><b>8.1.2</b> Visual comparison of raw and smoothed results</a></li>
 </ul></li>
-<li class="chapter" data-level="8.2" data-path="smoothing-polarised-genotypes.html"><a href="smoothing-polarised-genotypes.html#interpretation-and-downstream-use"><i class="fa fa-check"></i><b>8.2</b> Interpretation and downstream use</a>
+<li class="chapter" data-level="8.2" data-path="smoothing-chapter.html"><a href="smoothing-chapter.html#interpretation-and-downstream-use"><i class="fa fa-check"></i><b>8.2</b> Interpretation and downstream use</a>
 <ul>
-<li class="chapter" data-level="8.2.1" data-path="smoothing-polarised-genotypes.html"><a href="smoothing-polarised-genotypes.html#methodological-explanation-of-the-laplace-kernel-smoothing"><i class="fa fa-check"></i><b>8.2.1</b> Methodological explanation of the Laplace kernel smoothing</a></li>
+<li class="chapter" data-level="8.2.1" data-path="smoothing-chapter.html"><a href="smoothing-chapter.html#Laplace"><i class="fa fa-check"></i><b>8.2.1</b> Methodological explanation of the Laplace kernel smoothing</a></li>
 </ul></li>
 </ul></li>
 <li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
@@ -251,7 +254,7 @@ div.csl-indent {
             <section class="normal" id="section-">
 <div id="DIfiltering" class="section level1 hasAnchor" number="7">
 <h1><span class="header-section-number">Chapter 7</span> Filtering sites by diagnostic index<a href="DIfiltering.html#DIfiltering" class="anchor-section" aria-label="Anchor link to header"></a></h1>
-<p>After obtaining polarised genotypes and diagnostic indices from previous steps, the next step is to identify markers that most clearly distinguish the two sides of the barrier. This chapter demonstrates how to use the diagnostic index (DI) for that purpose. A note in the Chapter <a href="intro.html#intro">2</a> cautioned against using whole-genome summaries for downstream analyses. This chapter expands the <em>Quick start</em> introduction.</p>
+<p>After obtaining polarised genotypes and diagnostic indices from previous steps, the next step is to identify markers that most clearly distinguish the two sides of the barrier. This chapter demonstrates how to use the diagnostic index for that purpose. A note in the Chapter <a href="intro.html#intro">2</a> cautioned against using whole-genome summaries for downstream analyses. This chapter expands the <em>Quick start</em> introduction.</p>
 <p>During genome polarisation, each site receives a likelihood-based <strong>diagnostic index (DI)</strong> that quantifies its contribution to distinguishing the two sides of the barrier. Sites with low DI are weakly informative and act as noise; they inflate apparent heterogeneity and reduce clarity in hybrid index (HI) plots. Filtering sites by DI allows extraction of informative genomic markers that:</p>
 <ul>
 <li>reduce noise from standing genetic variation,</li>
@@ -272,62 +275,62 @@ Full code to prepare data to execute the examples in this chapter
 <span id="cb23-5"><a href="DIfiltering.html#cb23-5" tabindex="-1"></a></span>
 <span id="cb23-6"><a href="DIfiltering.html#cb23-6" tabindex="-1"></a>res <span class="ot">&lt;-</span> <span class="fu">diem</span>(<span class="at">files =</span> dat, <span class="at">ChosenInds =</span> inds)</span></code></pre></div>
 </details>
-<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb24-1"><a href="DIfiltering.html#cb24-1" tabindex="-1"></a><span class="co"># import polarised genotypes for the diagnostic markers</span></span>
-<span id="cb24-2"><a href="DIfiltering.html#cb24-2" tabindex="-1"></a>gen <span class="ot">&lt;-</span> <span class="fu">importPolarized</span>(</span>
-<span id="cb24-3"><a href="DIfiltering.html#cb24-3" tabindex="-1"></a>  <span class="fu">system.file</span>(<span class="st">&quot;extdata&quot;</span>, <span class="st">&quot;testBarrier2.txt&quot;</span>, <span class="at">package =</span> <span class="st">&quot;diemr&quot;</span>),</span>
-<span id="cb24-4"><a href="DIfiltering.html#cb24-4" tabindex="-1"></a>  <span class="at">changePolarity =</span> DI<span class="sc">$</span>newPolarity,</span>
-<span id="cb24-5"><a href="DIfiltering.html#cb24-5" tabindex="-1"></a>  <span class="at">ChosenInds =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">6</span>,</span>
-<span id="cb24-6"><a href="DIfiltering.html#cb24-6" tabindex="-1"></a>  <span class="at">ChosenSites =</span> <span class="st">&quot;all&quot;</span></span>
-<span id="cb24-7"><a href="DIfiltering.html#cb24-7" tabindex="-1"></a>)</span>
-<span id="cb24-8"><a href="DIfiltering.html#cb24-8" tabindex="-1"></a></span>
-<span id="cb24-9"><a href="DIfiltering.html#cb24-9" tabindex="-1"></a><span class="co"># calculate hybrid indices from the filtered genotypes</span></span>
-<span id="cb24-10"><a href="DIfiltering.html#cb24-10" tabindex="-1"></a>HI <span class="ot">&lt;-</span> <span class="fu">hybridIndex</span>(gen, <span class="at">rescale =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb24-11"><a href="DIfiltering.html#cb24-11" tabindex="-1"></a></span>
-<span id="cb24-12"><a href="DIfiltering.html#cb24-12" tabindex="-1"></a><span class="co"># plot HI and all genotypes</span></span>
-<span id="cb24-13"><a href="DIfiltering.html#cb24-13" tabindex="-1"></a><span class="fu">layout</span>(<span class="fu">matrix</span>(<span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">2</span>,<span class="dv">2</span>,<span class="dv">2</span>), <span class="at">nrow =</span> <span class="dv">1</span>))</span>
-<span id="cb24-14"><a href="DIfiltering.html#cb24-14" tabindex="-1"></a>indOrder <span class="ot">&lt;-</span> <span class="fu">order</span>(HI)</span>
-<span id="cb24-15"><a href="DIfiltering.html#cb24-15" tabindex="-1"></a><span class="co"># plot hybrid indices</span></span>
-<span id="cb24-16"><a href="DIfiltering.html#cb24-16" tabindex="-1"></a><span class="fu">plot</span>(HI[indOrder], <span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(HI), </span>
-<span id="cb24-17"><a href="DIfiltering.html#cb24-17" tabindex="-1"></a>  <span class="at">xlab =</span> <span class="st">&quot;Hybrid index&quot;</span>, <span class="at">ylab =</span> <span class="st">&quot;Individuals&quot;</span>, <span class="at">axes =</span> <span class="cn">FALSE</span>,</span>
-<span id="cb24-18"><a href="DIfiltering.html#cb24-18" tabindex="-1"></a>  <span class="at">ylim =</span> <span class="fu">c</span>(<span class="fl">0.5</span>, <span class="fu">length</span>(HI) <span class="sc">+</span> <span class="fl">0.5</span>), <span class="at">pch =</span> <span class="dv">19</span>,</span>
-<span id="cb24-19"><a href="DIfiltering.html#cb24-19" tabindex="-1"></a>  <span class="at">yaxs =</span> <span class="st">&quot;i&quot;</span>, <span class="at">xpd =</span> <span class="cn">NA</span>)</span>
-<span id="cb24-20"><a href="DIfiltering.html#cb24-20" tabindex="-1"></a><span class="co"># add axes with ordered individual labels</span></span>
-<span id="cb24-21"><a href="DIfiltering.html#cb24-21" tabindex="-1"></a><span class="fu">axis</span>(<span class="dv">1</span>)</span>
-<span id="cb24-22"><a href="DIfiltering.html#cb24-22" tabindex="-1"></a><span class="fu">axis</span>(<span class="dv">2</span>, <span class="at">at =</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(HI), <span class="at">labels =</span> inds[indOrder], <span class="at">las =</span> <span class="dv">1</span>)</span>
-<span id="cb24-23"><a href="DIfiltering.html#cb24-23" tabindex="-1"></a><span class="fu">box</span>()</span>
-<span id="cb24-24"><a href="DIfiltering.html#cb24-24" tabindex="-1"></a><span class="co"># plot genotypes</span></span>
-<span id="cb24-25"><a href="DIfiltering.html#cb24-25" tabindex="-1"></a><span class="fu">plotPolarized</span>(gen, <span class="at">HI =</span> HI, <span class="at">ylab =</span> <span class="st">&quot;&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb24-1"><a href="DIfiltering.html#cb24-1" tabindex="-1"></a><span class="co"># read the marker diagnostics file. read.table is possible, </span></span>
+<span id="cb24-2"><a href="DIfiltering.html#cb24-2" tabindex="-1"></a><span class="co"># but for large genomic datasets, fread from the pacckage</span></span>
+<span id="cb24-3"><a href="DIfiltering.html#cb24-3" tabindex="-1"></a><span class="co"># data.table is more efficient</span></span>
+<span id="cb24-4"><a href="DIfiltering.html#cb24-4" tabindex="-1"></a>DI <span class="ot">&lt;-</span> data.table<span class="sc">::</span><span class="fu">fread</span>(<span class="st">&quot;MarkerDiagnosticsWithOptimalPolarities.txt&quot;</span>, </span>
+<span id="cb24-5"><a href="DIfiltering.html#cb24-5" tabindex="-1"></a>  <span class="at">header =</span> <span class="cn">TRUE</span>, <span class="at">data.table =</span> <span class="cn">FALSE</span></span>
+<span id="cb24-6"><a href="DIfiltering.html#cb24-6" tabindex="-1"></a>)</span>
+<span id="cb24-7"><a href="DIfiltering.html#cb24-7" tabindex="-1"></a></span>
+<span id="cb24-8"><a href="DIfiltering.html#cb24-8" tabindex="-1"></a><span class="co"># import polarised genotypes for the diagnostic markers</span></span>
+<span id="cb24-9"><a href="DIfiltering.html#cb24-9" tabindex="-1"></a>gen <span class="ot">&lt;-</span> <span class="fu">importPolarized</span>(</span>
+<span id="cb24-10"><a href="DIfiltering.html#cb24-10" tabindex="-1"></a>  <span class="fu">system.file</span>(<span class="st">&quot;extdata&quot;</span>, <span class="st">&quot;testBarrier2.txt&quot;</span>, <span class="at">package =</span> <span class="st">&quot;diemr&quot;</span>),</span>
+<span id="cb24-11"><a href="DIfiltering.html#cb24-11" tabindex="-1"></a>  <span class="at">changePolarity =</span> DI<span class="sc">$</span>newPolarity,</span>
+<span id="cb24-12"><a href="DIfiltering.html#cb24-12" tabindex="-1"></a>  <span class="at">ChosenInds =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">6</span>,</span>
+<span id="cb24-13"><a href="DIfiltering.html#cb24-13" tabindex="-1"></a>  <span class="at">ChosenSites =</span> <span class="st">&quot;all&quot;</span></span>
+<span id="cb24-14"><a href="DIfiltering.html#cb24-14" tabindex="-1"></a>)</span>
+<span id="cb24-15"><a href="DIfiltering.html#cb24-15" tabindex="-1"></a></span>
+<span id="cb24-16"><a href="DIfiltering.html#cb24-16" tabindex="-1"></a><span class="co"># calculate hybrid indices from the filtered genotypes</span></span>
+<span id="cb24-17"><a href="DIfiltering.html#cb24-17" tabindex="-1"></a>HI <span class="ot">&lt;-</span> <span class="fu">hybridIndex</span>(gen, <span class="at">rescale =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb24-18"><a href="DIfiltering.html#cb24-18" tabindex="-1"></a></span>
+<span id="cb24-19"><a href="DIfiltering.html#cb24-19" tabindex="-1"></a><span class="co"># plot HI and all genotypes</span></span>
+<span id="cb24-20"><a href="DIfiltering.html#cb24-20" tabindex="-1"></a><span class="fu">layout</span>(<span class="fu">matrix</span>(<span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">2</span>,<span class="dv">2</span>,<span class="dv">2</span>), <span class="at">nrow =</span> <span class="dv">1</span>))</span>
+<span id="cb24-21"><a href="DIfiltering.html#cb24-21" tabindex="-1"></a>indOrder <span class="ot">&lt;-</span> <span class="fu">order</span>(HI)</span>
+<span id="cb24-22"><a href="DIfiltering.html#cb24-22" tabindex="-1"></a><span class="co"># plot hybrid indices</span></span>
+<span id="cb24-23"><a href="DIfiltering.html#cb24-23" tabindex="-1"></a><span class="fu">plot</span>(HI[indOrder], <span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(HI), </span>
+<span id="cb24-24"><a href="DIfiltering.html#cb24-24" tabindex="-1"></a>  <span class="at">xlab =</span> <span class="st">&quot;Hybrid index&quot;</span>, <span class="at">ylab =</span> <span class="st">&quot;Individuals&quot;</span>, <span class="at">axes =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb24-25"><a href="DIfiltering.html#cb24-25" tabindex="-1"></a>  <span class="at">ylim =</span> <span class="fu">c</span>(<span class="fl">0.5</span>, <span class="fu">length</span>(HI) <span class="sc">+</span> <span class="fl">0.5</span>), <span class="at">pch =</span> <span class="dv">19</span>,</span>
+<span id="cb24-26"><a href="DIfiltering.html#cb24-26" tabindex="-1"></a>  <span class="at">yaxs =</span> <span class="st">&quot;i&quot;</span>, <span class="at">xpd =</span> <span class="cn">NA</span>)</span>
+<span id="cb24-27"><a href="DIfiltering.html#cb24-27" tabindex="-1"></a><span class="co"># add axes with ordered individual labels</span></span>
+<span id="cb24-28"><a href="DIfiltering.html#cb24-28" tabindex="-1"></a><span class="fu">axis</span>(<span class="dv">1</span>)</span>
+<span id="cb24-29"><a href="DIfiltering.html#cb24-29" tabindex="-1"></a><span class="fu">axis</span>(<span class="dv">2</span>, <span class="at">at =</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(HI), <span class="at">labels =</span> inds[indOrder], <span class="at">las =</span> <span class="dv">1</span>)</span>
+<span id="cb24-30"><a href="DIfiltering.html#cb24-30" tabindex="-1"></a><span class="fu">box</span>()</span>
+<span id="cb24-31"><a href="DIfiltering.html#cb24-31" tabindex="-1"></a><span class="co"># plot genotypes</span></span>
+<span id="cb24-32"><a href="DIfiltering.html#cb24-32" tabindex="-1"></a><span class="fu">plotPolarized</span>(gen, <span class="at">HI =</span> HI, <span class="at">ylab =</span> <span class="st">&quot;&quot;</span>)</span></code></pre></div>
 <p><img src="figs/testdata-all.png" width="100%" /></p>
 <p>The function <code>hybridIndex</code> estimates the proportion of alleles belonging to one side of the barrier across all polarised sites for each individual, automatically accounting for missing data. <code>plotPolarized</code> orders individuals by their hybrid index. Displaying the hybrid indices alongside a heatmap of polarised genotypes provides a visual guide to the quantitative change in genome admixture.</p>
 <p>The figure shows high genetic variability across the data. Next, let’s plot only 40% of markers with the highest diagnostic index.</p>
-<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="DIfiltering.html#cb25-1" tabindex="-1"></a><span class="co"># read the marker diagnostics file. read.table is possible, </span></span>
-<span id="cb25-2"><a href="DIfiltering.html#cb25-2" tabindex="-1"></a><span class="co"># but for large genomic datasets, fread from the pacckage</span></span>
-<span id="cb25-3"><a href="DIfiltering.html#cb25-3" tabindex="-1"></a><span class="co"># data.table is more efficient</span></span>
-<span id="cb25-4"><a href="DIfiltering.html#cb25-4" tabindex="-1"></a>DI <span class="ot">&lt;-</span> data.table<span class="sc">::</span><span class="fu">fread</span>(<span class="st">&quot;MarkerDiagnosticsWithOptimalPolarities.txt&quot;</span>, </span>
-<span id="cb25-5"><a href="DIfiltering.html#cb25-5" tabindex="-1"></a>  <span class="at">header =</span> <span class="cn">TRUE</span>, <span class="at">data.table =</span> <span class="cn">FALSE</span></span>
-<span id="cb25-6"><a href="DIfiltering.html#cb25-6" tabindex="-1"></a>)</span>
+<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="DIfiltering.html#cb25-1" tabindex="-1"></a><span class="co"># keep the top 40% most diagnostic sites</span></span>
+<span id="cb25-2"><a href="DIfiltering.html#cb25-2" tabindex="-1"></a>threshold <span class="ot">&lt;-</span> <span class="fl">0.6</span></span>
+<span id="cb25-3"><a href="DIfiltering.html#cb25-3" tabindex="-1"></a>whichMarkers <span class="ot">&lt;-</span> DI<span class="sc">$</span>DI <span class="sc">&gt;=</span> <span class="fu">quantile</span>(DI<span class="sc">$</span>DI, <span class="at">probs =</span> threshold)</span>
+<span id="cb25-4"><a href="DIfiltering.html#cb25-4" tabindex="-1"></a></span>
+<span id="cb25-5"><a href="DIfiltering.html#cb25-5" tabindex="-1"></a><span class="co"># calculate hybrid indices from the filtered genotypes</span></span>
+<span id="cb25-6"><a href="DIfiltering.html#cb25-6" tabindex="-1"></a>HI2 <span class="ot">&lt;-</span> <span class="fu">hybridIndex</span>(gen[, whichMarkers], <span class="at">rescale =</span> <span class="cn">TRUE</span>)</span>
 <span id="cb25-7"><a href="DIfiltering.html#cb25-7" tabindex="-1"></a></span>
-<span id="cb25-8"><a href="DIfiltering.html#cb25-8" tabindex="-1"></a><span class="co"># keep the top 40% most diagnostic sites</span></span>
-<span id="cb25-9"><a href="DIfiltering.html#cb25-9" tabindex="-1"></a>threshold <span class="ot">&lt;-</span> <span class="fl">0.6</span></span>
-<span id="cb25-10"><a href="DIfiltering.html#cb25-10" tabindex="-1"></a>whichMarkers <span class="ot">&lt;-</span> DI<span class="sc">$</span>DI <span class="sc">&gt;=</span> <span class="fu">quantile</span>(DI<span class="sc">$</span>DI, <span class="at">probs =</span> threshold)</span>
-<span id="cb25-11"><a href="DIfiltering.html#cb25-11" tabindex="-1"></a></span>
-<span id="cb25-12"><a href="DIfiltering.html#cb25-12" tabindex="-1"></a><span class="co"># calculate hybrid indices from the filtered genotypes</span></span>
-<span id="cb25-13"><a href="DIfiltering.html#cb25-13" tabindex="-1"></a>HI2 <span class="ot">&lt;-</span> <span class="fu">hybridIndex</span>(gen[, whichMarkers], <span class="at">rescale =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb25-14"><a href="DIfiltering.html#cb25-14" tabindex="-1"></a></span>
-<span id="cb25-15"><a href="DIfiltering.html#cb25-15" tabindex="-1"></a><span class="co"># plot HI and all genotypes</span></span>
-<span id="cb25-16"><a href="DIfiltering.html#cb25-16" tabindex="-1"></a><span class="fu">layout</span>(<span class="fu">matrix</span>(<span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">2</span>,<span class="dv">2</span>,<span class="dv">2</span>), <span class="at">nrow =</span> <span class="dv">1</span>))</span>
-<span id="cb25-17"><a href="DIfiltering.html#cb25-17" tabindex="-1"></a>indOrder2 <span class="ot">&lt;-</span> <span class="fu">order</span>(HI2)</span>
-<span id="cb25-18"><a href="DIfiltering.html#cb25-18" tabindex="-1"></a><span class="co"># plot hybrid indices</span></span>
-<span id="cb25-19"><a href="DIfiltering.html#cb25-19" tabindex="-1"></a><span class="fu">plot</span>(HI2[indOrder2], <span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(HI2), </span>
-<span id="cb25-20"><a href="DIfiltering.html#cb25-20" tabindex="-1"></a>  <span class="at">xlab =</span> <span class="st">&quot;Hybrid index&quot;</span>, <span class="at">ylab =</span> <span class="st">&quot;Individuals&quot;</span>, <span class="at">axes =</span> <span class="cn">FALSE</span>,</span>
-<span id="cb25-21"><a href="DIfiltering.html#cb25-21" tabindex="-1"></a>  <span class="at">ylim =</span> <span class="fu">c</span>(<span class="fl">0.5</span>, <span class="fu">length</span>(HI) <span class="sc">+</span> <span class="fl">0.5</span>), <span class="at">pch =</span> <span class="dv">19</span>,</span>
-<span id="cb25-22"><a href="DIfiltering.html#cb25-22" tabindex="-1"></a>  <span class="at">yaxs =</span> <span class="st">&quot;i&quot;</span>, <span class="at">xpd =</span> <span class="cn">NA</span>)</span>
-<span id="cb25-23"><a href="DIfiltering.html#cb25-23" tabindex="-1"></a><span class="co"># add axes with ordered individual labels</span></span>
-<span id="cb25-24"><a href="DIfiltering.html#cb25-24" tabindex="-1"></a><span class="fu">axis</span>(<span class="dv">1</span>)</span>
-<span id="cb25-25"><a href="DIfiltering.html#cb25-25" tabindex="-1"></a><span class="fu">axis</span>(<span class="dv">2</span>, <span class="at">at =</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(HI2), <span class="at">labels =</span> inds[indOrder2], <span class="at">las =</span> <span class="dv">1</span>)</span>
-<span id="cb25-26"><a href="DIfiltering.html#cb25-26" tabindex="-1"></a><span class="fu">box</span>()</span>
-<span id="cb25-27"><a href="DIfiltering.html#cb25-27" tabindex="-1"></a><span class="co"># plot genotypes</span></span>
-<span id="cb25-28"><a href="DIfiltering.html#cb25-28" tabindex="-1"></a><span class="fu">plotPolarized</span>(gen[, whichMarkers], <span class="at">HI =</span> HI2, <span class="at">ylab =</span> <span class="st">&quot;&quot;</span>)</span></code></pre></div>
+<span id="cb25-8"><a href="DIfiltering.html#cb25-8" tabindex="-1"></a><span class="co"># plot HI and all genotypes</span></span>
+<span id="cb25-9"><a href="DIfiltering.html#cb25-9" tabindex="-1"></a><span class="fu">layout</span>(<span class="fu">matrix</span>(<span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">2</span>,<span class="dv">2</span>,<span class="dv">2</span>), <span class="at">nrow =</span> <span class="dv">1</span>))</span>
+<span id="cb25-10"><a href="DIfiltering.html#cb25-10" tabindex="-1"></a>indOrder2 <span class="ot">&lt;-</span> <span class="fu">order</span>(HI2)</span>
+<span id="cb25-11"><a href="DIfiltering.html#cb25-11" tabindex="-1"></a><span class="co"># plot hybrid indices</span></span>
+<span id="cb25-12"><a href="DIfiltering.html#cb25-12" tabindex="-1"></a><span class="fu">plot</span>(HI2[indOrder2], <span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(HI2), </span>
+<span id="cb25-13"><a href="DIfiltering.html#cb25-13" tabindex="-1"></a>  <span class="at">xlab =</span> <span class="st">&quot;Hybrid index&quot;</span>, <span class="at">ylab =</span> <span class="st">&quot;Individuals&quot;</span>, <span class="at">axes =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb25-14"><a href="DIfiltering.html#cb25-14" tabindex="-1"></a>  <span class="at">ylim =</span> <span class="fu">c</span>(<span class="fl">0.5</span>, <span class="fu">length</span>(HI) <span class="sc">+</span> <span class="fl">0.5</span>), <span class="at">pch =</span> <span class="dv">19</span>,</span>
+<span id="cb25-15"><a href="DIfiltering.html#cb25-15" tabindex="-1"></a>  <span class="at">yaxs =</span> <span class="st">&quot;i&quot;</span>, <span class="at">xpd =</span> <span class="cn">NA</span>)</span>
+<span id="cb25-16"><a href="DIfiltering.html#cb25-16" tabindex="-1"></a><span class="co"># add axes with ordered individual labels</span></span>
+<span id="cb25-17"><a href="DIfiltering.html#cb25-17" tabindex="-1"></a><span class="fu">axis</span>(<span class="dv">1</span>)</span>
+<span id="cb25-18"><a href="DIfiltering.html#cb25-18" tabindex="-1"></a><span class="fu">axis</span>(<span class="dv">2</span>, <span class="at">at =</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(HI2), <span class="at">labels =</span> inds[indOrder2], <span class="at">las =</span> <span class="dv">1</span>)</span>
+<span id="cb25-19"><a href="DIfiltering.html#cb25-19" tabindex="-1"></a><span class="fu">box</span>()</span>
+<span id="cb25-20"><a href="DIfiltering.html#cb25-20" tabindex="-1"></a><span class="co"># plot genotypes</span></span>
+<span id="cb25-21"><a href="DIfiltering.html#cb25-21" tabindex="-1"></a><span class="fu">plotPolarized</span>(gen[, whichMarkers], <span class="at">HI =</span> HI2, <span class="at">ylab =</span> <span class="st">&quot;&quot;</span>)</span></code></pre></div>
 <p><img src="figs/testdata-DI40.png" width="100%" /></p>
 <div id="selecting-the-filtering-threshold" class="section level2 hasAnchor" number="7.1">
 <h2><span class="header-section-number">7.1</span> Selecting the filtering threshold<a href="DIfiltering.html#selecting-the-filtering-threshold" class="anchor-section" aria-label="Anchor link to header"></a></h2>
@@ -392,8 +395,8 @@ Jagoš, Filip, Stuart J. E. Baird, Markéta Harazim, and Natália Martı́nková
           </div>
         </div>
       </div>
-<a href="visualisation-of-polarised-genotypes.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="smoothing-polarised-genotypes.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="visualisation.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="smoothing-chapter.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>

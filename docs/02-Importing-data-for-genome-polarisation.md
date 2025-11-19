@@ -1,23 +1,47 @@
 
 
-# Importing data for genome polarisation
+# Importing data for genome polarisation {#vcf2diem}
 
 *Natália Martínková and Stuart J. E. Baird*
 
 ## Conversion from VCF format
-The package `diemr` provides a function `vcf2diem`, which converts diploid genotypes in a vcf file (optionally, the vcf file can be gzipped) or an `vcfR` object loaded into `R` to a file with format required by `diem`.  To start, load the `diemr` package or install it from CRAN if it is not yet available:
+
+The package `diemr` provides a function `vcf2diem`, which converts diploid genotypes in a VCF file (optionally, the VCF file can be gzipped) or an `vcfR` object loaded into `R` to a file with format required by `diem`.  
+
+::: {.box .caution}
+Genome polarisation requires variant sites to be processed in physical order along chromosomes. If your pipeline contained sorting, no action is needed. Otherwise, guidelines for correcting site order are provided in the hidden section below.
+:::
+
+<details><summary>**Sorting VCF files before genome polarisation**</summary>
+### Sorting VCF files before genome polarisation
+
+Many tools produce ordered VCF files by default, but others may output scaffolds or contigs in an arbitrary sequence, or return variants in the order they were discovered rather than their coordinates.
+
+Before importing any VCF file into `diemr`, confirm that sites are sorted by chromosome and position.
+
+Sorting matters for three reasons:
+
+* **Spatial summaries and genome-wide visualisations** depend on correct genomic order (Chapter \@ref(visualisation)). Hybrid index interpretation is unaffected, but positional summaries are not.
+* **Marker axis plotting** (Chapter \@ref(plotMarkerAxis)) requires positions to increase monotonically. Unsorted input causes axes to wrap or jump.
+* **Window-based smoothing** (Chapter \@ref(smoothing-chapter)) relies on physical proximity. Unsorted sites disrupt neighbourhood windows and distort ancestry patterns.
+
+To ensure that the VCF is correctly sorted, use `bcftools sort`, which respects contig order in the header and handles large files efficiently.
+
+Example (recommended):
 
 
-``` r
-# Attempt to load a package, if the package was not 
-# available, install and load
-if(!require("diemr", character.only = TRUE)){
-    install.packages("diemr", dependencies = TRUE)
-    library("diemr", character.only = TRUE)
-}
+``` eval
+bcftools sort input.vcf -Oz -o sorted.vcf.gz
+tabix -p vcf sorted.vcf.gz
 ```
 
-Next, decide whether all markers in the vcf file should be polarised from one file, or whether the analysis will benefit from parallelisation. Parallelisation is available on UNIX-based platforms, and we advise to use it for large datasets. `diem` itself can also work in parallel on multiple data _compartments_. vcf files and _compartments_ can correspond to the same thing OR you can concatenate/split vcf2diem outputs to produce `diem` input _compartments_.
+The VCF files can also be sorted with tools such as `vcf-sort` (from `vcftools`) or a plain UNIX `sort`, but these methods rely on lexicographic chromosome order and may mis-order contigs unless a contig header is present. For reproducible workflows, always prefer `bcftools sort`.
+
+Once the VCF is sorted and indexed, it is ready for `vcf2diem` conversion.
+
+</details>
+
+The number of chunks the SNVs are divided into matters for parallelisation of `diem` analyses and import of polarised genotypes. Therefore, decide whether all sites in the VCF file should be polarised from one file, or whether the analysis will benefit from parallelisation. Parallelisation is available on UNIX-based platforms, and we advise to use it for large datasets. `diem` itself can also work in parallel on multiple data _compartments_. VCF files and _compartments_ can correspond to the same thing or you can concatenate/split `vcf2diem` outputs to produce `diem` input _compartments_. Parallelisation is most efficient when **chunks contain the same number of SNVs**. 
 
 
 ``` r
@@ -29,12 +53,12 @@ inputfile <- system.file("extdata", "myotis.vcf", package = "diemr")
 outputfile <- "myotis"
 # Convert the vcf file to two diem files
 vcf2diem(SNP = inputfile, filename = outputfile, chunk = 2)
-# Expecting to include 11 markers per diem file.
-# If you expect more markers in the file, provide suitable chunk size.
+# Expecting to include 11 sites per diem file.
+# If you expect more sites in the file, provide suitable chunk size.
 # Done with chunk 1
 ```
 
-The `vcf2diem` function processes calls for sites into the `diem` encoding for sites. The site order will be identical to that in the original vcf file (but see chapter [Sites not informative for genome polarisation]). 
+The `vcf2diem` function converts diploid calls into the `diem` site encoding. The order of sites in the output matches the original VCF file (but see chapter [Sites not informative for genome polarisation]). 
 
 
 
@@ -48,11 +72,11 @@ and `U` (symbol "_" is also allowed) is an unknown state that can be a missing g
 
 ### Invariant sites and indels
 
-What logically follows from this description is that genome polarisation is meaningful only for variant sites (markers). Invariant sites will have **low support** and, though they will not change the `diem` outcome, they will slow down convergence and obscure the nature of change between taxa. During `diem` iterations their obscuring effect is removed by rescaling the hybrid indices onto $[0,1]$ 
+What logically follows from this description is that genome polarisation is meaningful only for variant sites (we call variant sites with high diagnostic index after genome polarisation markers). Invariant sites will have **low support** and, though they will not change the `diem` outcome, they will slow down convergence and obscure the nature of change between taxa. During `diem` iterations their obscuring effect is removed by rescaling the hybrid indices onto $[0,1]$ 
 
 Including invariant sites in genome polarisation is acceptable, and likely unavoidable. A proportion of truly invariant sites will be mis-diagnosed as variant due to sequencing errors.
 
-At this time, genome polarisation uses variant markers where alleles differ in nucleotide substitutions. Insertions or deletions (indels) are not allowed to be classified among the most frequent alleles in the `vcf2diem` function. 
+At this time, genome polarisation uses variant sites where alleles differ in nucleotide substitutions. Insertions or deletions (indels) are not allowed to be classified among the most frequent alleles in the `vcf2diem` function. 
 
 
 
@@ -65,7 +89,7 @@ Uninformative sites will have support equal to 0, and their polarity will thus b
 
 ### Haploid data
 
-Haploid data, including markers on sex chromosomes of the heterogametic sex, are usually shown as sequence alignments. To illustrate the principle of genome representation used in `diem`, let's have an 8bp-long alignment with five individuals. 
+Haploid data, including sites on sex chromosomes of the heterogametic sex, are usually shown as sequence alignments. To illustrate the principle of genome representation used in `diem`, let's have an 8bp-long alignment with five individuals. 
 
 
 ``` r
@@ -76,19 +100,19 @@ ind3   TACC-TGT
 ind4   CACGTTGG
 ind5   AACCTTGT
 ```
-We can see that the example alignment contains four variant markers at sites 1, 4, 5, and 8. Marker 5 contains a deletion in ind3, while other markers vary in different nucleotide substitutions. In marker 1, two individuals have an allele A, two individuals have an allele T and one has a C. This marker can be resolved in terms of two most frequent alleles A and T, where the individual ind4 has a third allele and is therefore considered as having an unknown genomic state. To convert the marker into `diem` format, we must make a decision on which allele will be encoded as 0. The choice is arbitrary. Good practice is to **keep a record of genotype encoding**. Let's decide that all alleles in ind1 will be encoded as 0. Marker 1 will then be `022_0`.
+We can see that the example alignment contains four variant sites at sites 1, 4, 5, and 8. Site 5 contains a deletion in ind3, while other sites vary in different nucleotide substitutions. In site 1, two individuals have an allele A, two individuals have an allele T and one has a C. This site can be resolved in terms of two most frequent alleles A and T, where the individual ind4 has a third allele and is therefore considered as having an unknown genomic state. To convert the site into `diem` format, we must make a decision on which allele will be encoded as 0. The choice is arbitrary. Good practice is to **keep a record of genotype encoding**. Let's decide that all alleles in ind1 will be encoded as 0. Site 1 will then be `022_0`.
 
-Contrary to DNA sequence alignments, diem format transposes the data. Rows in diem input files are markers and columns represent individual samples. The diem output for the example alignment will thus have four lines representing the four variant markers, and five columns representing the individuals. 
+Contrary to DNA sequence alignments, diem format transposes the data. Rows in diem input files are sites and columns represent individual samples. The diem output for the example alignment will thus have four lines representing the four variant sites, and five columns representing the individuals. 
 
 
 ``` r
-Marker1   022_0
-Marker4   02020
-Marker5   02_00
-Marker8   00202
+Site1   022_0
+Site4   02020
+Site5   02_00
+Site8   00202
 ```
 
-The diem format does not store information on marker identification or location. This metadata must be saved separately in a 'bed-like' file (with at minimum the scaffold and position for each site). `diem` uses a prefix `S` at line starts to ensure that all operating systems always read genotypes as strings without attempting to convert them into numbers. Encoding of markers 4 and 8 shown above is at risk of being interpreted as numeric. The final file in `diem` format will be:
+The *diem* format does not store information on site identification or location. This metadata must be saved separately in a 'bed-like' file (with at minimum the scaffold and position for each site). `diem` uses a prefix `S` at line starts to ensure that all operating systems always read genotypes as strings without attempting to convert them into numbers. Encoding of sites 4 and 8 shown above is at risk of being interpreted as numeric. The final file in `diem` format will be:
 
 
 ``` r
@@ -108,30 +132,30 @@ S00202
 
 #### Heterozygotes in DNA sequence alignments
 
-Diploid markers in DNA sequence alignment can be resolved in an analogous way to haploid markers. Heterozygotes in alignments can be identified according to their [IUPAC DNA ambiguity codes](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC2865858/table/T1/). For example, code W may represent an accepted heterozygote in Marker 1, where the most frequent alleles are A and T.
+Diploid sites in DNA sequence alignment can be resolved in an analogous way to haploid sites. Heterozygotes in alignments can be identified according to their [IUPAC DNA ambiguity codes](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC2865858/table/T1/). For example, code W may represent an accepted heterozygote in Site 1, where the most frequent alleles are A and T.
 
 
 ## Variant call format
 
-Variant markers in genomic context will be most often identified using variant callers from sequence reads mapped onto a reference. Such data are stored or can be converted to variant call format (vcf). We implemented conversion of vcf files to diem format for the [vcf version 4.2](https://github.com/samtools/hts-specs/blob/master/VCFv4.2.pdf) in function `vcf2diem`. The function resolves indels and markers with more than two alleles to obtain biallelic genotypes for all markers included in the original vcf file.
+Variant sites in genomic context will be most often identified using variant callers from sequence reads mapped onto a reference. Such data are stored or can be converted to variant call format (VCF). We implemented conversion of VCF files to diem format for the [VCF version 4.2](https://github.com/samtools/hts-specs/blob/master/VCFv4.2.pdf) in function `vcf2diem`. The function resolves indels and sites with more than two alleles to obtain biallelic genotypes for all sites included in the original VCF file.
 
-1. Markers with the reference allele (column REF) containing insertions are set as unknown.
-1. Markers with the alternative allele (column ALT) containing only indels are set as unknown.
+1. Sites with the reference allele (column REF) containing insertions are set as unknown.
+1. Sites with the alternative allele (column ALT) containing only indels are set as unknown.
 1. Indels in the alternative alleles are set as unknown.
-1. Overall allele counts in markers with more than two alleles representing substitutions are calculated and the two most frequent alleles are selected. Ties are (arbitrarily) resolved according to the allele order in the vcf file. 
+1. Overall allele counts in sites with more than two alleles representing substitutions are calculated and the two most frequent alleles are selected. Ties are (arbitrarily) resolved according to the allele order in the VCF file. 
 1. Third and fourth most frequent substitutions are set as unknown. 
 
-The conversion might result in some markers no longer being polymorphic. We advise checking how frequent invariant markers are after conversion.
+The conversion might result in some sites no longer being polymorphic. We advise checking how frequent invariant sites are after conversion.
 
 
 
 ``` r
 # Import the first converted file for all individuals 
-# and without changing marker polarity
+# and without changing site polarity
 myotis <- importPolarized("myotis-01.txt", 
                           changePolarity = rep(FALSE, 11), 
                           ChosenInds = 1:14)
-# Check whether a marker includes heterozygotes 
+# Check whether a site includes heterozygotes 
 # or that there is more than one genotype
 apply(myotis, MARGIN = 2, 
       FUN = \(x) any(grepl("1", x)) | sum(levels(factor(x)) %in% c("0", "1", "2")) > 1) 
@@ -139,15 +163,15 @@ apply(myotis, MARGIN = 2,
 # FALSE FALSE FALSE FALSE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE 
 ```
 
-Starting from version 1.2.2, `vcf2diem` removes markers that include 
+Starting from version 1.2.2, `vcf2diem` removes sites that include 
 
 1. only missing data and heterozygotes, 
 1. missing data, homozygotes for the most frequent allele and one heterozygote, 
 1. missing data, homozygotes for one ALT allele and one heterozygote.
 
-We include a list of the removed markers in a bed-like file ending with *-includedSites.txt* in the working directory. The file includes information from columns `CHROM`, `POS`, and `QUAL` for the respective markers, and records the (good practice) **record of genotype encoding**.
+We include a list of the removed sites in a bed-like file ending with *-includedSites.txt* in the working directory. The file includes information from columns `CHROM`, `POS`, and `QUAL` for the respective sites, and records the (good practice) **record of genotype encoding**.
 
-We include a list of the removed markers in a bed-like file ending with *-omittedSites.txt* in the working directory. The file includes information from columns `CHROM`, `POS`, and `QUAL` for the respective markers, and provides the reason, why the marker was omitted. **The file omittedLoci.txt must be checked when interpreting polarised markers** to ensure correct marker annotation.
+We include a list of the removed sites in a bed-like file ending with *-omittedSites.txt* in the working directory. The file includes information from columns `CHROM`, `POS`, and `QUAL` for the respective sites, and provides the reason, why the site was omitted. **The file *-omittedSites.txt* must be checked when interpreting polarised sites** to ensure correct site annotation.
 
 
 
@@ -159,7 +183,7 @@ The same principles apply to higher ploidy datasets. Preparing data in `diem` fo
 1. Identify two most frequent alleles for each site.
 1. Encode homozygous and heterozygous (mixed) genotypes that include only the two most frequent alleles.
 
-Note that `vcf2diem` only converts diploid datasets at this time, and should not be used to convert polyploid vcf files. 
+Note that `vcf2diem` only converts diploid datasets at this time, and should not be used to convert polyploid VCF files. 
 
 
 

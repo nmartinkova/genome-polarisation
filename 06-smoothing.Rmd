@@ -1,4 +1,4 @@
-# Smoothing polarised genotypes
+# Smoothing polarised genotypes {#smoothing-chapter}
 
 
 After filtering markers by diagnostic index (Chapter \@ref(DIfiltering)), genome polarisation analyses can be mapped to physical coordinates to reveal the genomic landscape of barriers to gene flow. Because SNVs are rarely evenly spaced along chromosomes, the polarised signal can fluctuate sharply between adjacent markers. But these fluctuations might not represent signal change, but confluence with standing genetic variation. While, diagnostic index filtering already removed much of the effect of genetic variation orthogonal to the barrier to gene flow, smoothing along mapped distances helps visualise broad ancestry patterns.
@@ -68,27 +68,33 @@ cbind(windows, bed)
 
 Each entry in `windows` corresponds to one marker in the *myo-includedSites.txt* file and shows a range of sites that are within the desired `windowSize`, where the window is centered at the reference site. In practice, `rank2map` looks for half the `windowSize` in either direction from the evaluated site, respecting the afinity to unique `CHROM` values. For genomes composed of multiple scaffolds or chromosomes, smoothing should be performed separately for each element, and `rank2map` ensures that the windows are set up with respect to `CHROM` values.
 
+
 ### Visual comparison of raw and smoothed results
 
-For smoothing to work, the sites in the original vcf file must be sorted. 
+::: {.box .caution}
+Smoothing should only be applied to mapped data. Using it on unordered or scaffold‑level datasets can distort the genomic signal.
+:::
+
+For smoothing to produce meaningful results, the sites in the original VCF file must be sorted by their genomic coordinates. This is an important consideration of the data prior to `vcf2diem` conversion. See Chapter @ref(vcf2diem).
+
+The function `smoothPolarizedGenotypes()` then applies a **Laplace‑kernel weighted mode** (Chapter @ref(Laplace)) to neighbouring markers within a defined window.
 
 ```{r, eval = FALSE}
 # smooth the polarised genotypes using a 150 bp window
-genSmooth <- smoothPolarizedGenotypes(genotypes = gen,
-	includedSites = "myo-includedSites.txt",
-	windowSize = 150)
+genSmooth <- smoothPolarizedGenotypes(
+  genotypes = gen,
+  includedSites = "myo-includedSites.txt",
+  windowSize = 150
+)
 ```
 
-The object returned by `smoothPolarizedGenotypes` is a genotype matrix with the same dimensions and site order as the input but containing smoothed genomic state values. These can be used interchangeably with raw genotypes in visualisation and hybrid index calculations.
+The function returns a genotype matrix with the same dimensions and site order as the input, but with smoothed genomic states. These can be used directly in `plotPolarized()` or in hybrid‑index calculations just like raw genotypes.
 
-The smoothing window is expressed in base pairs, and should correspond to the expected local scale of linkage. As recombination rates differ among taxa, selecting an appropriate window is best guided by empirical inspection. Compare several values to find the level of smoothing that preserves broad ancestry patterns without obscuring fine-scale transitions.
-Larger windows produce a more continuous signal but can merge distinct ancestry blocks, while smaller windows follow local fluctuations more closely. The optimal setting depends on marker density and linkage along the genome.
+The window size is specified in base pairs and should match the expected local scale of linkage. Because recombination rates differ among taxa and genomic regions, it is best to compare several window values empirically. Smaller windows follow local fluctuations more closely, whereas larger windows yield a smoother signal that can merge nearby ancestry blocks. The goal is to retain broad ancestry patterns while avoiding over‑smoothing.
 
-::: {.box .caution}
-Smoothing is recommended only for mapped data. Applying it to unordered or scaffold-level data can distort the genomic signal.
-:::
 
-Smoothing does not change the overall polarity of sites but modifies their local continuity. The following example compares raw and smoothed genotypes.
+
+The example below compares raw and smoothed genotype visualisations. The smoothing does not change overall polarity—it only reduces short‑range noise introduced by individual SNVs.
 
 ```{r, eval = FALSE}
 par(mfrow = c(1, 2))
@@ -100,7 +106,7 @@ plotPolarized(genSmooth, HI)
 knitr::include_graphics("figs/smooth.png")
 ```
 
-The smoothed profile follows the same overall trajectory as the raw data but removes short-range noise caused by individual SNVs. The resulting heatmap highlights broad transitions in ancestry and provides a clearer estimate of barrier to gene flow along chromosomes.
+The smoothed profile follows the same general trajectory as the raw data but removes fine‑scale irregularities. The resulting heatmap highlights broad ancestry transitions and provides a clearer view of barriers to gene flow along chromosomes.
 
 
 ## Interpretation and downstream use
@@ -121,7 +127,7 @@ Smoothing clarifies broad-scale patterns but should not replace marker-level int
 
 
 <details><summary>**Methodological explanation of the Laplace kernel smoothing**</summary>
-### Methodological explanation of the Laplace kernel smoothing
+### Methodological explanation of the Laplace kernel smoothing {#Laplace}
 
 The smoothing algorithm applies a truncated Laplace kernel over physical distance and assigns each site the weighted modal genomic state within the window. This can be described as **Laplace-kernel weighted mode smoothing**.
 
