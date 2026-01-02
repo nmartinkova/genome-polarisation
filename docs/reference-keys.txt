@@ -3,7 +3,7 @@ introduction
 how-to-cite
 intro
 diemFormat
-multiple-compartments-with-different-ploidies
+ploidy
 vcf2diem
 conversion-from-vcf-format
 sorting-vcf-files-before-genome-polarisation
@@ -47,3 +47,8 @@ Laplace
 implemented-kernel-truncation-and-scaling
 weighted-mode-smoothing
 tie-breaking-exact-order-used
+ploidy2
+mapping-compartments-and-their-ploidy
+hybrid-index-under-varying-ploidy
+implementation
+interpretation-considerations

@@ -4,7 +4,11 @@ bookdown::gitbook:
     toc:
       collapse: section
       before: |
-        <li><a href="./">Genome polarisation with diemr</a></li>
+         <li class="book-logo">
+          <a href="./">
+            <img src="figs/logo-diemr.png" alt="Genome polarisation with diemr" style="max-width: 120px;">
+          </a>
+         </li>
       after:  |
         <li><a href="https://github.com/nmartinkova/genome-polarisation" target="_blank">
           Contribute on GitHub

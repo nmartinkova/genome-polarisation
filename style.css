@@ -20,3 +20,10 @@ code {
 .box.caution strong {
   color: #c00;
 }
+.book-logo {
+  text-align: center;
+  padding: 10px 0;
+}
+.book-logo img {
+  max-width: 90%;
+}

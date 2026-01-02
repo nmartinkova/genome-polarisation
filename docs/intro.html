@@ -159,7 +159,11 @@ div.csl-indent {
       <nav role="navigation">
 
 <ul class="summary">
-<li><a href="./">Genome polarisation with diemr</a></li>
+<li class="book-logo">
+ <a href="./">
+   <img src="figs/logo-diemr.png" alt="Genome polarisation with diemr" style="max-width: 120px;">
+ </a>
+</li>
 
 <li class="divider"></li>
 <li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Introduction</a>
@@ -169,7 +173,7 @@ div.csl-indent {
 <li class="chapter" data-level="2" data-path="intro.html"><a href="intro.html"><i class="fa fa-check"></i><b>2</b> Quick start</a></li>
 <li class="chapter" data-level="3" data-path="diemFormat.html"><a href="diemFormat.html"><i class="fa fa-check"></i><b>3</b> Input data</a>
 <ul>
-<li class="chapter" data-level="3.1" data-path="diemFormat.html"><a href="diemFormat.html#multiple-compartments-with-different-ploidies"><i class="fa fa-check"></i><b>3.1</b> Multiple compartments with different ploidies</a></li>
+<li class="chapter" data-level="3.1" data-path="diemFormat.html"><a href="diemFormat.html#ploidy"><i class="fa fa-check"></i><b>3.1</b> Multiple compartments with different ploidies</a></li>
 </ul></li>
 <li class="chapter" data-level="4" data-path="vcf2diem.html"><a href="vcf2diem.html"><i class="fa fa-check"></i><b>4</b> Importing data for genome polarisation</a>
 <ul>
@@ -229,6 +233,13 @@ div.csl-indent {
 <li class="chapter" data-level="8.2.1" data-path="smoothing-chapter.html"><a href="smoothing-chapter.html#Laplace"><i class="fa fa-check"></i><b>8.2.1</b> Methodological explanation of the Laplace kernel smoothing</a></li>
 </ul></li>
 </ul></li>
+<li class="chapter" data-level="9" data-path="ploidy2.html"><a href="ploidy2.html"><i class="fa fa-check"></i><b>9</b> Ploidy-aware genome polarisation</a>
+<ul>
+<li class="chapter" data-level="9.1" data-path="ploidy2.html"><a href="ploidy2.html#mapping-compartments-and-their-ploidy"><i class="fa fa-check"></i><b>9.1</b> Mapping compartments and their ploidy</a></li>
+<li class="chapter" data-level="9.2" data-path="ploidy2.html"><a href="ploidy2.html#hybrid-index-under-varying-ploidy"><i class="fa fa-check"></i><b>9.2</b> Hybrid index under varying ploidy</a></li>
+<li class="chapter" data-level="9.3" data-path="ploidy2.html"><a href="ploidy2.html#implementation"><i class="fa fa-check"></i><b>9.3</b> Implementation</a></li>
+<li class="chapter" data-level="9.4" data-path="ploidy2.html"><a href="ploidy2.html#interpretation-considerations"><i class="fa fa-check"></i><b>9.4</b> Interpretation considerations</a></li>
+</ul></li>
 <li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
 <li class="divider"></li>
 <li><a href="https://github.com/nmartinkova/genome-polarisation" target="_blank">
@@ -273,12 +284,13 @@ list with <strong>ploidies for all genomic compartments and individuals</strong>
 <span id="cb2-2"><a href="intro.html#cb2-2" tabindex="-1"></a><span class="co"># Analysing six individuals</span></span>
 <span id="cb2-3"><a href="intro.html#cb2-3" tabindex="-1"></a>samples <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">6</span></span>
 <span id="cb2-4"><a href="intro.html#cb2-4" tabindex="-1"></a><span class="co"># Assuming diploid markers of all individuals</span></span>
-<span id="cb2-5"><a href="intro.html#cb2-5" tabindex="-1"></a>ploidies <span class="ot">=</span> <span class="fu">rep</span>(<span class="fu">list</span>(<span class="fu">rep</span>(<span class="dv">2</span>, <span class="fu">nchar</span>(<span class="fu">readLines</span>(filepaths[<span class="dv">1</span>])[<span class="dv">1</span>]) <span class="sc">-</span> <span class="dv">1</span>)), <span class="fu">length</span>(filepaths))</span>
-<span id="cb2-6"><a href="intro.html#cb2-6" tabindex="-1"></a><span class="fu">CheckDiemFormat</span>(<span class="at">files =</span> filepaths, </span>
-<span id="cb2-7"><a href="intro.html#cb2-7" tabindex="-1"></a>                <span class="at">ChosenInds =</span> samples,</span>
-<span id="cb2-8"><a href="intro.html#cb2-8" tabindex="-1"></a>                <span class="at">ploidy =</span> ploidies)</span>
-<span id="cb2-9"><a href="intro.html#cb2-9" tabindex="-1"></a><span class="co"># File check passed: TRUE</span></span>
-<span id="cb2-10"><a href="intro.html#cb2-10" tabindex="-1"></a><span class="co"># Ploidy check passed: TRUE</span></span></code></pre></div>
+<span id="cb2-5"><a href="intro.html#cb2-5" tabindex="-1"></a>nIndividuals <span class="ot">&lt;-</span> <span class="fu">nchar</span>(<span class="fu">readLines</span>(filepaths[<span class="dv">1</span>])[<span class="dv">1</span>]) <span class="sc">-</span> <span class="dv">1</span><span class="er">)</span></span>
+<span id="cb2-6"><a href="intro.html#cb2-6" tabindex="-1"></a>ploidies <span class="ot">=</span> <span class="fu">rep</span>(<span class="fu">list</span>(<span class="fu">rep</span>(<span class="dv">2</span>, nIndividuals), <span class="fu">length</span>(filepaths))</span>
+<span id="cb2-7"><a href="intro.html#cb2-7" tabindex="-1"></a><span class="fu">CheckDiemFormat</span>(<span class="at">files =</span> filepaths, </span>
+<span id="cb2-8"><a href="intro.html#cb2-8" tabindex="-1"></a>                <span class="at">ChosenInds =</span> samples,</span>
+<span id="cb2-9"><a href="intro.html#cb2-9" tabindex="-1"></a>                <span class="at">ploidy =</span> ploidies)</span>
+<span id="cb2-10"><a href="intro.html#cb2-10" tabindex="-1"></a><span class="co"># File check passed: TRUE</span></span>
+<span id="cb2-11"><a href="intro.html#cb2-11" tabindex="-1"></a><span class="co"># Ploidy check passed: TRUE</span></span></code></pre></div>
 <p>If the <code>CheckDiemFormat()</code> function fails, work through the error messages and fix
 the stored input files accordingly. The algorithm repeatedly accesses data from the
 harddisk, so seeing the passed file and variable check prior to the analysis is critical.</p>

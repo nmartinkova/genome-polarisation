@@ -4,18 +4,18 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>Genome polarisation with diemr</title>
-  <meta name="description" content="Genome polarisation with diemr" />
+  <title>Chapter 9 Ploidy-aware genome polarisation | Genome polarisation with diemr</title>
+  <meta name="description" content="Chapter 9 Ploidy-aware genome polarisation | Genome polarisation with diemr" />
   <meta name="generator" content="bookdown 0.45 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="Genome polarisation with diemr" />
+  <meta property="og:title" content="Chapter 9 Ploidy-aware genome polarisation | Genome polarisation with diemr" />
   <meta property="og:type" content="book" />
   
   
   
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Genome polarisation with diemr" />
+  <meta name="twitter:title" content="Chapter 9 Ploidy-aware genome polarisation | Genome polarisation with diemr" />
   
   
   
@@ -29,8 +29,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-
-<link rel="next" href="intro.html"/>
+<link rel="prev" href="smoothing-chapter.html"/>
+<link rel="next" href="references.html"/>
 <script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -263,25 +263,110 @@ div.csl-indent {
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="header">
-<h1 class="title">Genome polarisation with diemr</h1>
-<p class="author"><em>Natália Martínková</em></p>
-<p class="date"><em>Last updated: 2026-01-02</em></p>
+<div id="ploidy2" class="section level1 hasAnchor" number="9">
+<h1><span class="header-section-number">Chapter 9</span> Ploidy-aware genome polarisation<a href="ploidy2.html#ploidy2" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<p>Genome polarisation with the <em>diem</em> algorithm was developed for biallelic genomic sites, where each site contributes one of four possible states: an undetermined genomic state or missing data, homozygous for one allele, heterozygous, or homozygous for the alternative allele. Many biological datasets, however, contain genomic <strong>regions of different ploidy</strong> within the same individual. These include sex chromosomes, pseudo-autosomal regions, organellar genomes, and other genomic regions with reduced or increased ploidy.</p>
+<p>The <em>diem</em> model of diagnostics assumes that the information contributed by a site scales with the number of allele copies sampled per individual <span class="citation">(<a href="#ref-Baird2023">Baird et al. 2023</a>)</span>. Genomic compartments that are haploid or hemizygous therefore contribute less information per site than diploid regions. Treating all sites as diploid can bias likelihood estimates and hybrid index calculations unless ploidy differences are explicitly accounted for, particularly in cases where diagnostic markers accumulate in non-diploid genomic regions.</p>
+<p>This chapter describes how <code>diemr</code> handles ploidy-aware genome polarisation and how hybrid indices can be calculated consistently across compartments of different ploidy.</p>
+<div id="mapping-compartments-and-their-ploidy" class="section level2 hasAnchor" number="9.1">
+<h2><span class="header-section-number">9.1</span> Mapping compartments and their ploidy<a href="ploidy2.html#mapping-compartments-and-their-ploidy" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>A <em>compartment</em> is a subset of sites for which we can specify ploidy for each of the analysed individuals. For example:</p>
+<ul>
+<li>autosomes: ploidy = 2 for all individuals,</li>
+<li>X chromosome: ploidy = 2 for XX, 1 for XY,</li>
+<li>mitochondria: ploidy = 1,</li>
+<li>Y chromosome: ploidy = 0 or 1 depending on sex.</li>
+</ul>
+<p>We use the term <em>compartment</em> rather than <em>chromosome</em> because compartments are defined by ploidy regime, not by chromosomal identity. Moreover, when using parallel processing in <em>diem</em>, the grain of parallelisation is a compartment. Parallelisation is more efficient (less overhead) if compartments have similar sizes, which is unlikely when each compartment corresponds to a chromosome.</p>
+<p>The <em>diem</em> algorithm estimates an optimal polarity for each site. Individual ploidy enters through the compartment definition, which specifies how many allele copies are expected per individual for the sites in that compartment and therefore how sites contribute to the likelihood and to the hybrid index.</p>
+<p>Compartment ploidy is a required argument in <em>diem</em> analysis, and site polarities are inferred from the model that is ploidy-aware. The compartment and ploidy mapping is introduced with a worked example in Chapter <a href="diemFormat.html#ploidy">3.1</a>.</p>
+<details>
+<summary>
+Full code to prepare data to execute the examples in this chapter
+</summary>
+<div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb32-1"><a href="ploidy2.html#cb32-1" tabindex="-1"></a><span class="fu">library</span>(diemr)</span>
+<span id="cb32-2"><a href="ploidy2.html#cb32-2" tabindex="-1"></a></span>
+<span id="cb32-3"><a href="ploidy2.html#cb32-3" tabindex="-1"></a>filepaths <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fu">system.file</span>(<span class="st">&quot;extdata&quot;</span>, <span class="st">&quot;testBarrier.txt&quot;</span>, <span class="at">package =</span> <span class="st">&quot;diemr&quot;</span>),</span>
+<span id="cb32-4"><a href="ploidy2.html#cb32-4" tabindex="-1"></a>               <span class="fu">system.file</span>(<span class="st">&quot;extdata&quot;</span>, <span class="st">&quot;testBarrier2.txt&quot;</span>, <span class="at">package =</span> <span class="st">&quot;diemr&quot;</span>))</span>
+<span id="cb32-5"><a href="ploidy2.html#cb32-5" tabindex="-1"></a>               </span>
+<span id="cb32-6"><a href="ploidy2.html#cb32-6" tabindex="-1"></a>ploidies <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="fu">rep</span>(<span class="dv">2</span>, <span class="dv">6</span>),</span>
+<span id="cb32-7"><a href="ploidy2.html#cb32-7" tabindex="-1"></a>                 <span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">2</span>, <span class="dv">1</span>, <span class="dv">1</span>))</span>
+<span id="cb32-8"><a href="ploidy2.html#cb32-8" tabindex="-1"></a></span>
+<span id="cb32-9"><a href="ploidy2.html#cb32-9" tabindex="-1"></a>samples <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">6</span></span>
+<span id="cb32-10"><a href="ploidy2.html#cb32-10" tabindex="-1"></a></span>
+<span id="cb32-11"><a href="ploidy2.html#cb32-11" tabindex="-1"></a><span class="fu">CheckDiemFormat</span>(<span class="at">files =</span> filepaths, </span>
+<span id="cb32-12"><a href="ploidy2.html#cb32-12" tabindex="-1"></a>                <span class="at">ChosenInds =</span> samples,</span>
+<span id="cb32-13"><a href="ploidy2.html#cb32-13" tabindex="-1"></a>                <span class="at">ploidy =</span> ploidies,</span>
+<span id="cb32-14"><a href="ploidy2.html#cb32-14" tabindex="-1"></a>                <span class="at">quiet =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb32-15"><a href="ploidy2.html#cb32-15" tabindex="-1"></a><span class="co"># File check passed: TRUE</span></span>
+<span id="cb32-16"><a href="ploidy2.html#cb32-16" tabindex="-1"></a><span class="co"># Ploidy check passed: TRUE</span></span>
+<span id="cb32-17"><a href="ploidy2.html#cb32-17" tabindex="-1"></a></span>
+<span id="cb32-18"><a href="ploidy2.html#cb32-18" tabindex="-1"></a><span class="co"># Set random seed for reproducibility</span></span>
+<span id="cb32-19"><a href="ploidy2.html#cb32-19" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">39583782</span>)</span>
+<span id="cb32-20"><a href="ploidy2.html#cb32-20" tabindex="-1"></a></span>
+<span id="cb32-21"><a href="ploidy2.html#cb32-21" tabindex="-1"></a><span class="co"># Run diem </span></span>
+<span id="cb32-22"><a href="ploidy2.html#cb32-22" tabindex="-1"></a>res <span class="ot">&lt;-</span> <span class="fu">diem</span>(<span class="at">files =</span> filepaths, </span>
+<span id="cb32-23"><a href="ploidy2.html#cb32-23" tabindex="-1"></a>            <span class="at">ploidy =</span> ploidies, </span>
+<span id="cb32-24"><a href="ploidy2.html#cb32-24" tabindex="-1"></a>            <span class="at">markerPolarity =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb32-25"><a href="ploidy2.html#cb32-25" tabindex="-1"></a>            <span class="at">ChosenInds =</span> samples, </span>
+<span id="cb32-26"><a href="ploidy2.html#cb32-26" tabindex="-1"></a>            <span class="at">nCores =</span> <span class="dv">1</span>)</span>
+<span id="cb32-27"><a href="ploidy2.html#cb32-27" tabindex="-1"></a></span>
+<span id="cb32-28"><a href="ploidy2.html#cb32-28" tabindex="-1"></a><span class="co"># Import polarised genotypes</span></span>
+<span id="cb32-29"><a href="ploidy2.html#cb32-29" tabindex="-1"></a>gen <span class="ot">&lt;-</span> <span class="fu">importPolarized</span>(<span class="at">file =</span> filepaths, </span>
+<span id="cb32-30"><a href="ploidy2.html#cb32-30" tabindex="-1"></a>                       <span class="at">changePolarity =</span> res<span class="sc">$</span>markerPolarity, </span>
+<span id="cb32-31"><a href="ploidy2.html#cb32-31" tabindex="-1"></a>                       <span class="at">ChosenInds =</span> samples) </span></code></pre></div>
+</details>
 </div>
-<div id="introduction" class="section level1 hasAnchor" number="1">
-<h1><span class="header-section-number">Chapter 1</span> Introduction<a href="index.html#introduction" class="anchor-section" aria-label="Anchor link to header"></a></h1>
-<p><img src="figs/logo-diemr.png" width="20%" style="display: block; margin: auto 0 auto auto;" /></p>
-<p>Genome polarisation is a genome-painting approach based on the likelihood-based diagnostic index expectation maximisation (<em>diem</em>) algorithm <span class="citation">(<a href="#ref-Baird2023">Baird et al. 2023</a>)</span>. It identifies which alleles of single-nucleotide variants (SNV) belong to either side of a barrier to gene flow, co-estimating both the assignment of individuals to a barrier side and the diagnosticity of each marker, meaning how consistently individuals on one side are homozygous for the allele associated with that side.</p>
-<p>By inferring which parts of the genome correspond to each parental lineage, genome polarisation provides a direct view of <strong>how barriers to gene flow shape genomic architecture</strong>. It can detect and quantify hybridisation, distinguish introgressed from non-introgressed regions, and reveal how species boundaries evolve during speciation and diversification. Compared with methods such as STRUCTURE, ADMIXTURE, or PCA, which summarise population structure statistically, genome polarisation explicitly identifies the genomic segments that define the divergence between taxa or lineages.</p>
-<p>The diagnostic index computed by <em>diem</em> <strong>highlights markers that are most informative</strong> for the primary axis of genetic differentiation. These diagnostic loci can then be used to describe patterns of hybridisation, assess barrier strength, or visualise the genomic distribution of ancestry.</p>
-<p>This book provides a step-by-step guide to performing genome polarisation analyses in <code>R</code> using <a href="https://github.com/nmartinkova/diemr">the <code>diemr</code> package</a>, also available from <a href="https://CRAN.R-project.org/package=diemr">CRAN</a>. The package includes functions for input validation, file-format conversion, visualisation, and diagnostic summaries, with examples based on typical genomic datasets such as variant call format (VCF) files and SNP matrices. By the end of the book, users will be able to run the complete analysis workflow, interpret its outputs, and generate graphical representations of genome polarisation.</p>
-<p>The <em>diem</em> algorithm itself is also implemented in <code>Mathematica</code> and <code>Python</code>, available <a href="https://github.com/StuartJEBaird/diem">here</a>, allowing reproducibility and interoperability across analytical environments.</p>
-<div id="how-to-cite" class="section level2 hasAnchor" number="1.1">
-<h2><span class="header-section-number">1.1</span> How to cite<a href="index.html#how-to-cite" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p>If you use the <em>diemr</em> package or this documentation in your work, please cite:</p>
-<p>Baird, S. J. E., J. Petružela, I. Jaroň, P. Škrabánek, and N. Martínková. 2023. <em>Genome polarisation for detecting barriers to geneflow.</em> Methods in Ecology and Evolution 14: 512–28. <a href="https://doi.org/10.1111/2041-210X.14010" class="uri">https://doi.org/10.1111/2041-210X.14010</a>.</p>
-<p>and this online documentation for the <code>diemr</code> package:</p>
-<p>Martínková, N. 2025. <em>Genome polarisation with diemr.</em> Bookdown online documentation. Available at: <a href="https://nmartinkova.github.io/genome-polarisation/" class="uri">https://nmartinkova.github.io/genome-polarisation/</a>.</p>
+<div id="hybrid-index-under-varying-ploidy" class="section level2 hasAnchor" number="9.2">
+<h2><span class="header-section-number">9.2</span> Hybrid index under varying ploidy<a href="ploidy2.html#hybrid-index-under-varying-ploidy" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>In <em>diem</em>, the hybrid index is derived from genomic state summaries. For each individual, polarised genotypes are first summarised into counts of the four genomic states (undetermined, 0, 1, 2), forming a <span class="math inline">\({}^4\mathbf{I}\)</span> genomic state count vector. Hybrid indices are then calculated from the <span class="math inline">\({}^4\mathbf{I}\)</span> genomic state summaries, and not directly from per-site genotypes.</p>
+<p>When sites are partitioned into compartments with different ploidy, genomic state counts are first computed separately for each compartment. These compartment-wise <span class="math inline">\({}^4\mathbf{I}\)</span> summaries are then converted to allele count summaries by multiplying each individual’s compartment counts by the corresponding compartment ploidy. The resulting <span class="math inline">\({}^4\mathbf{A}\)</span> allele count matrices are summed across compartments to obtain a single ploidy-aware genomic state summary per individual.</p>
+<p>The hybrid index for an individual is calculated from this combined <span class="math inline">\({}^4\mathbf{A}\)</span> summary as the proportion of alternative alleles among all called alleles, excluding undetermined states. This procedure ensures that compartments with lower ploidy contribute proportionally fewer allele copies.</p>
+<p>This construction allows hybrid index values to be compared consistently within datasets that contain genomic regions of different ploidy.</p>
+</div>
+<div id="implementation" class="section level2 hasAnchor" number="9.3">
+<h2><span class="header-section-number">9.3</span> Implementation<a href="ploidy2.html#implementation" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>From <code>diemr 1.5.2</code>, the function <code>hybridIndex</code> automatically performs ploidy-aware calculations when paths to input data in <code>diem</code> format, a vector of polarities for all sites, and a list with ploidy vectors for all individuals and all compartments are provided. This gives identical result to hybrid indices in the output file <em>HIwithOptimalPolarities.txt</em>. Hybrid indices calculated without supplying compartment ploidy are implicitly treated as diploid and will generally differ.</p>
+<div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb33-1"><a href="ploidy2.html#cb33-1" tabindex="-1"></a><span class="co"># Hybrid indices from diem run</span></span>
+<span id="cb33-2"><a href="ploidy2.html#cb33-2" tabindex="-1"></a>HI1 <span class="ot">&lt;-</span> <span class="fu">hybridIndex</span>(<span class="st">&quot;HIwithOptimalPolarities.txt&quot;</span>)</span>
+<span id="cb33-3"><a href="ploidy2.html#cb33-3" tabindex="-1"></a></span>
+<span id="cb33-4"><a href="ploidy2.html#cb33-4" tabindex="-1"></a><span class="co"># Calculated ploidy-aware hybrid indices</span></span>
+<span id="cb33-5"><a href="ploidy2.html#cb33-5" tabindex="-1"></a>HI2 <span class="ot">&lt;-</span> <span class="fu">hybridIndex</span>(<span class="at">x =</span> filepaths, <span class="at">ploidy =</span> ploidies, </span>
+<span id="cb33-6"><a href="ploidy2.html#cb33-6" tabindex="-1"></a>   <span class="at">changePolarity =</span> res<span class="sc">$</span>markerPolarity)</span>
+<span id="cb33-7"><a href="ploidy2.html#cb33-7" tabindex="-1"></a></span>
+<span id="cb33-8"><a href="ploidy2.html#cb33-8" tabindex="-1"></a><span class="co"># Calculated hybrid indices without considering ploidy</span></span>
+<span id="cb33-9"><a href="ploidy2.html#cb33-9" tabindex="-1"></a>HI3 <span class="ot">&lt;-</span> <span class="fu">hybridIndex</span>(gen)</span>
+<span id="cb33-10"><a href="ploidy2.html#cb33-10" tabindex="-1"></a></span>
+<span id="cb33-11"><a href="ploidy2.html#cb33-11" tabindex="-1"></a><span class="fu">all.equal</span>(HI1, HI2)</span>
+<span id="cb33-12"><a href="ploidy2.html#cb33-12" tabindex="-1"></a><span class="co"># [1] TRUE</span></span>
+<span id="cb33-13"><a href="ploidy2.html#cb33-13" tabindex="-1"></a></span>
+<span id="cb33-14"><a href="ploidy2.html#cb33-14" tabindex="-1"></a><span class="fu">all.equal</span>(HI2, HI3)</span>
+<span id="cb33-15"><a href="ploidy2.html#cb33-15" tabindex="-1"></a><span class="co"># [1] &quot;Mean relative difference: 0.01367976&quot;</span></span></code></pre></div>
+<p>Adjusting the hybrid indices according to compartment ploidies is especially important when filtering for diagnostic markers (Chapter <a href="DIfiltering.html#DIfiltering">7</a>) results in compartments with different ploidies including many diagnostic markers.</p>
+<div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb34-1"><a href="ploidy2.html#cb34-1" tabindex="-1"></a><span class="co"># Select top 40% of the most diagnostic markers</span></span>
+<span id="cb34-2"><a href="ploidy2.html#cb34-2" tabindex="-1"></a>whichMarkers <span class="ot">&lt;-</span> res<span class="sc">$</span>DI<span class="sc">$</span>DI <span class="sc">&gt;=</span> <span class="fu">quantile</span>(res<span class="sc">$</span>DI<span class="sc">$</span>DI, <span class="at">prob =</span> <span class="fl">0.6</span>)</span>
+<span id="cb34-3"><a href="ploidy2.html#cb34-3" tabindex="-1"></a></span>
+<span id="cb34-4"><a href="ploidy2.html#cb34-4" tabindex="-1"></a>hi2 <span class="ot">&lt;-</span> <span class="fu">hybridIndex</span>(<span class="at">x =</span> filepaths, <span class="at">ploidy =</span> ploidies, </span>
+<span id="cb34-5"><a href="ploidy2.html#cb34-5" tabindex="-1"></a>   <span class="at">changePolarity =</span> res<span class="sc">$</span>markerPolarity, </span>
+<span id="cb34-6"><a href="ploidy2.html#cb34-6" tabindex="-1"></a>   <span class="at">ChosenSites =</span> whichMarkers)</span>
+<span id="cb34-7"><a href="ploidy2.html#cb34-7" tabindex="-1"></a></span>
+<span id="cb34-8"><a href="ploidy2.html#cb34-8" tabindex="-1"></a>hi3 <span class="ot">&lt;-</span> HI3 <span class="ot">&lt;-</span> <span class="fu">hybridIndex</span>(gen, <span class="at">ChosenSites =</span> whichMarkers)</span>
+<span id="cb34-9"><a href="ploidy2.html#cb34-9" tabindex="-1"></a></span>
+<span id="cb34-10"><a href="ploidy2.html#cb34-10" tabindex="-1"></a><span class="co"># plot with ploidy-aware hybrid indices and without ploidy information</span></span>
+<span id="cb34-11"><a href="ploidy2.html#cb34-11" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>))</span>
+<span id="cb34-12"><a href="ploidy2.html#cb34-12" tabindex="-1"></a><span class="fu">plotPolarized</span>(gen[, whichMarkers], <span class="at">HI =</span> hi2, <span class="at">labels =</span> samples, <span class="at">main =</span> <span class="st">&quot;Ploidy-aware&quot;</span>)</span>
+<span id="cb34-13"><a href="ploidy2.html#cb34-13" tabindex="-1"></a><span class="fu">plotPolarized</span>(gen[, whichMarkers], <span class="at">HI =</span> hi3, <span class="at">labels =</span> samples, <span class="at">main =</span> <span class="st">&quot;All diploid&quot;</span>)</span></code></pre></div>
+<p><img src="figs/HIploidy.png" width="100%" /></p>
+</div>
+<div id="interpretation-considerations" class="section level2 hasAnchor" number="9.4">
+<h2><span class="header-section-number">9.4</span> Interpretation considerations<a href="ploidy2.html#interpretation-considerations" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Ploidy-aware hybrid indices behave identically to diploid indices when comparing individuals within a dataset—values remain constrained to <span class="math inline">\([0,1]\)</span> and reflect the proportion of ancestry belonging to the chosen side of the barrier. However, when regions vary strongly in ploidy (e.g., autosomes vs X vs Y):</p>
+<ul>
+<li>haploid regions produce allele proportions with lower sampling variance per site,</li>
+<li>compartments with many sites dominate the genome-wide mean,</li>
+<li>the influence of mitochondria or sex chromosomes depends strictly on their diagnostic marker count, not their biological magnitude.</li>
+</ul>
+<p>When comparing datasets with different compartment definitions or different numbers of markers per compartment, interpretation must therefore focus on <strong>within-dataset structure</strong>, not absolute values across analyses.</p>
 
 </div>
 </div>
@@ -296,8 +381,8 @@ Baird, Stuart J. E., Jan Petružela, Izar Jaroň, Pavel Škrabánek, and Natáli
           </div>
         </div>
       </div>
-
-<a href="intro.html" class="navigation navigation-next navigation-unique" aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="smoothing-chapter.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="references.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>

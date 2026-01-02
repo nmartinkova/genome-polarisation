@@ -11,6 +11,7 @@ rmd_files:
   - "04-Visualisation.Rmd"
   - "05-DI-filtering.Rmd"
   - "06-smoothing.Rmd"
+  - "07-ploidy.Rmd"
   - "10-koniec.Rmd"
 output_dir: "docs"
 clean: true

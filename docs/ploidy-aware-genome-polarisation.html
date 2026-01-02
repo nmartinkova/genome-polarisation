@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 9 Ploidy-aware genome polarisation | Genome polarisation with diemr</title>
+  <meta name="description" content="Chapter 9 Ploidy-aware genome polarisation | Genome polarisation with diemr" />
+  <meta name="generator" content="bookdown 0.46 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapter 9 Ploidy-aware genome polarisation | Genome polarisation with diemr" />
+  <meta property="og:type" content="book" />
+  
+  
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 9 Ploidy-aware genome polarisation | Genome polarisation with diemr" />
+  
+  
+  
+
+<meta name="author" content="Natália Martínková" />
+
+
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="smoothing-chapter.html"/>
+<link rel="next" href="references.html"/>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+
+
+<style type="text/css">
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<style type="text/css">
+  
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+</style>
+<style type="text/css">
+/* Used with Pandoc 2.11+ new --citeproc when CSL is used */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+  margin-bottom: 0em;
+}
+.hanging div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li class="book-logo">
+ <a href="./">
+   <img src="figs/logo-diemr.png" alt="Genome polarisation with diemr" style="max-width: 120px;">
+ </a>
+</li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Introduction</a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="index.html"><a href="index.html#how-to-cite"><i class="fa fa-check"></i><b>1.1</b> How to cite</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="intro.html"><a href="intro.html"><i class="fa fa-check"></i><b>2</b> Quick start</a></li>
+<li class="chapter" data-level="3" data-path="diemFormat.html"><a href="diemFormat.html"><i class="fa fa-check"></i><b>3</b> Input data</a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="diemFormat.html"><a href="diemFormat.html#ploidy"><i class="fa fa-check"></i><b>3.1</b> Multiple compartments with different ploidies</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="vcf2diem.html"><a href="vcf2diem.html"><i class="fa fa-check"></i><b>4</b> Importing data for genome polarisation</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="vcf2diem.html"><a href="vcf2diem.html#conversion-from-vcf-format"><i class="fa fa-check"></i><b>4.1</b> Conversion from VCF format</a>
+<ul>
+<li class="chapter" data-level="4.1.1" data-path="vcf2diem.html"><a href="vcf2diem.html#sorting-vcf-files-before-genome-polarisation"><i class="fa fa-check"></i><b>4.1.1</b> Sorting VCF files before genome polarisation</a></li>
+</ul></li>
+<li class="chapter" data-level="4.2" data-path="vcf2diem.html"><a href="vcf2diem.html#principle-of-conversion-to-diem-format"><i class="fa fa-check"></i><b>4.2</b> Principle of conversion to diem format</a>
+<ul>
+<li class="chapter" data-level="4.2.1" data-path="vcf2diem.html"><a href="vcf2diem.html#invariant-sites-and-indels"><i class="fa fa-check"></i><b>4.2.1</b> Invariant sites and indels</a></li>
+<li class="chapter" data-level="4.2.2" data-path="vcf2diem.html"><a href="vcf2diem.html#sites-not-informative-for-genome-polarisation"><i class="fa fa-check"></i><b>4.2.2</b> Sites not informative for genome polarisation</a></li>
+<li class="chapter" data-level="4.2.3" data-path="vcf2diem.html"><a href="vcf2diem.html#haploid-data"><i class="fa fa-check"></i><b>4.2.3</b> Haploid data</a></li>
+<li class="chapter" data-level="4.2.4" data-path="vcf2diem.html"><a href="vcf2diem.html#diploid-data"><i class="fa fa-check"></i><b>4.2.4</b> Diploid data</a></li>
+</ul></li>
+<li class="chapter" data-level="4.3" data-path="vcf2diem.html"><a href="vcf2diem.html#variant-call-format"><i class="fa fa-check"></i><b>4.3</b> Variant call format</a></li>
+<li class="chapter" data-level="4.4" data-path="vcf2diem.html"><a href="vcf2diem.html#polyploid-data"><i class="fa fa-check"></i><b>4.4</b> Polyploid data</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="understanding-genome-polarisation-output-files.html"><a href="understanding-genome-polarisation-output-files.html"><i class="fa fa-check"></i><b>5</b> Understanding genome polarisation output files</a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="understanding-genome-polarisation-output-files.html"><a href="understanding-genome-polarisation-output-files.html#defaults"><i class="fa fa-check"></i><b>5.1</b> Obligatory outputs</a>
+<ul>
+<li class="chapter" data-level="5.1.1" data-path="understanding-genome-polarisation-output-files.html"><a href="understanding-genome-polarisation-output-files.html#markerDiagnostics"><i class="fa fa-check"></i><b>5.1.1</b> MarkerDiagnosticsWithOptimalPolarities</a></li>
+<li class="chapter" data-level="5.1.2" data-path="understanding-genome-polarisation-output-files.html"><a href="understanding-genome-polarisation-output-files.html#HI"><i class="fa fa-check"></i><b>5.1.2</b> HIwithOptimalPolarities</a></li>
+<li class="chapter" data-level="5.1.3" data-path="understanding-genome-polarisation-output-files.html"><a href="understanding-genome-polarisation-output-files.html#I4"><i class="fa fa-check"></i><b>5.1.3</b> I4withOptimalPolarities</a></li>
+</ul></li>
+<li class="chapter" data-level="5.2" data-path="understanding-genome-polarisation-output-files.html"><a href="understanding-genome-polarisation-output-files.html#optional-outputs"><i class="fa fa-check"></i><b>5.2</b> Optional outputs</a>
+<ul>
+<li class="chapter" data-level="5.2.1" data-path="understanding-genome-polarisation-output-files.html"><a href="understanding-genome-polarisation-output-files.html#the-user-perspective"><i class="fa fa-check"></i><b>5.2.1</b> The user perspective</a></li>
+<li class="chapter" data-level="5.2.2" data-path="understanding-genome-polarisation-output-files.html"><a href="understanding-genome-polarisation-output-files.html#nullmarkerpolarities"><i class="fa fa-check"></i><b>5.2.2</b> NullMarkerPolarities</a></li>
+<li class="chapter" data-level="5.2.3" data-path="understanding-genome-polarisation-output-files.html"><a href="understanding-genome-polarisation-output-files.html#changedPolarities"><i class="fa fa-check"></i><b>5.2.3</b> MarkersWithChangedPolarities</a></li>
+<li class="chapter" data-level="5.2.4" data-path="understanding-genome-polarisation-output-files.html"><a href="understanding-genome-polarisation-output-files.html#iteration-specific-graphics"><i class="fa fa-check"></i><b>5.2.4</b> Iteration-specific graphics</a></li>
+<li class="chapter" data-level="5.2.5" data-path="understanding-genome-polarisation-output-files.html"><a href="understanding-genome-polarisation-output-files.html#the-log-file"><i class="fa fa-check"></i><b>5.2.5</b> The log file</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="visualisation.html"><a href="visualisation.html"><i class="fa fa-check"></i><b>6</b> Visualisation of polarised genotypes</a>
+<ul>
+<li class="chapter" data-level="6.1" data-path="visualisation.html"><a href="visualisation.html#plotting-polarised-genotypes"><i class="fa fa-check"></i><b>6.1</b> Plotting polarised genotypes</a>
+<ul>
+<li class="chapter" data-level="6.1.1" data-path="visualisation.html"><a href="visualisation.html#rectangular-plot"><i class="fa fa-check"></i><b>6.1.1</b> Rectangular plot</a></li>
+</ul></li>
+<li class="chapter" data-level="6.2" data-path="visualisation.html"><a href="visualisation.html#circular-iris-plot"><i class="fa fa-check"></i><b>6.2</b> Circular (iris) plot</a></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="DIfiltering.html"><a href="DIfiltering.html"><i class="fa fa-check"></i><b>7</b> Filtering sites by diagnostic index</a>
+<ul>
+<li class="chapter" data-level="7.1" data-path="DIfiltering.html"><a href="DIfiltering.html#selecting-the-filtering-threshold"><i class="fa fa-check"></i><b>7.1</b> Selecting the filtering threshold</a></li>
+<li class="chapter" data-level="7.2" data-path="DIfiltering.html"><a href="DIfiltering.html#biological-signal-insights"><i class="fa fa-check"></i><b>7.2</b> Biological signal insights</a></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="smoothing-chapter.html"><a href="smoothing-chapter.html"><i class="fa fa-check"></i><b>8</b> Smoothing polarised genotypes</a>
+<ul>
+<li class="chapter" data-level="8.1" data-path="smoothing-chapter.html"><a href="smoothing-chapter.html#smoothing-across-mapped-distances"><i class="fa fa-check"></i><b>8.1</b> Smoothing across mapped distances</a>
+<ul>
+<li class="chapter" data-level="8.1.1" data-path="smoothing-chapter.html"><a href="smoothing-chapter.html#mapping-diagnostic-markers"><i class="fa fa-check"></i><b>8.1.1</b> Mapping diagnostic markers</a></li>
+<li class="chapter" data-level="8.1.2" data-path="smoothing-chapter.html"><a href="smoothing-chapter.html#visual-comparison-of-raw-and-smoothed-results"><i class="fa fa-check"></i><b>8.1.2</b> Visual comparison of raw and smoothed results</a></li>
+</ul></li>
+<li class="chapter" data-level="8.2" data-path="smoothing-chapter.html"><a href="smoothing-chapter.html#interpretation-and-downstream-use"><i class="fa fa-check"></i><b>8.2</b> Interpretation and downstream use</a>
+<ul>
+<li class="chapter" data-level="8.2.1" data-path="smoothing-chapter.html"><a href="smoothing-chapter.html#Laplace"><i class="fa fa-check"></i><b>8.2.1</b> Methodological explanation of the Laplace kernel smoothing</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="9" data-path="ploidy-aware-genome-polarisation.html"><a href="ploidy-aware-genome-polarisation.html"><i class="fa fa-check"></i><b>9</b> Ploidy-aware genome polarisation</a>
+<ul>
+<li class="chapter" data-level="9.1" data-path="ploidy-aware-genome-polarisation.html"><a href="ploidy-aware-genome-polarisation.html#mapping-compartments-and-their-ploidy"><i class="fa fa-check"></i><b>9.1</b> Mapping compartments and their ploidy</a></li>
+<li class="chapter" data-level="9.2" data-path="ploidy-aware-genome-polarisation.html"><a href="ploidy-aware-genome-polarisation.html#hybrid-index-under-varying-ploidy"><i class="fa fa-check"></i><b>9.2</b> Hybrid index under varying ploidy</a>
+<ul>
+<li class="chapter" data-level="9.2.1" data-path="ploidy-aware-genome-polarisation.html"><a href="ploidy-aware-genome-polarisation.html#per-site-contribution"><i class="fa fa-check"></i><b>9.2.1</b> Per-site contribution</a></li>
+<li class="chapter" data-level="9.2.2" data-path="ploidy-aware-genome-polarisation.html"><a href="ploidy-aware-genome-polarisation.html#total-hybrid-index"><i class="fa fa-check"></i><b>9.2.2</b> Total hybrid index</a></li>
+</ul></li>
+<li class="chapter" data-level="9.3" data-path="ploidy-aware-genome-polarisation.html"><a href="ploidy-aware-genome-polarisation.html#implementation-in-diemr"><i class="fa fa-check"></i><b>9.3</b> Implementation in <em>diemr</em></a></li>
+<li class="chapter" data-level="9.4" data-path="ploidy-aware-genome-polarisation.html"><a href="ploidy-aware-genome-polarisation.html#interpretation-considerations"><i class="fa fa-check"></i><b>9.4</b> Interpretation considerations</a></li>
+<li class="chapter" data-level="9.5" data-path="ploidy-aware-genome-polarisation.html"><a href="ploidy-aware-genome-polarisation.html#visualisation-1"><i class="fa fa-check"></i><b>9.5</b> Visualisation</a></li>
+<li class="chapter" data-level="9.6" data-path="ploidy-aware-genome-polarisation.html"><a href="ploidy-aware-genome-polarisation.html#summary"><i class="fa fa-check"></i><b>9.6</b> Summary</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
+<li class="divider"></li>
+<li><a href="https://github.com/nmartinkova/genome-polarisation" target="_blank">
+  Contribute on GitHub
+</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Genome polarisation with diemr</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="ploidy-aware-genome-polarisation" class="section level1 hasAnchor" number="9">
+<h1><span class="header-section-number">Chapter 9</span> Ploidy-aware genome polarisation<a href="ploidy-aware-genome-polarisation.html#ploidy-aware-genome-polarisation" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<p>Genome polarisation with the diem algorithm was originally developed for biallelic genomic sites, where each site contributes one of four possible states: an undetermined genomic state or missing data, homozygous for one allele, heterozygous, or homozygous for the alternative allele. Many biological datasets, however, contain genomic <strong>regions of different ploidy</strong> within the same individual. These include sex chromosomes, pseudo-autosomal regions, organellar genomes, and lineage-specific aneuploidies.</p>
+<p>The <em>diem</em> model of diagnostics assumes that the information contributed by a site scales with the number of allele copies sampled per individual <span class="citation">(<a href="#ref-Baird2023">Baird et al. 2023</a>)</span>. Genomic compartments that are haploid or hemizygous therefore contribute less information per site than diploid regions. Treating all sites as diploid can bias likelihood estimates and hybrid-index calculations unless ploidy differences are explicitly accounted for, particularly in cases where diagnostic markers accumulate in non-diploid genomic regions.</p>
+<p>This chapter describes how <code>diemr</code> handles ploidy-aware genome polarisation and how hybrid indices can be calculated consistently across compartments of different ploidy.</p>
+<div id="mapping-compartments-and-their-ploidy" class="section level2 hasAnchor" number="9.1">
+<h2><span class="header-section-number">9.1</span> Mapping compartments and their ploidy<a href="ploidy-aware-genome-polarisation.html#mapping-compartments-and-their-ploidy" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>A <em>compartment</em> is a subset of sites for which we can specify ploidy for each of the analysed individuals. For example:</p>
+<ul>
+<li>autosomes: ploidy = 2 for XX and XY individuals,</li>
+<li>X chromosome: ploidy = 2 for XX, 1 for XY,</li>
+<li>mitochondria: ploidy = 1,</li>
+<li>Y chromosome: ploidy = 0 or 1 depending on sex.</li>
+</ul>
+<p>We use the term compartment rather than chromosome because compartments are defined by ploidy regime, not by chromosomal identity. Moreover, when using parallel processing in <em>diem</em>, the grain of parallelisation is a compartment. Parallelisation is more efficient (less overhead) if compartments have the same size, which is not likely when each compartment corresponds to a chromosome.</p>
+<p>The <em>diem</em> algorithm estimates an optimal polarity for each site. Individual ploidy enters through the compartment definition, which specifies how many allele copies are expected per individual for the sites in that compartment, and therefore how sites contribute to likelihood and to hybrid index calculation.</p>
+<p>The key property is that each compartment has an associated ploidy value for each individual, and this ploidy determines how much each site contributes to the model likelihood and to the individual’s hybrid index.</p>
+<p>Compartment ploidy is a required argument in <em>diem</em> analysis, and site polarities are infered from the model that is ploidy-aware. The compartment and ploidy mapping is illustrated with a worked example in Chapter (@ploidy).</p>
+<details>
+<summary>
+Full code to prepare data to execute the examples in this chapter
+</summary>
+<div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb32-1"><a href="ploidy-aware-genome-polarisation.html#cb32-1" tabindex="-1"></a>filepaths <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fu">system.file</span>(<span class="st">&quot;extdata&quot;</span>, <span class="st">&quot;data7x3.txt&quot;</span>, <span class="at">package =</span> <span class="st">&quot;diemr&quot;</span>),</span>
+<span id="cb32-2"><a href="ploidy-aware-genome-polarisation.html#cb32-2" tabindex="-1"></a>                <span class="fu">system.file</span>(<span class="st">&quot;extdata&quot;</span>, <span class="st">&quot;data7x10.txt&quot;</span>, <span class="at">package =</span> <span class="st">&quot;diemr&quot;</span>))</span>
+<span id="cb32-3"><a href="ploidy-aware-genome-polarisation.html#cb32-3" tabindex="-1"></a>               </span>
+<span id="cb32-4"><a href="ploidy-aware-genome-polarisation.html#cb32-4" tabindex="-1"></a>ploidies <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="fu">rep</span>(<span class="dv">2</span>, <span class="dv">7</span>),</span>
+<span id="cb32-5"><a href="ploidy-aware-genome-polarisation.html#cb32-5" tabindex="-1"></a>                  <span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">2</span>, <span class="dv">2</span>, <span class="dv">1</span>, <span class="dv">2</span>))</span>
+<span id="cb32-6"><a href="ploidy-aware-genome-polarisation.html#cb32-6" tabindex="-1"></a></span>
+<span id="cb32-7"><a href="ploidy-aware-genome-polarisation.html#cb32-7" tabindex="-1"></a>samples <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">7</span></span>
+<span id="cb32-8"><a href="ploidy-aware-genome-polarisation.html#cb32-8" tabindex="-1"></a></span>
+<span id="cb32-9"><a href="ploidy-aware-genome-polarisation.html#cb32-9" tabindex="-1"></a><span class="fu">CheckDiemFormat</span>(<span class="at">files =</span> filepaths, </span>
+<span id="cb32-10"><a href="ploidy-aware-genome-polarisation.html#cb32-10" tabindex="-1"></a>                <span class="at">ChosenInds =</span> samples,</span>
+<span id="cb32-11"><a href="ploidy-aware-genome-polarisation.html#cb32-11" tabindex="-1"></a>                <span class="at">ploidy =</span> ploidies)</span>
+<span id="cb32-12"><a href="ploidy-aware-genome-polarisation.html#cb32-12" tabindex="-1"></a><span class="co"># File check passed: TRUE</span></span>
+<span id="cb32-13"><a href="ploidy-aware-genome-polarisation.html#cb32-13" tabindex="-1"></a><span class="co"># Ploidy check passed: TRUE</span></span>
+<span id="cb32-14"><a href="ploidy-aware-genome-polarisation.html#cb32-14" tabindex="-1"></a></span>
+<span id="cb32-15"><a href="ploidy-aware-genome-polarisation.html#cb32-15" tabindex="-1"></a><span class="co"># Set random seed for repeatibility</span></span>
+<span id="cb32-16"><a href="ploidy-aware-genome-polarisation.html#cb32-16" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">39583782</span>)</span>
+<span id="cb32-17"><a href="ploidy-aware-genome-polarisation.html#cb32-17" tabindex="-1"></a></span>
+<span id="cb32-18"><a href="ploidy-aware-genome-polarisation.html#cb32-18" tabindex="-1"></a><span class="co"># Run diem </span></span>
+<span id="cb32-19"><a href="ploidy-aware-genome-polarisation.html#cb32-19" tabindex="-1"></a>res <span class="ot">&lt;-</span> <span class="fu">diem</span>(<span class="at">files =</span> filepaths, </span>
+<span id="cb32-20"><a href="ploidy-aware-genome-polarisation.html#cb32-20" tabindex="-1"></a>            <span class="at">ploidy =</span> ploidies, </span>
+<span id="cb32-21"><a href="ploidy-aware-genome-polarisation.html#cb32-21" tabindex="-1"></a>            <span class="at">markerPolarity =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb32-22"><a href="ploidy-aware-genome-polarisation.html#cb32-22" tabindex="-1"></a>            <span class="at">ChosenInds =</span> samples, </span>
+<span id="cb32-23"><a href="ploidy-aware-genome-polarisation.html#cb32-23" tabindex="-1"></a>            <span class="at">nCores =</span> <span class="dv">1</span>)</span>
+<span id="cb32-24"><a href="ploidy-aware-genome-polarisation.html#cb32-24" tabindex="-1"></a></span>
+<span id="cb32-25"><a href="ploidy-aware-genome-polarisation.html#cb32-25" tabindex="-1"></a><span class="co"># Import polarised genotypes</span></span>
+<span id="cb32-26"><a href="ploidy-aware-genome-polarisation.html#cb32-26" tabindex="-1"></a>gen <span class="ot">&lt;-</span> <span class="fu">importPolarized</span>(<span class="at">file =</span> filepaths, </span>
+<span id="cb32-27"><a href="ploidy-aware-genome-polarisation.html#cb32-27" tabindex="-1"></a>                       <span class="at">changePolarity =</span> res<span class="sc">$</span>markerPolarity, </span>
+<span id="cb32-28"><a href="ploidy-aware-genome-polarisation.html#cb32-28" tabindex="-1"></a>                       <span class="at">ChosenInds =</span> samples) </span></code></pre></div>
+</details>
+</div>
+<div id="hybrid-index-under-varying-ploidy" class="section level2 hasAnchor" number="9.2">
+<h2><span class="header-section-number">9.2</span> Hybrid index under varying ploidy<a href="ploidy-aware-genome-polarisation.html#hybrid-index-under-varying-ploidy" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>For diploid data, the hybrid index (_i) of individual (i) is the proportion of alleles belonging to one side of the barrier among all polarised sites. When different sets of sites originate from compartments of different ploidy, each compartment’s contribution must be weighted accordingly.</p>
+<div id="per-site-contribution" class="section level3 hasAnchor" number="9.2.1">
+<h3><span class="header-section-number">9.2.1</span> Per-site contribution<a href="ploidy-aware-genome-polarisation.html#per-site-contribution" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>For a site (j) in compartment (c), with ploidy (p_c), the polarised genotype value (g_{i,j}) takes:</p>
+<ul>
+<li>0 = fully reference</li>
+<li>1 = fully alternative (haploid, hemizygous)</li>
+<li>0, 1, or 2 on diploid sites</li>
+</ul>
+<p>To make contributions comparable across compartments, the site is scaled by the ploidy:</p>
+<p>[
+a_{i,j} = .]</p>
+<p>Thus, a haploid “alternative” allele contributes (1), matching a diploid “2” on a diploid site.</p>
+</div>
+<div id="total-hybrid-index" class="section level3 hasAnchor" number="9.2.2">
+<h3><span class="header-section-number">9.2.2</span> Total hybrid index<a href="ploidy-aware-genome-polarisation.html#total-hybrid-index" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Let (J_c) be the set of sites belonging to compartment (c).
+Let (M_c(i)) be the subset of non-missing sites for individual (i) in compartment (c).</p>
+<p>For each compartment, compute the mean allele proportion:</p>
+<p>[
+*{i,c} = .]</p>
+<p>Then compute the <strong>genome-wide hybrid index</strong> as the weighted mean across compartments, weighting each compartment by its count of non-missing sites:</p>
+<p>[
+*{i} =
+.]</p>
+<p>This formulation ensures that:</p>
+<ul>
+<li>compartments with more informative sites contribute proportionally more,</li>
+<li>haploid regions contribute appropriately scaled information,</li>
+<li>missing data does not bias the result, and</li>
+<li>the hybrid index equals the classical diploid formula when all ploidy values equal 2.</li>
+</ul>
+<hr />
+</div>
+</div>
+<div id="implementation-in-diemr" class="section level2 hasAnchor" number="9.3">
+<h2><span class="header-section-number">9.3</span> Implementation in <em>diemr</em><a href="ploidy-aware-genome-polarisation.html#implementation-in-diemr" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>The function <code>hybridIndex()</code> automatically performs ploidy-aware calculations when invoked on a <code>diem</code> hybrid-index file or when given a <code>ploidy=</code> vector corresponding to compartments.</p>
+<p>Example:</p>
+<pre><code>HI &lt;- hybridIndex(&quot;HIwithOptimalPolarities.txt&quot;)</code></pre>
+<p>or for explicit genotype matrices:</p>
+<pre><code>HI &lt;- hybridIndex(
+  genotypes = gen,
+  compartment = compVector,
+  ploidy = ploidyVector
+)</code></pre>
+<p>where:</p>
+<ul>
+<li><code>compartment</code> assigns each site to a compartment ID</li>
+<li><code>ploidy</code> gives the ploidy of each compartment</li>
+</ul>
+<p>If neither argument is supplied, the function defaults to diploid calculations.</p>
+<hr />
+</div>
+<div id="interpretation-considerations" class="section level2 hasAnchor" number="9.4">
+<h2><span class="header-section-number">9.4</span> Interpretation considerations<a href="ploidy-aware-genome-polarisation.html#interpretation-considerations" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>Ploidy-aware hybrid indices behave identically to diploid indices when comparing individuals within a dataset—values remain constrained to ([0,1]) and reflect the proportion of ancestry belonging to the chosen side of the barrier.
+However, when regions vary strongly in ploidy (e.g., autosomes vs X vs mitochondria):</p>
+<ul>
+<li>haploid regions produce allele proportions with <strong>lower sampling variance per site</strong>,</li>
+<li>compartments with many sites dominate the genome-wide mean,</li>
+<li>the influence of mitochondria or sex chromosomes depends strictly on their site count, not their biological magnitude.</li>
+</ul>
+<p>When comparing datasets with different compartment definitions or different numbers of markers per compartment, interpretation must therefore focus on <strong>within-dataset structure</strong>, not absolute values across analyses.</p>
+<hr />
+</div>
+<div id="visualisation-1" class="section level2 hasAnchor" number="9.5">
+<h2><span class="header-section-number">9.5</span> Visualisation<a href="ploidy-aware-genome-polarisation.html#visualisation-1" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>All visualisation tools in <em>diemr</em>, including <code>plotPolarized()</code>, <code>plotMarkerAxis()</code>, and smoothed-state displays, accept ploidy-aware input without modification. The hybrid index passed to the plotting functions may be ploidy-aware or diploid; the heatmap remains the same because polarisation itself is not affected by ploidy.
+Only the hybrid-index ordering of individuals changes when ploidy-aware values differ from diploid summarisation.</p>
+<hr />
+</div>
+<div id="summary" class="section level2 hasAnchor" number="9.6">
+<h2><span class="header-section-number">9.6</span> Summary<a href="ploidy-aware-genome-polarisation.html#summary" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<ul>
+<li>Genome polarisation can integrate genomic regions of differing ploidy.</li>
+<li>Each site contributes an allele proportion scaled by its compartment ploidy.</li>
+<li>The genome-wide hybrid index is a weighted mean of per-compartment indices.</li>
+<li>The implementation is fully automated in <code>hybridIndex()</code> when the ploidy information is present in the output of <code>diem</code>.</li>
+<li>Interpretation should remain within datasets, as the weighting depends on marker distribution across compartments.</li>
+</ul>
+
+</div>
+</div>
+<h3>References<a href="references.html#references" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div id="refs" class="references csl-bib-body hanging-indent" entry-spacing="0">
+<div id="ref-Baird2023" class="csl-entry">
+Baird, Stuart J. E., Jan Petružela, Izar Jaroň, Pavel Škrabánek, and Natália Martínková. 2023. <span>“Genome Polarisation for Detecting Barriers to Geneflow.”</span> <em>Methods in Ecology and Evolution</em> 14: 512–28. <a href="https://doi.org/10.1111/2041-210X.14010">https://doi.org/10.1111/2041-210X.14010</a>.
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="smoothing-chapter.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="references.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+  "sharing": null,
+  "fontsettings": {
+    "theme": "white",
+    "family": "sans",
+    "size": 2
+  },
+  "edit": {
+    "link": null,
+    "text": null
+  },
+  "history": {
+    "link": null,
+    "text": null
+  },
+  "view": {
+    "link": null,
+    "text": null
+  },
+  "download": ["genome-polarisation.pdf", "genome-polarisation.epub"],
+  "search": {
+    "engine": "fuse",
+    "options": null
+  },
+  "toc": {
+    "collapse": "section"
+  },
+  "navbar": {
+    "right": [
+      {
+        "text": "Cite",
+        "href": "#how-to-cite"
+      }
+    ]
+  }
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.9/latest.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

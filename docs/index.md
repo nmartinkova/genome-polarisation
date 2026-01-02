@@ -1,7 +1,7 @@
 ---
 title: "Genome polarisation with diemr"
 author: "Natália Martínková"
-date: "Last updated: 2025-11-19"
+date: "Last updated: 2026-01-02"
 site: bookdown::bookdown_site
 documentclass: book
 bibliography: [refs.bib]
@@ -14,7 +14,13 @@ output:
 
 
 
+
 # Introduction
+
+
+<img src="figs/logo-diemr.png" width="20%" style="display: block; margin: auto 0 auto auto;" />
+
+
 
 Genome polarisation is a genome-painting approach based on the likelihood-based diagnostic index expectation maximisation (_diem_) algorithm [@Baird2023]. It identifies which alleles of single-nucleotide variants (SNV) belong to either side of a barrier to gene flow, co-estimating both the assignment of individuals to a barrier side and the diagnosticity of each marker, meaning how consistently individuals on one side are homozygous for the allele associated with that side.
 

@@ -29,7 +29,8 @@ filepaths <- system.file("extdata", "data7x3.txt", package = "diemr")
 # Analysing six individuals
 samples <- 1:6
 # Assuming diploid markers of all individuals
-ploidies = rep(list(rep(2, nchar(readLines(filepaths[1])[1]) - 1)), length(filepaths))
+nIndividuals <- nchar(readLines(filepaths[1])[1]) - 1)
+ploidies = rep(list(rep(2, nIndividuals), length(filepaths))
 CheckDiemFormat(files = filepaths, 
                 ChosenInds = samples,
                 ploidy = ploidies)
@@ -93,7 +94,7 @@ HI <- hybridIndex(res$I4)
 plotPolarized(genotypes = genotypes,
               HI = HI[samples])
 ```
-<img src="01-diemr-diagnostic-index-expecation-maximisation-in-r_files/figure-html/unnamed-chunk-5-1.png" width="576" style="display: block; margin: auto;" />
+<img src="01-diemr-diagnostic-index-expecation-maximisation-in-r_files/figure-epub3/unnamed-chunk-5-1.png" style="display: block; margin: auto;" />
 
 ::: {.box .caution}
 **CAUTION:** This is just a *quick start* to get you started! For real datasets you will use the diagnostic index (DI) to filter the full set of sites you have analysed with `diem` in order to plot only those markers relevant to any barrier detected in the analysis. See **Chapter \@ref(DIfiltering)** for guidelines.
@@ -126,7 +127,7 @@ the dataset is imported as a character matrix of all sites.
 
 
 
-## Multiple compartments with different ploidies
+## Multiple compartments with different ploidies {#ploidy}
 
 Some genomic compartments differ between individuals in their ploidy. For example, markers located on 
 chromosome X in mammals will be diploid in females, but haploid in males. Ploidy differences between 
@@ -158,7 +159,7 @@ CheckDiemFormat(files = filepaths2,
 # File check passed: TRUE
 # Ploidy check passed: TRUE
 
-# Set random seed for repeatibility of null polarities (optional)
+# Set random seed for reproducibility of null polarities (optional)
 set.seed(39583782)
 
 # Run diem 
@@ -190,7 +191,7 @@ plotPolarized(genotypes = genotypes2,
 ```
 
 
-<img src="01-diemr-diagnostic-index-expecation-maximisation-in-r_files/figure-html/unnamed-chunk-9-1.png" width="576" style="display: block; margin: auto;" />
+<img src="01-diemr-diagnostic-index-expecation-maximisation-in-r_files/figure-epub3/unnamed-chunk-9-1.png" style="display: block; margin: auto;" />
 
-
+See Chapter \@ref(ploidy2) for extended explanation of ploidy-aware genome polarisation.
 

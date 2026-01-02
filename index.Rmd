@@ -23,7 +23,15 @@ knitr::opts_chunk$set(
 )
 ```
 
+
 # Introduction
+
+
+```{r, echo=FALSE, out.width="20%", fig.align = "right"}
+knitr::include_graphics("figs/logo-diemr.png")
+```
+
+
 
 Genome polarisation is a genome-painting approach based on the likelihood-based diagnostic index expectation maximisation (_diem_) algorithm [@Baird2023]. It identifies which alleles of single-nucleotide variants (SNV) belong to either side of a barrier to gene flow, co-estimating both the assignment of individuals to a barrier side and the diagnosticity of each marker, meaning how consistently individuals on one side are homozygous for the allele associated with that side.
 

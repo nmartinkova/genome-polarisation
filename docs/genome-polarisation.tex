@@ -119,7 +119,7 @@
 
 \title{Genome polarisation with diemr}
 \author{Natália Martínková}
-\date{Last updated: 2025-11-19}
+\date{Last updated: 2026-01-02}
 
 \begin{document}
 \maketitle
@@ -129,6 +129,8 @@
 \tableofcontents
 }
 \chapter{Introduction}\label{introduction}
+
+\begin{flushright}\includegraphics[width=0.2\linewidth]{figs/logo-diemr} \end{flushright}
 
 Genome polarisation is a genome-painting approach based on the likelihood-based diagnostic index expectation maximisation (\emph{diem}) algorithm \citep{Baird2023}. It identifies which alleles of single-nucleotide variants (SNV) belong to either side of a barrier to gene flow, co-estimating both the assignment of individuals to a barrier side and the diagnosticity of each marker, meaning how consistently individuals on one side are homozygous for the allele associated with that side.
 
@@ -181,7 +183,8 @@ list with \textbf{ploidies for all genomic compartments and individuals}, and a 
 \CommentTok{\# Analysing six individuals}
 \NormalTok{samples }\OtherTok{\textless{}{-}} \DecValTok{1}\SpecialCharTok{:}\DecValTok{6}
 \CommentTok{\# Assuming diploid markers of all individuals}
-\NormalTok{ploidies }\OtherTok{=} \FunctionTok{rep}\NormalTok{(}\FunctionTok{list}\NormalTok{(}\FunctionTok{rep}\NormalTok{(}\DecValTok{2}\NormalTok{, }\FunctionTok{nchar}\NormalTok{(}\FunctionTok{readLines}\NormalTok{(filepaths[}\DecValTok{1}\NormalTok{])[}\DecValTok{1}\NormalTok{]) }\SpecialCharTok{{-}} \DecValTok{1}\NormalTok{)), }\FunctionTok{length}\NormalTok{(filepaths))}
+\NormalTok{nIndividuals }\OtherTok{\textless{}{-}} \FunctionTok{nchar}\NormalTok{(}\FunctionTok{readLines}\NormalTok{(filepaths[}\DecValTok{1}\NormalTok{])[}\DecValTok{1}\NormalTok{]) }\SpecialCharTok{{-}} \DecValTok{1}\ErrorTok{)}
+\NormalTok{ploidies }\OtherTok{=} \FunctionTok{rep}\NormalTok{(}\FunctionTok{list}\NormalTok{(}\FunctionTok{rep}\NormalTok{(}\DecValTok{2}\NormalTok{, nIndividuals), }\FunctionTok{length}\NormalTok{(filepaths))}
 \FunctionTok{CheckDiemFormat}\NormalTok{(}\AttributeTok{files =}\NormalTok{ filepaths, }
                 \AttributeTok{ChosenInds =}\NormalTok{ samples,}
                 \AttributeTok{ploidy =}\NormalTok{ ploidies)}
@@ -279,7 +282,7 @@ The leading \texttt{S} on each line of the input file is ensures that the marker
 read in as a string on all operating systems. The \texttt{S} is dropped during import of the genotypes, and
 the dataset is imported as a character matrix of all sites.
 
-\section{Multiple compartments with different ploidies}\label{multiple-compartments-with-different-ploidies}
+\section{Multiple compartments with different ploidies}\label{ploidy}
 
 Some genomic compartments differ between individuals in their ploidy. For example, markers located on
 chromosome X in mammals will be diploid in females, but haploid in males. Ploidy differences between
@@ -311,7 +314,7 @@ is correct, only that the information is in the correct format.
 \CommentTok{\# File check passed: TRUE}
 \CommentTok{\# Ploidy check passed: TRUE}
 
-\CommentTok{\# Set random seed for repeatibility of null polarities (optional)}
+\CommentTok{\# Set random seed for reproducibility of null polarities (optional)}
 \FunctionTok{set.seed}\NormalTok{(}\DecValTok{39583782}\NormalTok{)}
 
 \CommentTok{\# Run diem }
@@ -345,6 +348,8 @@ from each compartment can be extracted from the list in the \texttt{res2\$Polari
 \end{Shaded}
 
 \begin{center}\includegraphics{01-diemr-diagnostic-index-expecation-maximisation-in-r_files/figure-latex/unnamed-chunk-9-1} \end{center}
+
+See Chapter \ref{ploidy2} for extended explanation of ploidy-aware genome polarisation.
 
 \chapter{Importing data for genome polarisation}\label{vcf2diem}
 
@@ -1229,6 +1234,146 @@ If two or more states tie, internal function \texttt{unbiasedWeightedStateChoice
 \end{enumerate}
 
 This is the complete list; there is \textbf{no} preference for the focal site's own genotype unless it wins under the rules above.
+
+\chapter{Ploidy-aware genome polarisation}\label{ploidy2}
+
+Genome polarisation with the \emph{diem} algorithm was developed for biallelic genomic sites, where each site contributes one of four possible states: an undetermined genomic state or missing data, homozygous for one allele, heterozygous, or homozygous for the alternative allele. Many biological datasets, however, contain genomic \textbf{regions of different ploidy} within the same individual. These include sex chromosomes, pseudo-autosomal regions, organellar genomes, and other genomic regions with reduced or increased ploidy.
+
+The \emph{diem} model of diagnostics assumes that the information contributed by a site scales with the number of allele copies sampled per individual \citep{Baird2023}. Genomic compartments that are haploid or hemizygous therefore contribute less information per site than diploid regions. Treating all sites as diploid can bias likelihood estimates and hybrid index calculations unless ploidy differences are explicitly accounted for, particularly in cases where diagnostic markers accumulate in non-diploid genomic regions.
+
+This chapter describes how \texttt{diemr} handles ploidy-aware genome polarisation and how hybrid indices can be calculated consistently across compartments of different ploidy.
+
+\section{Mapping compartments and their ploidy}\label{mapping-compartments-and-their-ploidy}
+
+A \emph{compartment} is a subset of sites for which we can specify ploidy for each of the analysed individuals. For example:
+
+\begin{itemize}
+\tightlist
+\item
+  autosomes: ploidy = 2 for all individuals,
+\item
+  X chromosome: ploidy = 2 for XX, 1 for XY,
+\item
+  mitochondria: ploidy = 1,
+\item
+  Y chromosome: ploidy = 0 or 1 depending on sex.
+\end{itemize}
+
+We use the term \emph{compartment} rather than \emph{chromosome} because compartments are defined by ploidy regime, not by chromosomal identity. Moreover, when using parallel processing in \emph{diem}, the grain of parallelisation is a compartment. Parallelisation is more efficient (less overhead) if compartments have similar sizes, which is unlikely when each compartment corresponds to a chromosome.
+
+The \emph{diem} algorithm estimates an optimal polarity for each site. Individual ploidy enters through the compartment definition, which specifies how many allele copies are expected per individual for the sites in that compartment and therefore how sites contribute to the likelihood and to the hybrid index.
+
+Compartment ploidy is a required argument in \emph{diem} analysis, and site polarities are inferred from the model that is ploidy-aware. The compartment and ploidy mapping is introduced with a worked example in Chapter \ref{ploidy}.
+
+Full code to prepare data to execute the examples in this chapter
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{library}\NormalTok{(diemr)}
+
+\NormalTok{filepaths }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}\FunctionTok{system.file}\NormalTok{(}\StringTok{"extdata"}\NormalTok{, }\StringTok{"testBarrier.txt"}\NormalTok{, }\AttributeTok{package =} \StringTok{"diemr"}\NormalTok{),}
+               \FunctionTok{system.file}\NormalTok{(}\StringTok{"extdata"}\NormalTok{, }\StringTok{"testBarrier2.txt"}\NormalTok{, }\AttributeTok{package =} \StringTok{"diemr"}\NormalTok{))}
+               
+\NormalTok{ploidies }\OtherTok{\textless{}{-}} \FunctionTok{list}\NormalTok{(}\FunctionTok{rep}\NormalTok{(}\DecValTok{2}\NormalTok{, }\DecValTok{6}\NormalTok{),}
+                 \FunctionTok{c}\NormalTok{(}\DecValTok{2}\NormalTok{, }\DecValTok{1}\NormalTok{, }\DecValTok{2}\NormalTok{, }\DecValTok{2}\NormalTok{, }\DecValTok{1}\NormalTok{, }\DecValTok{1}\NormalTok{))}
+
+\NormalTok{samples }\OtherTok{\textless{}{-}} \DecValTok{1}\SpecialCharTok{:}\DecValTok{6}
+
+\FunctionTok{CheckDiemFormat}\NormalTok{(}\AttributeTok{files =}\NormalTok{ filepaths, }
+                \AttributeTok{ChosenInds =}\NormalTok{ samples,}
+                \AttributeTok{ploidy =}\NormalTok{ ploidies,}
+                \AttributeTok{quiet =} \ConstantTok{TRUE}\NormalTok{)}
+\CommentTok{\# File check passed: TRUE}
+\CommentTok{\# Ploidy check passed: TRUE}
+
+\CommentTok{\# Set random seed for reproducibility}
+\FunctionTok{set.seed}\NormalTok{(}\DecValTok{39583782}\NormalTok{)}
+
+\CommentTok{\# Run diem }
+\NormalTok{res }\OtherTok{\textless{}{-}} \FunctionTok{diem}\NormalTok{(}\AttributeTok{files =}\NormalTok{ filepaths, }
+            \AttributeTok{ploidy =}\NormalTok{ ploidies, }
+            \AttributeTok{markerPolarity =} \ConstantTok{FALSE}\NormalTok{,}
+            \AttributeTok{ChosenInds =}\NormalTok{ samples, }
+            \AttributeTok{nCores =} \DecValTok{1}\NormalTok{)}
+
+\CommentTok{\# Import polarised genotypes}
+\NormalTok{gen }\OtherTok{\textless{}{-}} \FunctionTok{importPolarized}\NormalTok{(}\AttributeTok{file =}\NormalTok{ filepaths, }
+                       \AttributeTok{changePolarity =}\NormalTok{ res}\SpecialCharTok{$}\NormalTok{markerPolarity, }
+                       \AttributeTok{ChosenInds =}\NormalTok{ samples) }
+\end{Highlighting}
+\end{Shaded}
+
+\section{Hybrid index under varying ploidy}\label{hybrid-index-under-varying-ploidy}
+
+In \emph{diem}, the hybrid index is derived from genomic state summaries. For each individual, polarised genotypes are first summarised into counts of the four genomic states (undetermined, 0, 1, 2), forming a \({}^4\mathbf{I}\) genomic state count vector. Hybrid indices are then calculated from the \({}^4\mathbf{I}\) genomic state summaries, and not directly from per-site genotypes.
+
+When sites are partitioned into compartments with different ploidy, genomic state counts are first computed separately for each compartment. These compartment-wise \({}^4\mathbf{I}\) summaries are then converted to allele count summaries by multiplying each individual's compartment counts by the corresponding compartment ploidy. The resulting \({}^4\mathbf{A}\) allele count matrices are summed across compartments to obtain a single ploidy-aware genomic state summary per individual.
+
+The hybrid index for an individual is calculated from this combined \({}^4\mathbf{A}\) summary as the proportion of alternative alleles among all called alleles, excluding undetermined states. This procedure ensures that compartments with lower ploidy contribute proportionally fewer allele copies.
+
+This construction allows hybrid index values to be compared consistently within datasets that contain genomic regions of different ploidy.
+
+\section{Implementation}\label{implementation}
+
+From \texttt{diemr\ 1.5.2}, the function \texttt{hybridIndex} automatically performs ploidy-aware calculations when paths to input data in \texttt{diem} format, a vector of polarities for all sites, and a list with ploidy vectors for all individuals and all compartments are provided. This gives identical result to hybrid indices in the output file \emph{HIwithOptimalPolarities.txt}. Hybrid indices calculated without supplying compartment ploidy are implicitly treated as diploid and will generally differ.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Hybrid indices from diem run}
+\NormalTok{HI1 }\OtherTok{\textless{}{-}} \FunctionTok{hybridIndex}\NormalTok{(}\StringTok{"HIwithOptimalPolarities.txt"}\NormalTok{)}
+
+\CommentTok{\# Calculated ploidy{-}aware hybrid indices}
+\NormalTok{HI2 }\OtherTok{\textless{}{-}} \FunctionTok{hybridIndex}\NormalTok{(}\AttributeTok{x =}\NormalTok{ filepaths, }\AttributeTok{ploidy =}\NormalTok{ ploidies, }
+   \AttributeTok{changePolarity =}\NormalTok{ res}\SpecialCharTok{$}\NormalTok{markerPolarity)}
+
+\CommentTok{\# Calculated hybrid indices without considering ploidy}
+\NormalTok{HI3 }\OtherTok{\textless{}{-}} \FunctionTok{hybridIndex}\NormalTok{(gen)}
+
+\FunctionTok{all.equal}\NormalTok{(HI1, HI2)}
+\CommentTok{\# [1] TRUE}
+
+\FunctionTok{all.equal}\NormalTok{(HI2, HI3)}
+\CommentTok{\# [1] "Mean relative difference: 0.01367976"}
+\end{Highlighting}
+\end{Shaded}
+
+Adjusting the hybrid indices according to compartment ploidies is especially important when filtering for diagnostic markers (Chapter \ref{DIfiltering}) results in compartments with different ploidies including many diagnostic markers.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Select top 40\% of the most diagnostic markers}
+\NormalTok{whichMarkers }\OtherTok{\textless{}{-}}\NormalTok{ res}\SpecialCharTok{$}\NormalTok{DI}\SpecialCharTok{$}\NormalTok{DI }\SpecialCharTok{\textgreater{}=} \FunctionTok{quantile}\NormalTok{(res}\SpecialCharTok{$}\NormalTok{DI}\SpecialCharTok{$}\NormalTok{DI, }\AttributeTok{prob =} \FloatTok{0.6}\NormalTok{)}
+
+\NormalTok{hi2 }\OtherTok{\textless{}{-}} \FunctionTok{hybridIndex}\NormalTok{(}\AttributeTok{x =}\NormalTok{ filepaths, }\AttributeTok{ploidy =}\NormalTok{ ploidies, }
+   \AttributeTok{changePolarity =}\NormalTok{ res}\SpecialCharTok{$}\NormalTok{markerPolarity, }
+   \AttributeTok{ChosenSites =}\NormalTok{ whichMarkers)}
+
+\NormalTok{hi3 }\OtherTok{\textless{}{-}}\NormalTok{ HI3 }\OtherTok{\textless{}{-}} \FunctionTok{hybridIndex}\NormalTok{(gen, }\AttributeTok{ChosenSites =}\NormalTok{ whichMarkers)}
+
+\CommentTok{\# plot with ploidy{-}aware hybrid indices and without ploidy information}
+\FunctionTok{par}\NormalTok{(}\AttributeTok{mfrow =} \FunctionTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{, }\DecValTok{2}\NormalTok{))}
+\FunctionTok{plotPolarized}\NormalTok{(gen[, whichMarkers], }\AttributeTok{HI =}\NormalTok{ hi2, }\AttributeTok{labels =}\NormalTok{ samples, }\AttributeTok{main =} \StringTok{"Ploidy{-}aware"}\NormalTok{)}
+\FunctionTok{plotPolarized}\NormalTok{(gen[, whichMarkers], }\AttributeTok{HI =}\NormalTok{ hi3, }\AttributeTok{labels =}\NormalTok{ samples, }\AttributeTok{main =} \StringTok{"All diploid"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics[width=1\linewidth]{figs/HIploidy}
+
+\section{Interpretation considerations}\label{interpretation-considerations}
+
+Ploidy-aware hybrid indices behave identically to diploid indices when comparing individuals within a dataset---values remain constrained to \([0,1]\) and reflect the proportion of ancestry belonging to the chosen side of the barrier. However, when regions vary strongly in ploidy (e.g., autosomes vs X vs Y):
+
+\begin{itemize}
+\tightlist
+\item
+  haploid regions produce allele proportions with lower sampling variance per site,
+\item
+  compartments with many sites dominate the genome-wide mean,
+\item
+  the influence of mitochondria or sex chromosomes depends strictly on their diagnostic marker count, not their biological magnitude.
+\end{itemize}
+
+When comparing datasets with different compartment definitions or different numbers of markers per compartment, interpretation must therefore focus on \textbf{within-dataset structure}, not absolute values across analyses.
 
   \bibliography{refs.bib}
 

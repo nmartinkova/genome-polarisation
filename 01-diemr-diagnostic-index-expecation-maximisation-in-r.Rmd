@@ -27,7 +27,8 @@ filepaths <- system.file("extdata", "data7x3.txt", package = "diemr")
 # Analysing six individuals
 samples <- 1:6
 # Assuming diploid markers of all individuals
-ploidies = rep(list(rep(2, nchar(readLines(filepaths[1])[1]) - 1)), length(filepaths))
+nIndividuals <- nchar(readLines(filepaths[1])[1]) - 1)
+ploidies = rep(list(rep(2, nIndividuals), length(filepaths))
 CheckDiemFormat(files = filepaths, 
                 ChosenInds = samples,
                 ploidy = ploidies)
@@ -128,7 +129,7 @@ the dataset is imported as a character matrix of all sites.
 
 
 
-## Multiple compartments with different ploidies
+## Multiple compartments with different ploidies {#ploidy}
 
 Some genomic compartments differ between individuals in their ploidy. For example, markers located on 
 chromosome X in mammals will be diploid in females, but haploid in males. Ploidy differences between 
@@ -159,7 +160,7 @@ CheckDiemFormat(files = filepaths2,
 # File check passed: TRUE
 # Ploidy check passed: TRUE
 
-# Set random seed for repeatibility of null polarities (optional)
+# Set random seed for reproducibility of null polarities (optional)
 set.seed(39583782)
 
 # Run diem 
@@ -202,5 +203,5 @@ diemr::plotPolarized(genotypes = genotypes2,
               HI = h2, useRaster = FALSE)
 ```
 
-
+See Chapter \@ref(ploidy2) for extended explanation of ploidy-aware genome polarisation.
 

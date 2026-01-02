@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.28 (TeX Live 2025) (preloaded format=pdflatex 2025.10.15)  19 NOV 2025 09:03
+This is pdfTeX, Version 3.141592653-2.6-1.40.28 (TeX Live 2025) (preloaded format=pdflatex 2025.10.15)  2 JAN 2026 09:19
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -451,19 +451,24 @@ LaTeX Font Info:    External font `lmex10' loaded for size
 
 [4]
 Chapter 1.
-LaTeX Font Info:    Trying to load font information for T1+lmtt on input line 139.
+<figs/logo-diemr.png, id=82, 173.448pt x 172.0026pt>
+File: figs/logo-diemr.png Graphic file (type png)
+<use figs/logo-diemr.png>
+Package pdftex.def Info: figs/logo-diemr.png  used on input line 133.
+(pdftex.def)             Requested size: 68.9995pt x 68.4245pt.
+LaTeX Font Info:    Trying to load font information for T1+lmtt on input line 141.
 (/Users/martinkova/Library/TinyTeX/texmf-dist/tex/latex/lm/t1lmtt.fd
 File: t1lmtt.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
 )
 
 [5
 
-]
+ <./figs/logo-diemr.png>]
 
 [6]
 Chapter 2.
 LaTeX Font Info:    Font shape `T1/lmtt/bx/n' in size <10> not available
-(Font)              Font shape `T1/lmtt/b/n' tried instead on input line 164.
+(Font)              Font shape `T1/lmtt/b/n' tried instead on input line 166.
 
 
 [7
@@ -471,10 +476,10 @@ LaTeX Font Info:    Font shape `T1/lmtt/bx/n' in size <10> not available
 ]
 
 [8{/Users/martinkova/Library/TinyTeX/texmf-dist/fonts/enc/dvips/lm/lm-rm.enc}{/Users/martinkova/Library/TinyTeX/texmf-dist/fonts/enc/dvips/lm/lm-mathsy.enc}]
-<01-diemr-diagnostic-index-expecation-maximisation-in-r_files/figure-latex/unnamed-chunk-5-1.pdf, id=103, 433.62pt x 325.215pt>
+<01-diemr-diagnostic-index-expecation-maximisation-in-r_files/figure-latex/unnamed-chunk-5-1.pdf, id=116, 433.62pt x 325.215pt>
 File: 01-diemr-diagnostic-index-expecation-maximisation-in-r_files/figure-latex/unnamed-chunk-5-1.pdf Graphic file (type pdf)
 <use 01-diemr-diagnostic-index-expecation-maximisation-in-r_files/figure-latex/unnamed-chunk-5-1.pdf>
-Package pdftex.def Info: 01-diemr-diagnostic-index-expecation-maximisation-in-r_files/figure-latex/unnamed-chunk-5-1.pdf  used on input line 253.
+Package pdftex.def Info: 01-diemr-diagnostic-index-expecation-maximisation-in-r_files/figure-latex/unnamed-chunk-5-1.pdf  used on input line 256.
 (pdftex.def)             Requested size: 345.01738pt x 258.76303pt.
 
 
@@ -489,10 +494,10 @@ Chapter 3.
 [11]
 
 [12]
-<01-diemr-diagnostic-index-expecation-maximisation-in-r_files/figure-latex/unnamed-chunk-9-1.pdf, id=127, 433.62pt x 325.215pt>
+<01-diemr-diagnostic-index-expecation-maximisation-in-r_files/figure-latex/unnamed-chunk-9-1.pdf, id=140, 433.62pt x 325.215pt>
 File: 01-diemr-diagnostic-index-expecation-maximisation-in-r_files/figure-latex/unnamed-chunk-9-1.pdf Graphic file (type pdf)
 <use 01-diemr-diagnostic-index-expecation-maximisation-in-r_files/figure-latex/unnamed-chunk-9-1.pdf>
-Package pdftex.def Info: 01-diemr-diagnostic-index-expecation-maximisation-in-r_files/figure-latex/unnamed-chunk-9-1.pdf  used on input line 347.
+Package pdftex.def Info: 01-diemr-diagnostic-index-expecation-maximisation-in-r_files/figure-latex/unnamed-chunk-9-1.pdf  used on input line 350.
 (pdftex.def)             Requested size: 345.01738pt x 258.76303pt.
 
 
@@ -502,7 +507,7 @@ Package pdftex.def Info: 01-diemr-diagnostic-index-expecation-maximisation-in-r_
 
 ]
 Chapter 4.
-LaTeX Font Info:    Trying to load font information for TS1+lmr on input line 372.
+LaTeX Font Info:    Trying to load font information for TS1+lmr on input line 377.
 (/Users/martinkova/Library/TinyTeX/texmf-dist/tex/latex/lm/ts1lmr.fd
 File: ts1lmr.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
 )
@@ -531,10 +536,10 @@ Overfull \hbox (27.26237pt too wide) has occurred while \output is active
  []
 
 [22]
-<figs/diemOutput.png, id=227, 2168.1pt x 1656.1875pt>
+<figs/diemOutput.png, id=241, 2168.1pt x 1656.1875pt>
 File: figs/diemOutput.png Graphic file (type png)
 <use figs/diemOutput.png>
-Package pdftex.def Info: figs/diemOutput.png  used on input line 608.
+Package pdftex.def Info: figs/diemOutput.png  used on input line 613.
 (pdftex.def)             Requested size: 344.9843pt x 263.52968pt.
 
 
@@ -568,25 +573,25 @@ Overfull \hbox (27.26237pt too wide) has occurred while \output is active
 ]
 Chapter 6.
 
-Underfull \hbox (badness 1286) in paragraph at lines 695--697
+Underfull \hbox (badness 1286) in paragraph at lines 700--702
 \T1/lmr/m/n/10 po-larised geno-types, in-clud-ing \T1/lmtt/m/n/10 plotPolarized \T1/lmr/m/n/10 for genome-wide pat-terns,
  []
 
 
 
 [29]
-<04-Visualisation_files/figure-latex/unnamed-chunk-3-1.pdf, id=292, 469.755pt x 325.215pt>
+<04-Visualisation_files/figure-latex/unnamed-chunk-3-1.pdf, id=305, 469.755pt x 325.215pt>
 File: 04-Visualisation_files/figure-latex/unnamed-chunk-3-1.pdf Graphic file (type pdf)
 <use 04-Visualisation_files/figure-latex/unnamed-chunk-3-1.pdf>
-Package pdftex.def Info: 04-Visualisation_files/figure-latex/unnamed-chunk-3-1.pdf  used on input line 730.
+Package pdftex.def Info: 04-Visualisation_files/figure-latex/unnamed-chunk-3-1.pdf  used on input line 735.
 (pdftex.def)             Requested size: 344.997pt x 238.84406pt.
 
 
 [30 <./04-Visualisation_files/figure-latex/unnamed-chunk-3-1.pdf>]
-<figs/myo-rectangle.png, id=306, 1806.75pt x 1355.0625pt>
+<figs/myo-rectangle.png, id=319, 1806.75pt x 1355.0625pt>
 File: figs/myo-rectangle.png Graphic file (type png)
 <use figs/myo-rectangle.png>
-Package pdftex.def Info: figs/myo-rectangle.png  used on input line 772.
+Package pdftex.def Info: figs/myo-rectangle.png  used on input line 777.
 (pdftex.def)             Requested size: 344.99533pt x 258.74649pt.
 
 Underfull \vbox (badness 10000) has occurred while \output is active []
@@ -596,10 +601,10 @@ Underfull \vbox (badness 10000) has occurred while \output is active []
 [31]
 
 [32 <./figs/myo-rectangle.png>]
-<figs/myo-rectangle2.png, id=318, 1806.75pt x 1355.0625pt>
+<figs/myo-rectangle2.png, id=331, 1806.75pt x 1355.0625pt>
 File: figs/myo-rectangle2.png Graphic file (type png)
 <use figs/myo-rectangle2.png>
-Package pdftex.def Info: figs/myo-rectangle2.png  used on input line 826.
+Package pdftex.def Info: figs/myo-rectangle2.png  used on input line 831.
 (pdftex.def)             Requested size: 344.99533pt x 258.74649pt.
 
 Underfull \vbox (badness 10000) has occurred while \output is active []
@@ -607,10 +612,10 @@ Underfull \vbox (badness 10000) has occurred while \output is active []
 
 
 [33]
-<04-Visualisation_files/figure-latex/unnamed-chunk-10-1.pdf, id=323, 469.755pt x 325.215pt>
+<04-Visualisation_files/figure-latex/unnamed-chunk-10-1.pdf, id=336, 469.755pt x 325.215pt>
 File: 04-Visualisation_files/figure-latex/unnamed-chunk-10-1.pdf Graphic file (type pdf)
 <use 04-Visualisation_files/figure-latex/unnamed-chunk-10-1.pdf>
-Package pdftex.def Info: 04-Visualisation_files/figure-latex/unnamed-chunk-10-1.pdf  used on input line 842.
+Package pdftex.def Info: 04-Visualisation_files/figure-latex/unnamed-chunk-10-1.pdf  used on input line 847.
 (pdftex.def)             Requested size: 344.997pt x 238.84406pt.
 
 Underfull \vbox (badness 10000) has occurred while \output is active []
@@ -628,10 +633,10 @@ Chapter 7.
 
 
 [37]
-<figs/testdata-all.png, id=350, 1927.2pt x 963.6pt>
+<figs/testdata-all.png, id=363, 1927.2pt x 963.6pt>
 File: figs/testdata-all.png Graphic file (type png)
 <use figs/testdata-all.png>
-Package pdftex.def Info: figs/testdata-all.png  used on input line 920.
+Package pdftex.def Info: figs/testdata-all.png  used on input line 925.
 (pdftex.def)             Requested size: 344.99901pt x 172.4995pt.
 
 Underfull \vbox (badness 4556) has occurred while \output is active []
@@ -639,28 +644,28 @@ Underfull \vbox (badness 4556) has occurred while \output is active []
 
 
 [38]
-<figs/testdata-DI40.png, id=355, 1927.2pt x 963.6pt>
+<figs/testdata-DI40.png, id=368, 1927.2pt x 963.6pt>
 File: figs/testdata-DI40.png Graphic file (type png)
 <use figs/testdata-DI40.png>
-Package pdftex.def Info: figs/testdata-DI40.png  used on input line 952.
+Package pdftex.def Info: figs/testdata-DI40.png  used on input line 957.
 (pdftex.def)             Requested size: 344.99901pt x 172.4995pt.
 
 
 [39 <./figs/testdata-all.png>]
-<figs/hist.png, id=361, 1445.4pt x 963.6pt>
+<figs/hist.png, id=374, 1445.4pt x 963.6pt>
 File: figs/hist.png Graphic file (type png)
 <use figs/hist.png>
-Package pdftex.def Info: figs/hist.png  used on input line 979.
+Package pdftex.def Info: figs/hist.png  used on input line 984.
 (pdftex.def)             Requested size: 344.9843pt x 229.98953pt.
 
 
 [40 <./figs/testdata-DI40.png>]
 
 [41 <./figs/hist.png>]
-<figs/HI.png, id=374, 1445.4pt x 963.6pt>
+<figs/HI.png, id=387, 1445.4pt x 963.6pt>
 File: figs/HI.png Graphic file (type png)
 <use figs/HI.png>
-Package pdftex.def Info: figs/HI.png  used on input line 1011.
+Package pdftex.def Info: figs/HI.png  used on input line 1016.
 (pdftex.def)             Requested size: 344.9843pt x 229.98953pt.
 
 
@@ -673,7 +678,7 @@ Package pdftex.def Info: figs/HI.png  used on input line 1011.
 ]
 Chapter 8.
 
-Underfull \hbox (badness 1515) in paragraph at lines 1037--1038
+Underfull \hbox (badness 1515) in paragraph at lines 1042--1043
 \T1/lmr/m/n/10 in the po-larised geno-type ma-trix into their cor-re-spond-ing chro-mo-so-mal
  []
 
@@ -683,24 +688,24 @@ Underfull \hbox (badness 1515) in paragraph at lines 1037--1038
 
 [46]
 
-Package natbib Warning: Citation `ref' on page 47 undefined on input line 1096.
+Package natbib Warning: Citation `ref' on page 47 undefined on input line 1101.
 
 
-Package natbib Warning: Citation `ref' on page 47 undefined on input line 1098.
+Package natbib Warning: Citation `ref' on page 47 undefined on input line 1103.
 
 
 
 [47]
-<figs/smooth.png, id=408, 1927.2pt x 963.6pt>
+<figs/smooth.png, id=421, 1927.2pt x 963.6pt>
 File: figs/smooth.png Graphic file (type png)
 <use figs/smooth.png>
-Package pdftex.def Info: figs/smooth.png  used on input line 1125.
+Package pdftex.def Info: figs/smooth.png  used on input line 1130.
 (pdftex.def)             Requested size: 344.99901pt x 172.4995pt.
 
 
 [48 <./figs/smooth.png>]
 
-[49{/Users/martinkova/Library/TinyTeX/texmf-dist/fonts/enc/dvips/lm/lm-mathex.enc}] (./genome-polarisation.bbl
+[49{/Users/martinkova/Library/TinyTeX/texmf-dist/fonts/enc/dvips/lm/lm-mathex.enc}]
 
 [50]
 
@@ -708,31 +713,53 @@ Package pdftex.def Info: figs/smooth.png  used on input line 1125.
 
 [52
 
+]
+Chapter 9.
+
+
+[53]
+
+[54]
+
+[55]
+<figs/HIploidy.png, id=478, 925.056pt x 462.528pt>
+File: figs/HIploidy.png Graphic file (type png)
+<use figs/HIploidy.png>
+Package pdftex.def Info: figs/HIploidy.png  used on input line 1360.
+(pdftex.def)             Requested size: 345.00371pt x 172.50185pt.
+
+
+[56 <./figs/HIploidy.png>] (./genome-polarisation.bbl
+
+[57]
+
+[58
+
 ])
 
 Package natbib Warning: There were undefined citations.
 
 
 
-[53] (./genome-polarisation.aux)
+[59] (./genome-polarisation.aux)
  ***********
 LaTeX2e <2025-06-01> patch level 1
 L3 programming layer <2025-09-02>
  ***********
  ) 
 Here is how much of TeX's memory you used:
- 12165 strings out of 469729
- 189255 string characters out of 5476491
- 591875 words of memory out of 5000000
- 40271 multiletter control sequences out of 15000+600000
+ 12210 strings out of 469729
+ 190059 string characters out of 5476491
+ 592156 words of memory out of 5000000
+ 40305 multiletter control sequences out of 15000+600000
  713469 words of font info for 95 fonts, out of 8000000 for 9000
  14 hyphenation exceptions out of 8191
- 89i,9n,93p,936b,552s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 89i,9n,93p,936b,550s stack positions out of 10000i,1000n,20000p,200000b,200000s
 </Users/martinkova/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmbx10.pfb></Users/martinkova/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmbx12.pfb></Users/martinkova/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmbxi10.pfb></Users/martinkova/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmex10.pfb></Users/martinkova/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmmi10.pfb></Users/martinkova/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmmi5.pfb></Users/martinkova/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmmi7.pfb></Users/martinkova/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmr10.pfb></Users/martinkova/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmr12.pfb></Users/martinkova/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmr17.pfb></Users/martinkova/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmr7.pfb></Users/martinkova/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmri10.pfb></Users/martinkova/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmro10.pfb></Users/martinkova/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmsy10.pfb></Users/martinkova/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmsy7.pfb></Users/martinkova/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmtk10.pfb></Users/martinkova/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmtt10.pfb></Users/martinkova/Library/TinyTeX/texmf-dist/fonts/type1/public/lm/lmtti10.pfb>
-Output written on genome-polarisation.pdf (53 pages, 1075307 bytes).
+Output written on genome-polarisation.pdf (59 pages, 1848977 bytes).
 PDF statistics:
- 640 PDF objects out of 1000 (max. 8388607)
- 515 compressed objects within 6 object streams
- 130 named destinations out of 1000 (max. 500000)
- 237 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 702 PDF objects out of 1000 (max. 8388607)
+ 567 compressed objects within 6 object streams
+ 141 named destinations out of 1000 (max. 500000)
+ 287 words of extra memory for PDF output out of 10000 (max. 10000000)
 

@@ -159,7 +159,11 @@ div.csl-indent {
       <nav role="navigation">
 
 <ul class="summary">
-<li><a href="./">Genome polarisation with diemr</a></li>
+<li class="book-logo">
+ <a href="./">
+   <img src="figs/logo-diemr.png" alt="Genome polarisation with diemr" style="max-width: 120px;">
+ </a>
+</li>
 
 <li class="divider"></li>
 <li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Introduction</a>
@@ -169,7 +173,7 @@ div.csl-indent {
 <li class="chapter" data-level="2" data-path="intro.html"><a href="intro.html"><i class="fa fa-check"></i><b>2</b> Quick start</a></li>
 <li class="chapter" data-level="3" data-path="diemFormat.html"><a href="diemFormat.html"><i class="fa fa-check"></i><b>3</b> Input data</a>
 <ul>
-<li class="chapter" data-level="3.1" data-path="diemFormat.html"><a href="diemFormat.html#multiple-compartments-with-different-ploidies"><i class="fa fa-check"></i><b>3.1</b> Multiple compartments with different ploidies</a></li>
+<li class="chapter" data-level="3.1" data-path="diemFormat.html"><a href="diemFormat.html#ploidy"><i class="fa fa-check"></i><b>3.1</b> Multiple compartments with different ploidies</a></li>
 </ul></li>
 <li class="chapter" data-level="4" data-path="vcf2diem.html"><a href="vcf2diem.html"><i class="fa fa-check"></i><b>4</b> Importing data for genome polarisation</a>
 <ul>
@@ -229,6 +233,13 @@ div.csl-indent {
 <li class="chapter" data-level="8.2.1" data-path="smoothing-chapter.html"><a href="smoothing-chapter.html#Laplace"><i class="fa fa-check"></i><b>8.2.1</b> Methodological explanation of the Laplace kernel smoothing</a></li>
 </ul></li>
 </ul></li>
+<li class="chapter" data-level="9" data-path="ploidy2.html"><a href="ploidy2.html"><i class="fa fa-check"></i><b>9</b> Ploidy-aware genome polarisation</a>
+<ul>
+<li class="chapter" data-level="9.1" data-path="ploidy2.html"><a href="ploidy2.html#mapping-compartments-and-their-ploidy"><i class="fa fa-check"></i><b>9.1</b> Mapping compartments and their ploidy</a></li>
+<li class="chapter" data-level="9.2" data-path="ploidy2.html"><a href="ploidy2.html#hybrid-index-under-varying-ploidy"><i class="fa fa-check"></i><b>9.2</b> Hybrid index under varying ploidy</a></li>
+<li class="chapter" data-level="9.3" data-path="ploidy2.html"><a href="ploidy2.html#implementation"><i class="fa fa-check"></i><b>9.3</b> Implementation</a></li>
+<li class="chapter" data-level="9.4" data-path="ploidy2.html"><a href="ploidy2.html#interpretation-considerations"><i class="fa fa-check"></i><b>9.4</b> Interpretation considerations</a></li>
+</ul></li>
 <li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
 <li class="divider"></li>
 <li><a href="https://github.com/nmartinkova/genome-polarisation" target="_blank">
@@ -268,8 +279,8 @@ can be arbitrary.</p>
 <p>The leading <code>S</code> on each line of the input file is ensures that the marker genotypes are
 read in as a string on all operating systems. The <code>S</code> is dropped during import of the genotypes, and
 the dataset is imported as a character matrix of all sites.</p>
-<div id="multiple-compartments-with-different-ploidies" class="section level2 hasAnchor" number="3.1">
-<h2><span class="header-section-number">3.1</span> Multiple compartments with different ploidies<a href="diemFormat.html#multiple-compartments-with-different-ploidies" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div id="ploidy" class="section level2 hasAnchor" number="3.1">
+<h2><span class="header-section-number">3.1</span> Multiple compartments with different ploidies<a href="diemFormat.html#ploidy" class="anchor-section" aria-label="Anchor link to header"></a></h2>
 <p>Some genomic compartments differ between individuals in their ploidy. For example, markers located on
 chromosome X in mammals will be diploid in females, but haploid in males. Ploidy differences between
 individuals influence calculation of the hybrid index, which in turn has an effect on the <em>diem</em> analysis.</p>
@@ -295,7 +306,7 @@ is correct, only that the information is in the correct format.</p>
 <span id="cb7-10"><a href="diemFormat.html#cb7-10" tabindex="-1"></a><span class="co"># File check passed: TRUE</span></span>
 <span id="cb7-11"><a href="diemFormat.html#cb7-11" tabindex="-1"></a><span class="co"># Ploidy check passed: TRUE</span></span>
 <span id="cb7-12"><a href="diemFormat.html#cb7-12" tabindex="-1"></a></span>
-<span id="cb7-13"><a href="diemFormat.html#cb7-13" tabindex="-1"></a><span class="co"># Set random seed for repeatibility of null polarities (optional)</span></span>
+<span id="cb7-13"><a href="diemFormat.html#cb7-13" tabindex="-1"></a><span class="co"># Set random seed for reproducibility of null polarities (optional)</span></span>
 <span id="cb7-14"><a href="diemFormat.html#cb7-14" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">39583782</span>)</span>
 <span id="cb7-15"><a href="diemFormat.html#cb7-15" tabindex="-1"></a></span>
 <span id="cb7-16"><a href="diemFormat.html#cb7-16" tabindex="-1"></a><span class="co"># Run diem </span></span>
@@ -320,6 +331,7 @@ from each compartment can be extracted from the list in the <code>res2$PolarityC
 <span id="cb8-10"><a href="diemFormat.html#cb8-10" tabindex="-1"></a><span class="fu">plotPolarized</span>(<span class="at">genotypes =</span> genotypes2,</span>
 <span id="cb8-11"><a href="diemFormat.html#cb8-11" tabindex="-1"></a>              <span class="at">HI =</span> h2[samples])</span></code></pre></div>
 <p><img src="01-diemr-diagnostic-index-expecation-maximisation-in-r_files/figure-html/unnamed-chunk-9-1.png" width="576" style="display: block; margin: auto;" /></p>
+<p>See Chapter <a href="ploidy2.html#ploidy2">9</a> for extended explanation of ploidy-aware genome polarisation.</p>
 
 </div>
 </div>

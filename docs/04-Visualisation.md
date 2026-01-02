@@ -41,7 +41,7 @@ The rectangular layout is useful for viewing the order of markers along the geno
 plotPolarized(genotypes = gen, HI = HI, useRaster = FALSE)
 ```
 
-<img src="04-Visualisation_files/figure-html/unnamed-chunk-3-1.png" width="672" style="display: block; margin: auto;" />
+<img src="04-Visualisation_files/figure-epub3/unnamed-chunk-3-1.png" style="display: block; margin: auto;" />
 
 Each individual is plotted in order of increasing hybrid index, from bottom to top.
 A colour transition across the plot reveals the genomic gradient between parental sides.
@@ -156,7 +156,7 @@ plotMarkerAxis(axisInfo = axisInfo,
 )
 ```
 
-<img src="04-Visualisation_files/figure-html/unnamed-chunk-10-1.png" width="672" />
+![](04-Visualisation_files/figure-epub3/unnamed-chunk-10-1.png)<!-- -->
 
 The marker axis in circular plots is drawn analogically to rectangular plots (Chapter \@ref(plotMarkerAxis)), but chromosome names and tick marks are shown as separate elements. Chromosome names appear in an inner track with alternating white and grey shading, while tick marks showing distances along each chromosome are plotted on the outer rim of the genotype rings.
 
